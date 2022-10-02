@@ -1,0 +1,10 @@
+.button1:hover {
+    background-color: whitesmoke;
+    color: black;
+}
+.search{
+    border-radius: 8px;
+    height: 40px;
+    margin-top: 8px;
+}
+
