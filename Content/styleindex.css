@@ -2,23 +2,28 @@
     margin: 0px;
     padding: 0px;
 }
-body{
+
+body {
     overflow-x: hidden;
 }
+
 ul {
     list-style-type: none;
 }
-li{
+
+li {
     margin-top: 35px;
     margin-left: 40px;
 }
-#main-menu{
+
+#main-menu {
     padding: 20px;
     margin-bottom: 0px;
     font-size: large;
     font-weight: 1000;
     border-top: 1000px;
 }
+
 .col-md-12-text-center nav {
     background-color: black;
 }
@@ -32,21 +37,21 @@ li{
     display: block;
 }
 
-nav{
+nav {
     display: block;
 }
 
-nav #main-menu li a {
-    color: white;
-    text-decoration: none;
-    display: block;
-    margin-left: 0px;
-}
+    nav #main-menu li a {
+        color: white;
+        text-decoration: none;
+        display: block;
+        margin-left: 0px;
+    }
 
-nav #main-menu li:hover a {
-    background: #c23616;
-    transition: all 0.3s;
-}
+    nav #main-menu li:hover a {
+        background: #c23616;
+        transition: all 0.3s;
+    }
 
 #toggle {
     display: none;
@@ -63,9 +68,10 @@ nav #main-menu li:hover a {
         flex-direction: column;
         text-align: center;
     }
-    #main-menu img{
-        margin-left: 40px;
-    }
+
+        #main-menu img {
+            margin-left: 40px;
+        }
     /* #toggle {
         display: block;
     }
@@ -73,6 +79,7 @@ nav #main-menu li:hover a {
         display: none;
     }  */
 }
+
 .footer {
     margin-top: 10px;
     background-color: black;

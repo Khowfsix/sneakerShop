@@ -19,6 +19,17 @@ body {
     background: white;
 }
 
+p {
+    padding: 0;
+    margin: 0;
+}
+
+/* @media (min-width: 700px) {
+    .shadow-box {
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    }
+} */
+
 .signup-wrapper .company-details {
     background: url(/images/SKATERBOARD.jpg);
     background-size: cover;
@@ -128,7 +139,7 @@ input::placeholder {
 
     .signup-wrapper .company-details,
     .signup-wrapper .signup-form {
-        width: 100%;
+        width: 50%;
     }
 
     .signup-wrapper {
@@ -145,7 +156,7 @@ input::placeholder {
 
     .signup-wrapper .company-details .slogan {
         padding: 0 20px;
-        width: 100%;
+        width: 70%;
         margin: 0 auto;
         color: #fff;
         font-size: 1.2em;
@@ -155,7 +166,7 @@ input::placeholder {
     }
 
     .signup-wrapper .company-details .title {
-        width: 100%;
+        width: 76%;
     }
 
     .signup-wrapper .signup-form .wrapper-2 {
