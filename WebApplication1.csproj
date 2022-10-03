@@ -357,27 +357,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="fonts\big_john.eot" />
-    <Content Include="fonts\big_john.ttf" />
-    <Content Include="fonts\big_john.woff" />
-    <Content Include="fonts\big_john.woff2" />
-    <Content Include="fonts\fontawesome-webfont.eot" />
-    <Content Include="fonts\fontawesome-webfont.ttf" />
-    <Content Include="fonts\fontawesome-webfont.woff" />
-    <Content Include="fonts\fontawesome-webfont.woff2" />
-    <Content Include="fonts\FontAwesome.otf" />
-    <Content Include="fonts\Linearicons-Free.eot" />
-    <Content Include="fonts\Linearicons-Free.ttf" />
-    <Content Include="fonts\Linearicons-Free.woff" />
-    <Content Include="fonts\Linearicons-Free.woff2" />
-    <Content Include="fonts\opensans-light.eot" />
-    <Content Include="fonts\opensans-light.ttf" />
-    <Content Include="fonts\opensans-light.woff" />
-    <Content Include="fonts\opensans-light.woff2" />
-    <Content Include="fonts\opensans-regular.eot" />
-    <Content Include="fonts\opensans-regular.ttf" />
-    <Content Include="fonts\opensans-regular.woff" />
-    <Content Include="fonts\opensans-regular.woff2" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
