@@ -379,6 +379,15 @@
     <Content Include="fonts\opensans-regular.ttf" />
     <Content Include="fonts\opensans-regular.woff" />
     <Content Include="fonts\opensans-regular.woff2" />
+    <Content Include="fonts\opensans-regular.woff" />
+    <Content Include="fonts\opensans-regular.woff2" />
+>>>>>>>>> Temporary merge branch 2
+    <Content Include="fonts\opensans-regular.woff" />
+    <Content Include="fonts\opensans-regular.woff2" />
+>>>>>>>>> Temporary merge branch 2
+    <Content Include="fonts\opensans-regular.woff" />
+    <Content Include="fonts\opensans-regular.woff2" />
+>>>>>>>>> Temporary merge branch 2
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
