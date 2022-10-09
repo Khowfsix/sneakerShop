@@ -1,6 +1,6 @@
 ﻿USE [master];
 GO
--- Create the new database if it does not exist already
+
 IF NOT EXISTS
 (
     SELECT [databases].[name]

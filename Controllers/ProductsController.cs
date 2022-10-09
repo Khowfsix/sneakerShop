@@ -18,6 +18,7 @@ namespace WebApplication1.Controllers
         public ActionResult Index()
         {
             var product = db.Product.Include(p => p.Category).Include(p => p.Stock);
+            //var imageProduct = db.imagesProduct.FirstOrDefault(i => i.Product = product);
             return View(product.ToList());
         }
 
