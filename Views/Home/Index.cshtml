@@ -111,7 +111,7 @@
             {
                 <div class="col-lg-3 mb-4 text-center">
                     <div class="product-entry border">
-                        <a href="" class="prod-img">                      
+                        <a href="@Url.Action("productDetail","Home", new {productID = item.productId})" class="prod-img">                      
                             <img src="~/images/products/productsFromDB/@item.imagesProduct.FirstOrDefault().images" class="img-fluid" alt="Free html5 bootstrap 4 template">
                         </a>
                         <div class="desc">

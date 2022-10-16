@@ -19,7 +19,7 @@
             <PropertyRef Name="cartId" />
             <PropertyRef Name="productId" />
           </Key>
-          <Property Name="cartId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cartId" Type="int" Nullable="false" />
           <Property Name="productId" Type="int" Nullable="false" />
           <Property Name="quantity" Type="int" />
           <Property Name="unitPrice" Type="float" />
@@ -341,7 +341,7 @@
             <PropertyRef Name="cartId" />
             <PropertyRef Name="productId" />
           </Key>
-          <Property Name="cartId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cartId" Type="Int32" Nullable="false" />
           <Property Name="productId" Type="Int32" Nullable="false" />
           <Property Name="quantity" Type="Int32" />
           <Property Name="unitPrice" Type="Double" />
@@ -601,7 +601,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="sneakerShopEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="sneakerShopEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Cart" EntityType="Self.Cart" />
           <EntitySet Name="CartItem" EntityType="Self.CartItem" />
           <EntitySet Name="Category" EntityType="Self.Category" />
@@ -667,7 +667,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="sneakerShopModelStoreContainer" CdmEntityContainer="sneakerShopEntities1">
+        <EntityContainerMapping StorageEntityContainer="sneakerShopModelStoreContainer" CdmEntityContainer="sneakerShopEntities">
           <EntitySetMapping Name="Cart">
             <EntityTypeMapping TypeName="sneakerShopModel.Cart">
               <MappingFragment StoreEntitySet="Cart">

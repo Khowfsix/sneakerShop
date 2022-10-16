@@ -598,13 +598,6 @@
     <Content Include="Content\bootstrap-utilities.rtl.min.css.map" />
     <Content Include="Content\bootstrap.rtl.css.map" />
     <Content Include="Content\bootstrap.rtl.min.css.map" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="fonts\big_john.eot" />
     <Content Include="fonts\big_john.ttf" />
     <Content Include="fonts\big_john.woff" />
@@ -653,6 +646,13 @@
     <Content Include="fonts\ionicons\fonts\ionicons.ttf" />
     <Content Include="fonts\ionicons\fonts\ionicons.woff" />
     <Content Include="fonts\ionicons\fonts\ionicons.woff2" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\google_map.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
@@ -749,6 +749,7 @@
     <Content Include="Views\CartItems\Details.cshtml" />
     <Content Include="Views\CartItems\Edit.cshtml" />
     <Content Include="Views\CartItems\Index.cshtml" />
+    <Content Include="Views\Home\productDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

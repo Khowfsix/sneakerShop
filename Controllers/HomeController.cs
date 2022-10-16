@@ -12,7 +12,7 @@ namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
-        private sneakerShopEntities1 db = new sneakerShopEntities1();
+        private sneakerShopEntities db = new sneakerShopEntities();
 
         public ActionResult Index()
         {
@@ -32,6 +32,12 @@ namespace WebApplication1.Controllers
             //Sắp xếp
             product = product.OrderByDescending(s => s.amount);
             return View(product.ToList().GetRange(0, 8));
+        }
+
+        public ActionResult productDetail(int productID)
+        {
+            Product product = db.Product.Where(p => p.productId == productID).FirstOrDefault();
+            return View(product);
         }
 
         public ActionResult About()
