@@ -16,8 +16,22 @@ namespace WebApplication1.Controllers
 
         public ActionResult Index()
         {
-            var product = db.Product.Include(p => p.Category).Include(p => p.Stock);
-            return View(product.ToList());
+            ////Lấy danh sách products (best seller) dựa trên số lượng trong cartItem
+
+            ////Lấy danh sách produsts
+            //var product = db.Product.Include(p => p.Category).Include(p => p.Stock).Include(p => p.imagesProduct);
+            ////Sắp xếp
+            //product = product.OrderByDescending(s => s.CartItem.Sum(p => p.quantity));
+            //return View(product.ToList().GetRange(0, 8));
+
+
+            //Lấy danh sách products (best seller) dựa trên amount của product
+
+            //Lấy danh sách produsts
+            var product = db.Product.Include(p => p.Category).Include(p => p.Stock).Include(p => p.imagesProduct);
+            //Sắp xếp
+            product = product.OrderByDescending(s => s.amount);
+            return View(product.ToList().GetRange(0, 8));
         }
 
         public ActionResult About()

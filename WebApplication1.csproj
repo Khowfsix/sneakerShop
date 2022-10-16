@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <PropertyGroup>
     <SSDTUnitTestPath Condition="'$(SSDTUnitTestPath)' == ''">$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB</SSDTUnitTestPath>
@@ -7,7 +8,6 @@
   <PropertyGroup>
     <SSDTPath Condition="'$(SSDTPath)' == ''">$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB\DAC</SSDTPath>
   </PropertyGroup>
-  <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -57,6 +57,9 @@
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -138,9 +141,6 @@
     </Reference>
     <Reference Include="System.Web.Http.WebHost">
       <HintPath>packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
-      <HintPath>packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -377,6 +377,188 @@
     <Content Include="images\products\img7.jpg" />
     <Content Include="images\products\img8.jpg" />
     <Content Include="images\products\img9.jpg" />
+    <Content Include="images\products\productsFromDB\10a.jpg" />
+    <Content Include="images\products\productsFromDB\10b.jpg" />
+    <Content Include="images\products\productsFromDB\10c.jpg" />
+    <Content Include="images\products\productsFromDB\10d.jpg" />
+    <Content Include="images\products\productsFromDB\10e.jpg" />
+    <Content Include="images\products\productsFromDB\10g.jpg" />
+    <Content Include="images\products\productsFromDB\10h.jpg" />
+    <Content Include="images\products\productsFromDB\11a.jpg" />
+    <Content Include="images\products\productsFromDB\11b.jpg" />
+    <Content Include="images\products\productsFromDB\11c.jpg" />
+    <Content Include="images\products\productsFromDB\11d.jpg" />
+    <Content Include="images\products\productsFromDB\11e.jpg" />
+    <Content Include="images\products\productsFromDB\11f.jpg" />
+    <Content Include="images\products\productsFromDB\12a.jpg" />
+    <Content Include="images\products\productsFromDB\12b.jpg" />
+    <Content Include="images\products\productsFromDB\12c.jpg" />
+    <Content Include="images\products\productsFromDB\12d.jpg" />
+    <Content Include="images\products\productsFromDB\12e.jpg" />
+    <Content Include="images\products\productsFromDB\12f.jpg" />
+    <Content Include="images\products\productsFromDB\12g.jpg" />
+    <Content Include="images\products\productsFromDB\12h.jpg" />
+    <Content Include="images\products\productsFromDB\14a.jpg" />
+    <Content Include="images\products\productsFromDB\14b.jpg" />
+    <Content Include="images\products\productsFromDB\14c.jpg" />
+    <Content Include="images\products\productsFromDB\14d.jpg" />
+    <Content Include="images\products\productsFromDB\14e.jpg" />
+    <Content Include="images\products\productsFromDB\15a.jpg" />
+    <Content Include="images\products\productsFromDB\15b.jpg" />
+    <Content Include="images\products\productsFromDB\15c.jpg" />
+    <Content Include="images\products\productsFromDB\15d.jpg" />
+    <Content Include="images\products\productsFromDB\15e.jpg" />
+    <Content Include="images\products\productsFromDB\16a.jpg" />
+    <Content Include="images\products\productsFromDB\16b.jpg" />
+    <Content Include="images\products\productsFromDB\16c.jpg" />
+    <Content Include="images\products\productsFromDB\16d.jpg" />
+    <Content Include="images\products\productsFromDB\17a.jpg" />
+    <Content Include="images\products\productsFromDB\17b.jpg" />
+    <Content Include="images\products\productsFromDB\17c.jpg" />
+    <Content Include="images\products\productsFromDB\17d.jpg" />
+    <Content Include="images\products\productsFromDB\17e.jpg" />
+    <Content Include="images\products\productsFromDB\17f.jpg" />
+    <Content Include="images\products\productsFromDB\17g.jpg" />
+    <Content Include="images\products\productsFromDB\17h.jpg" />
+    <Content Include="images\products\productsFromDB\18a.jpg" />
+    <Content Include="images\products\productsFromDB\18b.jpg" />
+    <Content Include="images\products\productsFromDB\18c.jpg" />
+    <Content Include="images\products\productsFromDB\18d.jpg" />
+    <Content Include="images\products\productsFromDB\18e.jpg" />
+    <Content Include="images\products\productsFromDB\18f.jpg" />
+    <Content Include="images\products\productsFromDB\18g.jpg" />
+    <Content Include="images\products\productsFromDB\18h.jpg" />
+    <Content Include="images\products\productsFromDB\19a.jpg" />
+    <Content Include="images\products\productsFromDB\19b.jpg" />
+    <Content Include="images\products\productsFromDB\19c.jpg" />
+    <Content Include="images\products\productsFromDB\19d.jpg" />
+    <Content Include="images\products\productsFromDB\19e.jpg" />
+    <Content Include="images\products\productsFromDB\19f.jpg" />
+    <Content Include="images\products\productsFromDB\19g.jpg" />
+    <Content Include="images\products\productsFromDB\19h.jpg" />
+    <Content Include="images\products\productsFromDB\1a.jpg" />
+    <Content Include="images\products\productsFromDB\1b.jpg" />
+    <Content Include="images\products\productsFromDB\1c.jpg" />
+    <Content Include="images\products\productsFromDB\1d.jpg" />
+    <Content Include="images\products\productsFromDB\1e.jpg" />
+    <Content Include="images\products\productsFromDB\1f.jpg" />
+    <Content Include="images\products\productsFromDB\20a.jpg" />
+    <Content Include="images\products\productsFromDB\20b.jpg" />
+    <Content Include="images\products\productsFromDB\20c.jpg" />
+    <Content Include="images\products\productsFromDB\20d.jpg" />
+    <Content Include="images\products\productsFromDB\20e.jpg" />
+    <Content Include="images\products\productsFromDB\20f.jpg" />
+    <Content Include="images\products\productsFromDB\20g.jpg" />
+    <Content Include="images\products\productsFromDB\20h.jpg" />
+    <Content Include="images\products\productsFromDB\21a.jpg" />
+    <Content Include="images\products\productsFromDB\21b.jpg" />
+    <Content Include="images\products\productsFromDB\21c.jpg" />
+    <Content Include="images\products\productsFromDB\21d.jpg" />
+    <Content Include="images\products\productsFromDB\21e.jpg" />
+    <Content Include="images\products\productsFromDB\22a.jpg" />
+    <Content Include="images\products\productsFromDB\22b.jpg" />
+    <Content Include="images\products\productsFromDB\22c.jpg" />
+    <Content Include="images\products\productsFromDB\22d.jpg" />
+    <Content Include="images\products\productsFromDB\22e.jpg" />
+    <Content Include="images\products\productsFromDB\22f.jpg" />
+    <Content Include="images\products\productsFromDB\23a.jpg" />
+    <Content Include="images\products\productsFromDB\23b.jpg" />
+    <Content Include="images\products\productsFromDB\23c.jpg" />
+    <Content Include="images\products\productsFromDB\23d.jpg" />
+    <Content Include="images\products\productsFromDB\23e.jpg" />
+    <Content Include="images\products\productsFromDB\24a.jpg" />
+    <Content Include="images\products\productsFromDB\24b.jpg" />
+    <Content Include="images\products\productsFromDB\24c.jpg" />
+    <Content Include="images\products\productsFromDB\24d.jpg" />
+    <Content Include="images\products\productsFromDB\25a.jpg" />
+    <Content Include="images\products\productsFromDB\25b.jpg" />
+    <Content Include="images\products\productsFromDB\25c.jpg" />
+    <Content Include="images\products\productsFromDB\26a.jpg" />
+    <Content Include="images\products\productsFromDB\26b.jpg" />
+    <Content Include="images\products\productsFromDB\26c.jpg" />
+    <Content Include="images\products\productsFromDB\26d.jpg" />
+    <Content Include="images\products\productsFromDB\26e.jpg" />
+    <Content Include="images\products\productsFromDB\26f.jpg" />
+    <Content Include="images\products\productsFromDB\26g.jpg" />
+    <Content Include="images\products\productsFromDB\27a.jpg" />
+    <Content Include="images\products\productsFromDB\27b.jpg" />
+    <Content Include="images\products\productsFromDB\27c.jpg" />
+    <Content Include="images\products\productsFromDB\27d.jpg" />
+    <Content Include="images\products\productsFromDB\27e.jpg" />
+    <Content Include="images\products\productsFromDB\28a.jpg" />
+    <Content Include="images\products\productsFromDB\28b.jpg" />
+    <Content Include="images\products\productsFromDB\28c.jpg" />
+    <Content Include="images\products\productsFromDB\28d.jpg" />
+    <Content Include="images\products\productsFromDB\28e.jpg" />
+    <Content Include="images\products\productsFromDB\28f.jpg" />
+    <Content Include="images\products\productsFromDB\29a.jpg" />
+    <Content Include="images\products\productsFromDB\29b.jpg" />
+    <Content Include="images\products\productsFromDB\29c.jpg" />
+    <Content Include="images\products\productsFromDB\29d.jpg" />
+    <Content Include="images\products\productsFromDB\2a.jpg" />
+    <Content Include="images\products\productsFromDB\2b.jpg" />
+    <Content Include="images\products\productsFromDB\2c.jpg" />
+    <Content Include="images\products\productsFromDB\2d.jpg" />
+    <Content Include="images\products\productsFromDB\2e.jpg" />
+    <Content Include="images\products\productsFromDB\2f.jpg" />
+    <Content Include="images\products\productsFromDB\30a.jpg" />
+    <Content Include="images\products\productsFromDB\30b.jpg" />
+    <Content Include="images\products\productsFromDB\30c.jpg" />
+    <Content Include="images\products\productsFromDB\30d.jpg" />
+    <Content Include="images\products\productsFromDB\31a.jpg" />
+    <Content Include="images\products\productsFromDB\31b.jpg" />
+    <Content Include="images\products\productsFromDB\31c.jpg" />
+    <Content Include="images\products\productsFromDB\31d.jpg" />
+    <Content Include="images\products\productsFromDB\31e.jpg" />
+    <Content Include="images\products\productsFromDB\3a.jpg" />
+    <Content Include="images\products\productsFromDB\3b.jpg" />
+    <Content Include="images\products\productsFromDB\3c.jpg" />
+    <Content Include="images\products\productsFromDB\3d.jpg" />
+    <Content Include="images\products\productsFromDB\3e.jpg" />
+    <Content Include="images\products\productsFromDB\3f.jpg" />
+    <Content Include="images\products\productsFromDB\3g.jpg" />
+    <Content Include="images\products\productsFromDB\4a.jpg" />
+    <Content Include="images\products\productsFromDB\4b.jpg" />
+    <Content Include="images\products\productsFromDB\4c.jpg" />
+    <Content Include="images\products\productsFromDB\4d.jpg" />
+    <Content Include="images\products\productsFromDB\4e.jpg" />
+    <Content Include="images\products\productsFromDB\4f.jpg" />
+    <Content Include="images\products\productsFromDB\4g.jpg" />
+    <Content Include="images\products\productsFromDB\4h.jpg" />
+    <Content Include="images\products\productsFromDB\5a.jpg" />
+    <Content Include="images\products\productsFromDB\5b.jpg" />
+    <Content Include="images\products\productsFromDB\5c.jpg" />
+    <Content Include="images\products\productsFromDB\5d.jpg" />
+    <Content Include="images\products\productsFromDB\5e.jpg" />
+    <Content Include="images\products\productsFromDB\5f.jpg" />
+    <Content Include="images\products\productsFromDB\5g.jpg" />
+    <Content Include="images\products\productsFromDB\5h.jpg" />
+    <Content Include="images\products\productsFromDB\6a.jpg" />
+    <Content Include="images\products\productsFromDB\6b.jpg" />
+    <Content Include="images\products\productsFromDB\6c.jpg" />
+    <Content Include="images\products\productsFromDB\6d.jpg" />
+    <Content Include="images\products\productsFromDB\6e.jpg" />
+    <Content Include="images\products\productsFromDB\6f.jpg" />
+    <Content Include="images\products\productsFromDB\6g.jpg" />
+    <Content Include="images\products\productsFromDB\6h.jpg" />
+    <Content Include="images\products\productsFromDB\7a.jpg" />
+    <Content Include="images\products\productsFromDB\7b.jpg" />
+    <Content Include="images\products\productsFromDB\7c.jpg" />
+    <Content Include="images\products\productsFromDB\7d.jpg" />
+    <Content Include="images\products\productsFromDB\8a.jpg" />
+    <Content Include="images\products\productsFromDB\8b.jpg" />
+    <Content Include="images\products\productsFromDB\8c.jpg" />
+    <Content Include="images\products\productsFromDB\8d.jpg" />
+    <Content Include="images\products\productsFromDB\8e.jpg" />
+    <Content Include="images\products\productsFromDB\8f.jpg" />
+    <Content Include="images\products\productsFromDB\9a.jpg" />
+    <Content Include="images\products\productsFromDB\9b.jpg" />
+    <Content Include="images\products\productsFromDB\9c.jpg" />
+    <Content Include="images\products\productsFromDB\9d.jpg" />
+    <Content Include="images\products\productsFromDB\9e.jpg" />
+    <Content Include="images\products\productsFromDB\9f.jpg" />
+    <Content Include="images\products\productsFromDB\admin.jpg" />
+    <Content Include="images\products\productsFromDB\user.jpg" />
     <Content Include="images\women.jpg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -633,9 +815,9 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
     <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
