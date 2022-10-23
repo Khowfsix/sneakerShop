@@ -205,6 +205,9 @@
     <Compile Include="Models\Stock.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserRoles.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -750,6 +753,7 @@
     <Content Include="Views\CartItems\Edit.cshtml" />
     <Content Include="Views\CartItems\Index.cshtml" />
     <Content Include="Views\Home\productDetail.cshtml" />
+    <Content Include="Views\Home\cartUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

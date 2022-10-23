@@ -12,7 +12,7 @@ namespace WebApplication1.Controllers
 {
     public class imagesProductsController : Controller
     {
-        private sneakerShopEntities db = new sneakerShopEntities();
+        private sneakerShopEntities1 db = new sneakerShopEntities1();
 
         // GET: imagesProducts
         public ActionResult Index()
