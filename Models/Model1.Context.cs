@@ -13,10 +13,10 @@ namespace WebApplication1.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class sneakerShopEntities : DbContext
+    public partial class sneakerShopEntities2 : DbContext
     {
-        public sneakerShopEntities()
-            : base("name=sneakerShopEntities")
+        public sneakerShopEntities2()
+            : base("name=sneakerShopEntities2")
         {
         }
     

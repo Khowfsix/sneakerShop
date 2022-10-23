@@ -12,7 +12,7 @@ namespace WebApplication1.Controllers
 {
     public class OrdersController : Controller
     {
-        private sneakerShopEntities db = new sneakerShopEntities();
+        private sneakerShopEntities2 db = new sneakerShopEntities2();
 
         // GET: Orders
         public ActionResult Index()
