@@ -11,9 +11,7 @@ namespace WebApplication1.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Text;
-
+    
     public partial class Category
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,13 +19,9 @@ namespace WebApplication1.Models
         {
             this.Product = new HashSet<Product>();
         }
-
+    
         public int categoryId { get; set; }
-
-        [Display(Name = "Category name")]
         public string categoryName { get; set; }
-
-        [Display(Name = "Status")]
         public Nullable<int> status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
