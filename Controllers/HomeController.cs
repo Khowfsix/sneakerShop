@@ -13,7 +13,7 @@ namespace WebApplication1.Controllers
     public class HomeController : Controller
     {
         private sneakerShopEntities2 db = new sneakerShopEntities2();
-
+       
         public ActionResult Index(int bestSeller)
         {
             ////Lấy danh sách products (best seller) dựa trên số lượng trong cartItem
@@ -34,12 +34,12 @@ namespace WebApplication1.Controllers
             return View(product.ToList().GetRange(0, bestSeller));
         }
 
-        public ActionResult allProduct()
+            public ActionResult allProduct()
         {
             var product = db.Product.Include(p => p.Category).Include(p => p.Stock).Include(p => p.imagesProduct);
             //Sắp xếp
             product = product.OrderByDescending(s => s.amount);
-            return View("Index",product.ToList());
+            return View("Index", product.ToList());
         }
 
         public ActionResult productDetail(int productID)
