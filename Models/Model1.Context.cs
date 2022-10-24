@@ -16,7 +16,7 @@ namespace WebApplication1.Models
     public partial class sneakerShopEntities2 : DbContext
     {
         public sneakerShopEntities2()
-            : base("name=sneakerShopEntities2")
+            : base("name=sneakerShopEntities1")
         {
         }
     
