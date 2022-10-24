@@ -250,7 +250,10 @@
     <Content Include="Content\shoppingcart.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\styleindex.css" />
+    <Content Include="Database\database.sql" />
     <Content Include="Database\SQLQuery1.sql" />
+    <Content Include="Database\SQLQuery3.sql" />
+    <Content Include="Database\triggers.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\big_john.svg" />
     <Content Include="fonts\bootstrap\glyphicons-halflings-regular.svg" />
