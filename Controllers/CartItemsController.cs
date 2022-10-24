@@ -12,12 +12,12 @@ namespace WebApplication1.Controllers
 {
     public class CartItemsController : Controller
     {
-        private sneakerShopEntities1 db = new sneakerShopEntities1();
+        private sneakerShopEntities db = new sneakerShopEntities();
 
         // GET: CartItems
         public ActionResult Index()
         {
-            var cartItem = db.CartItem.Include(c => c.Cart).Include(c => c.Product);
+            var cartItem = db.CartItems.Include(c => c.Cart);
             return View(cartItem.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CartItem cartItem = db.CartItem.Find(id);
+            CartItem cartItem = db.CartItems.Find(id);
             if (cartItem == null)
             {
                 return HttpNotFound();
@@ -39,8 +39,8 @@ namespace WebApplication1.Controllers
         // GET: CartItems/Create
         public ActionResult Create()
         {
-            ViewBag.cartId = new SelectList(db.Cart, "cartId", "cartId");
-            ViewBag.productId = new SelectList(db.Product, "productId", "productName");
+            ViewBag.cartId = new SelectList(db.Carts, "cartId", "cartId");
+            ViewBag.productId = new SelectList(db.Products, "productId", "productName");
             return View();
         }
 
@@ -53,13 +53,13 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.CartItem.Add(cartItem);
+                db.CartItems.Add(cartItem);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.cartId = new SelectList(db.Cart, "cartId", "cartId", cartItem.cartId);
-            ViewBag.productId = new SelectList(db.Product, "productId", "productName", cartItem.productId);
+            ViewBag.cartId = new SelectList(db.Carts, "cartId", "cartId", cartItem.cartId);
+            ViewBag.productId = new SelectList(db.Products, "productId", "productName", cartItem.productId);
             return View(cartItem);
         }
 
@@ -70,13 +70,13 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CartItem cartItem = db.CartItem.Find(id);
+            CartItem cartItem = db.CartItems.Find(id);
             if (cartItem == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.cartId = new SelectList(db.Cart, "cartId", "cartId", cartItem.cartId);
-            ViewBag.productId = new SelectList(db.Product, "productId", "productName", cartItem.productId);
+            ViewBag.cartId = new SelectList(db.Carts, "cartId", "cartId", cartItem.cartId);
+            ViewBag.productId = new SelectList(db.Products, "productId", "productName", cartItem.productId);
             return View(cartItem);
         }
 
@@ -93,8 +93,8 @@ namespace WebApplication1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.cartId = new SelectList(db.Cart, "cartId", "cartId", cartItem.cartId);
-            ViewBag.productId = new SelectList(db.Product, "productId", "productName", cartItem.productId);
+            ViewBag.cartId = new SelectList(db.Carts, "cartId", "cartId", cartItem.cartId);
+            ViewBag.productId = new SelectList(db.Products, "productId", "productName", cartItem.productId);
             return View(cartItem);
         }
 
@@ -105,7 +105,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CartItem cartItem = db.CartItem.Find(id);
+            CartItem cartItem = db.CartItems.Find(id);
             if (cartItem == null)
             {
                 return HttpNotFound();
@@ -118,8 +118,8 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            CartItem cartItem = db.CartItem.Find(id);
-            db.CartItem.Remove(cartItem);
+            CartItem cartItem = db.CartItems.Find(id);
+            db.CartItems.Remove(cartItem);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

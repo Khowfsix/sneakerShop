@@ -12,12 +12,12 @@ namespace WebApplication1.Controllers
 {
     public class StocksController : Controller
     {
-        private sneakerShopEntities1 db = new sneakerShopEntities1();
+        private sneakerShopEntities db = new sneakerShopEntities();
 
         // GET: Stocks
         public ActionResult Index()
         {
-            var stock = db.Stock.Include(s => s.Product);
+            var stock = db.Stocks.Include(s => s.Product);
             return View(stock.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Stock stock = db.Stock.Find(id);
+            Stock stock = db.Stocks.Find(id);
             if (stock == null)
             {
                 return HttpNotFound();
@@ -39,7 +39,7 @@ namespace WebApplication1.Controllers
         // GET: Stocks/Create
         public ActionResult Create()
         {
-            ViewBag.productId = new SelectList(db.Product, "productId", "productName");
+            ViewBag.productId = new SelectList(db.Products, "productId", "productName");
             return View();
         }
 
@@ -52,12 +52,12 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Stock.Add(stock);
+                db.Stocks.Add(stock);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.productId = new SelectList(db.Product, "productId", "productName", stock.productId);
+            ViewBag.productId = new SelectList(db.Products, "productId", "productName", stock.productId);
             return View(stock);
         }
 
@@ -68,12 +68,12 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Stock stock = db.Stock.Find(id);
+            Stock stock = db.Stocks.Find(id);
             if (stock == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.productId = new SelectList(db.Product, "productId", "productName", stock.productId);
+            ViewBag.productId = new SelectList(db.Products, "productId", "productName", stock.productId);
             return View(stock);
         }
 
@@ -90,7 +90,7 @@ namespace WebApplication1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.productId = new SelectList(db.Product, "productId", "productName", stock.productId);
+            ViewBag.productId = new SelectList(db.Products, "productId", "productName", stock.productId);
             return View(stock);
         }
 
@@ -101,7 +101,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Stock stock = db.Stock.Find(id);
+            Stock stock = db.Stocks.Find(id);
             if (stock == null)
             {
                 return HttpNotFound();
@@ -114,8 +114,8 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Stock stock = db.Stock.Find(id);
-            db.Stock.Remove(stock);
+            Stock stock = db.Stocks.Find(id);
+            db.Stocks.Remove(stock);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

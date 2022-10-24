@@ -15,10 +15,10 @@ namespace WebApplication1.Models
     public partial class Shipment
     {
         public int shipmentID { get; set; }
-        public int shipperID { get; set; }
+        public string shipperID { get; set; }
         public int orderID { get; set; }
     
+        public virtual AspNetUser AspNetUser { get; set; }
         public virtual Order Order { get; set; }
-        public virtual Users Users { get; set; }
     }
 }

@@ -14,10 +14,20 @@ namespace WebApplication1.Models
     
     public partial class Stock
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Stock()
+        {
+            this.CartItems = new HashSet<CartItem>();
+        }
+    
+        public int stockID { get; set; }
         public int productId { get; set; }
+        public int size { get; set; }
         public int inStock { get; set; }
         public Nullable<System.DateTime> lastUpdate { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual Product Product { get; set; }
     }
 }

@@ -12,12 +12,12 @@ namespace WebApplication1.Controllers
 {
     public class ProductsController : Controller
     {
-        private sneakerShopEntities1 db = new sneakerShopEntities1();
+        private sneakerShopEntities db = new sneakerShopEntities();
 
         // GET: Products
         public ActionResult Index()
         {
-            var product = db.Product.Include(p => p.Category).Include(p => p.Stock).ToList();
+            var product = db.Products.Include(p => p.Category).Include(p => p.Stocks).ToList();
             var imageProduct = new List<imagesProduct>();
             foreach (var pItem in product)
             {
@@ -36,7 +36,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Product.Find(id);
+            Product product = db.Products.Find(id);
             if (product == null)
             {
                 return HttpNotFound();
@@ -47,8 +47,8 @@ namespace WebApplication1.Controllers
         // GET: Products/Create
         public ActionResult Create()
         {
-            ViewBag.categoryId = new SelectList(db.Category, "categoryId", "categoryName");
-            ViewBag.productId = new SelectList(db.Stock, "productId", "productId");
+            ViewBag.categoryId = new SelectList(db.Categories, "categoryId", "categoryName");
+            ViewBag.productId = new SelectList(db.Stocks, "productId", "productId");
             return View();
         }
 
@@ -61,13 +61,13 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Product.Add(product);
+                db.Products.Add(product);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.categoryId = new SelectList(db.Category, "categoryId", "categoryName", product.categoryId);
-            ViewBag.productId = new SelectList(db.Stock, "productId", "productId", product.productId);
+            ViewBag.categoryId = new SelectList(db.Categories, "categoryId", "categoryName", product.categoryId);
+            ViewBag.productId = new SelectList(db.Stocks, "productId", "productId", product.productId);
             return View(product);
         }
 
@@ -78,13 +78,13 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Product.Find(id);
+            Product product = db.Products.Find(id);
             if (product == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.categoryId = new SelectList(db.Category, "categoryId", "categoryName", product.categoryId);
-            ViewBag.productId = new SelectList(db.Stock, "productId", "productId", product.productId);
+            ViewBag.categoryId = new SelectList(db.Categories, "categoryId", "categoryName", product.categoryId);
+            ViewBag.productId = new SelectList(db.Stocks, "productId", "productId", product.productId);
             return View(product);
         }
 
@@ -101,8 +101,8 @@ namespace WebApplication1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.categoryId = new SelectList(db.Category, "categoryId", "categoryName", product.categoryId);
-            ViewBag.productId = new SelectList(db.Stock, "productId", "productId", product.productId);
+            ViewBag.categoryId = new SelectList(db.Categories, "categoryId", "categoryName", product.categoryId);
+            ViewBag.productId = new SelectList(db.Stocks, "productId", "productId", product.productId);
             return View(product);
         }
 
@@ -113,7 +113,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Product.Find(id);
+            Product product = db.Products.Find(id);
             if (product == null)
             {
                 return HttpNotFound();
@@ -126,8 +126,8 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Product product = db.Product.Find(id);
-            db.Product.Remove(product);
+            Product product = db.Products.Find(id);
+            db.Products.Remove(product);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -12,12 +12,71 @@ namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
-        private sneakerShopEntities1 db = new sneakerShopEntities1();
+        private sneakerShopEntities db = new sneakerShopEntities();
 
         public ActionResult Index()
         {
-            var product = db.Product.Include(p => p.Category).Include(p => p.Stock);
-            return View(product.ToList());
+            ////Lấy danh sách products (best seller) dựa trên số lượng trong cartItem
+
+            ////Lấy danh sách produsts
+            //var product = db.Product.Include(p => p.Category).Include(p => p.Stock).Include(p => p.imagesProduct);
+            ////Sắp xếp
+            //product = product.OrderByDescending(s => s.CartItem.Sum(p => p.quantity));
+            //return View(product.ToList().GetRange(0, 8));
+
+
+            //Lấy danh sách products (best seller) dựa trên amount của product
+
+            //Lấy danh sách produsts
+            var product = db.Products.Include(p => p.Category).Include(p => p.Stocks).Include(p => p.imagesProducts);
+            //Sắp xếp
+            product = product.OrderByDescending(s => s.amount);
+            return View(product.ToList().GetRange(0, 8));
+        }
+
+        public ActionResult allProduct()
+        {
+            var product = db.Products.Include(p => p.Category).Include(p => p.Stocks).Include(p => p.imagesProducts);
+            //Sắp xếp
+            product = product.OrderByDescending(s => s.amount);
+            return View("Index",product.ToList());
+        }
+
+        public ActionResult productDetail(int productID)
+        {
+            Product product = db.Products.Where(p => p.productId == productID).FirstOrDefault();
+            return View(product);
+        }
+
+        public ActionResult cartUser(AspNetUser aspNetUser)
+        {
+            Cart cart = db.Carts.Where(c => c.AspNetUser == aspNetUser).Where(c => c.status == 0).FirstOrDefault();
+            var cartItem = db.CartItems.Where(ci => ci.cartId == cart.cartId);
+
+            return View();
+        }
+
+        public ActionResult productBrand(string brandName)
+        {
+            var product = db.Products
+                            .Include(p => p.Category)
+                            .Include(p => p.imagesProducts)
+                            .Where(p => p.Category.categoryName.Equals(brandName));
+            //Sắp xếp
+            product = product.OrderByDescending(s => s.amount);
+            return View("Index", product.ToList());
+        }
+
+        public ActionResult Searching(string keyword)
+        {
+            var product = db.Products
+                            .Include(p => p.Category)
+                            .Include(p => p.Stocks)
+                            .Include(p => p.imagesProducts)
+                            .Where(p => p.productName.Contains(keyword));
+            //Sắp xếp
+            product = product.OrderByDescending(s => s.amount);
+            return View("Index", product.ToList());
         }
 
         public ActionResult About()

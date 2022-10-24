@@ -43,17 +43,17 @@
                         <div id="colorlib-logo">
                             @Html.ActionLink("Sneaker Shop", "Index", "Home")
                         </div>
-                        
                     </div>
+
                     <div class="col-sm-5 col-md-3">
-                        <form action="#" class="search-wrap">
+                        <form action="@Url.Action("Searching", "Home", new {keyword = "asdfassdfasdfasdfasdf"})" class="search-wrap" method="post">
                             <div class="form-group">
-                                <input type="search" class="form-control search" placeholder="Search">
-                                <button class="btn btn-primary submit-search text-center" type="submit"><i class="icon-search"></i></button>
-                                @*@Html.ActionLink("LPP Sneaker Shop", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+                                <input type="search" class="form-control search" placeholder="Search" name="seachKey">
+                                <button class="btn btn-primary submit-search text-center" type="submit" value="Search"><i class="icon-search"></i></button>
                             </div>
                         </form>
                     </div>
+
                 </div>
                 <div class="row">
                     <div class="col-sm-12 text-left menu-1">
@@ -61,18 +61,11 @@
                             <li class="active"><a href="index.html">Home</a></li>
                             <li class="has-dropdown">
                                 <a href="men.html">Men</a>
-                                <ul class="dropdown">
-                                    <li><a href="product-detail.html">Product Detail</a></li>
-                                    <li><a href="cart.html">Shopping Cart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="order-complete.html">Order Complete</a></li>
-                                    <li><a href="add-to-wishlist.html">Wishlist</a></li>
-                                </ul>
                             </li>
                             <li><a href="women.html">Women</a></li>
                             <li><a href="about.html">About</a></li>
                             <li><a href="contact.html">Contact</a></li>
-                            <li class="cart"><a href="cart.html"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
+                            <li class="cart"><a href="@Url.Action("cartUser","Home")"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
                         </ul>
                     </div>
                 </div>
@@ -112,19 +105,19 @@
                 </div>
                 <div class="row">
                     <div class="col partner-col text-center">
-                        <img src="~/images/brand/brand-1.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+                        <a href="@Url.Action("productBrand","Home", new {brandName = "Adidas"})" class="img-fluid">
+                            <img src="~/images/brand/brand-1.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+                        </a>
                     </div>
                     <div class="col partner-col text-center">
-                        <img src="~/images/brand/brand-2.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+                        <a href="@Url.Action("productBrand","Home", new {brandName = "Nike"})" class="img-fluid">
+                            <img src="~/images/brand/brand-2.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+                        </a>
                     </div>
                     <div class="col partner-col text-center">
-                        <img src="~/images/brand/brand-3.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
-                    </div>
-                    <div class="col partner-col text-center">
-                        <img src="~/images/brand/brand-4.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
-                    </div>
-                    <div class="col partner-col text-center">
-                        <img src="~/images/brand/brand-5.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+                        <a href="@Url.Action("productBrand","Home", new {brandName = "Puma"})" class="img-fluid">
+                            <img src="~/images/brand/brand-5.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+                        </a>
                     </div>
                 </div>
             </div>

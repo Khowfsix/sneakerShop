@@ -12,12 +12,12 @@ namespace WebApplication1.Controllers
 {
     public class CartsController : Controller
     {
-        private sneakerShopEntities1 db = new sneakerShopEntities1();
+        private sneakerShopEntities db = new sneakerShopEntities();
 
         // GET: Carts
         public ActionResult Index()
         {
-            var cart = db.Cart.Include(c => c.Users);
+            var cart = db.Carts.Include(c => c.AspNetUser);
             return View(cart.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cart cart = db.Cart.Find(id);
+            Cart cart = db.Carts.Find(id);
             if (cart == null)
             {
                 return HttpNotFound();
@@ -39,7 +39,7 @@ namespace WebApplication1.Controllers
         // GET: Carts/Create
         public ActionResult Create()
         {
-            ViewBag.userId = new SelectList(db.Users, "userId", "username");
+            ViewBag.userId = new SelectList(db.AspNetUsers, "userId", "username");
             return View();
         }
 
@@ -52,12 +52,12 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Cart.Add(cart);
+                db.Carts.Add(cart);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.userId = new SelectList(db.Users, "userId", "username", cart.userId);
+            ViewBag.userId = new SelectList(db.AspNetUsers, "userId", "username", cart.userId);
             return View(cart);
         }
 
@@ -68,12 +68,12 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cart cart = db.Cart.Find(id);
+            Cart cart = db.Carts.Find(id);
             if (cart == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.userId = new SelectList(db.Users, "userId", "username", cart.userId);
+            ViewBag.userId = new SelectList(db.AspNetUsers, "userId", "username", cart.userId);
             return View(cart);
         }
 
@@ -90,7 +90,7 @@ namespace WebApplication1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.userId = new SelectList(db.Users, "userId", "username", cart.userId);
+            ViewBag.userId = new SelectList(db.AspNetUsers, "userId", "username", cart.userId);
             return View(cart);
         }
 
@@ -101,7 +101,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cart cart = db.Cart.Find(id);
+            Cart cart = db.Carts.Find(id);
             if (cart == null)
             {
                 return HttpNotFound();
@@ -114,8 +114,8 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Cart cart = db.Cart.Find(id);
-            db.Cart.Remove(cart);
+            Cart cart = db.Carts.Find(id);
+            db.Carts.Remove(cart);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

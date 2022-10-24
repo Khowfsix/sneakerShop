@@ -12,12 +12,12 @@ namespace WebApplication1.Controllers
 {
     public class OrdersController : Controller
     {
-        private sneakerShopEntities1 db = new sneakerShopEntities1();
+        private sneakerShopEntities db = new sneakerShopEntities();
 
         // GET: Orders
         public ActionResult Index()
         {
-            var order = db.Order.Include(o => o.Cart).Include(o => o.paymentType1).Include(o => o.Users);
+            var order = db.Orders.Include(o => o.Cart).Include(o => o.paymentType1).Include(o => o.AspNetUser);
             return View(order.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Order.Find(id);
+            Order order = db.Orders.Find(id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -39,9 +39,9 @@ namespace WebApplication1.Controllers
         // GET: Orders/Create
         public ActionResult Create()
         {
-            ViewBag.cartID = new SelectList(db.Cart, "cartId", "cartId");
-            ViewBag.paymentType = new SelectList(db.paymentType, "paymentTypeID", "paymentTypeName");
-            ViewBag.userID = new SelectList(db.Users, "userId", "username");
+            ViewBag.cartID = new SelectList(db.Carts, "cartId", "cartId");
+            ViewBag.paymentType = new SelectList(db.paymentTypes, "paymentTypeID", "paymentTypeName");
+            ViewBag.userID = new SelectList(db.AspNetUsers, "userId", "username");
             return View();
         }
 
@@ -54,14 +54,14 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Order.Add(order);
+                db.Orders.Add(order);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.cartID = new SelectList(db.Cart, "cartId", "cartId", order.cartID);
-            ViewBag.paymentType = new SelectList(db.paymentType, "paymentTypeID", "paymentTypeName", order.paymentType);
-            ViewBag.userID = new SelectList(db.Users, "userId", "username", order.userID);
+            ViewBag.cartID = new SelectList(db.Carts, "cartId", "cartId", order.cartID);
+            ViewBag.paymentType = new SelectList(db.paymentTypes, "paymentTypeID", "paymentTypeName", order.paymentType);
+            ViewBag.userID = new SelectList(db.AspNetUsers, "userId", "username", order.userID);
             return View(order);
         }
 
@@ -72,14 +72,14 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Order.Find(id);
+            Order order = db.Orders.Find(id);
             if (order == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.cartID = new SelectList(db.Cart, "cartId", "cartId", order.cartID);
-            ViewBag.paymentType = new SelectList(db.paymentType, "paymentTypeID", "paymentTypeName", order.paymentType);
-            ViewBag.userID = new SelectList(db.Users, "userId", "username", order.userID);
+            ViewBag.cartID = new SelectList(db.Carts, "cartId", "cartId", order.cartID);
+            ViewBag.paymentType = new SelectList(db.paymentTypes, "paymentTypeID", "paymentTypeName", order.paymentType);
+            ViewBag.userID = new SelectList(db.AspNetUsers, "userId", "username", order.userID);
             return View(order);
         }
 
@@ -96,9 +96,9 @@ namespace WebApplication1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.cartID = new SelectList(db.Cart, "cartId", "cartId", order.cartID);
-            ViewBag.paymentType = new SelectList(db.paymentType, "paymentTypeID", "paymentTypeName", order.paymentType);
-            ViewBag.userID = new SelectList(db.Users, "userId", "username", order.userID);
+            ViewBag.cartID = new SelectList(db.Carts, "cartId", "cartId", order.cartID);
+            ViewBag.paymentType = new SelectList(db.paymentTypes, "paymentTypeID", "paymentTypeName", order.paymentType);
+            ViewBag.userID = new SelectList(db.AspNetUsers, "userId", "username", order.userID);
             return View(order);
         }
 
@@ -109,7 +109,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Order.Find(id);
+            Order order = db.Orders.Find(id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -122,8 +122,8 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Order order = db.Order.Find(id);
-            db.Order.Remove(order);
+            Order order = db.Orders.Find(id);
+            db.Orders.Remove(order);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -158,10 +158,20 @@
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ShipmentsController.cs" />
     <Compile Include="Controllers\StocksController.cs" />
-    <Compile Include="Controllers\UserRolesController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetRole.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUser.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaim.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogin.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Cart.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -170,6 +180,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\imagesProduct.cs">
@@ -203,12 +216,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Stock.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\UserRoles.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Users.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -247,7 +254,10 @@
     <Content Include="Content\shoppingcart.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\styleindex.css" />
+    <Content Include="Database\database.sql" />
     <Content Include="Database\SQLQuery1.sql" />
+    <Content Include="Database\SQLQuery3.sql" />
+    <Content Include="Database\triggers.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\big_john.svg" />
     <Content Include="fonts\bootstrap\glyphicons-halflings-regular.svg" />
@@ -377,6 +387,188 @@
     <Content Include="images\products\img7.jpg" />
     <Content Include="images\products\img8.jpg" />
     <Content Include="images\products\img9.jpg" />
+    <Content Include="images\products\productsFromDB\10a.jpg" />
+    <Content Include="images\products\productsFromDB\10b.jpg" />
+    <Content Include="images\products\productsFromDB\10c.jpg" />
+    <Content Include="images\products\productsFromDB\10d.jpg" />
+    <Content Include="images\products\productsFromDB\10e.jpg" />
+    <Content Include="images\products\productsFromDB\10g.jpg" />
+    <Content Include="images\products\productsFromDB\10h.jpg" />
+    <Content Include="images\products\productsFromDB\11a.jpg" />
+    <Content Include="images\products\productsFromDB\11b.jpg" />
+    <Content Include="images\products\productsFromDB\11c.jpg" />
+    <Content Include="images\products\productsFromDB\11d.jpg" />
+    <Content Include="images\products\productsFromDB\11e.jpg" />
+    <Content Include="images\products\productsFromDB\11f.jpg" />
+    <Content Include="images\products\productsFromDB\12a.jpg" />
+    <Content Include="images\products\productsFromDB\12b.jpg" />
+    <Content Include="images\products\productsFromDB\12c.jpg" />
+    <Content Include="images\products\productsFromDB\12d.jpg" />
+    <Content Include="images\products\productsFromDB\12e.jpg" />
+    <Content Include="images\products\productsFromDB\12f.jpg" />
+    <Content Include="images\products\productsFromDB\12g.jpg" />
+    <Content Include="images\products\productsFromDB\12h.jpg" />
+    <Content Include="images\products\productsFromDB\14a.jpg" />
+    <Content Include="images\products\productsFromDB\14b.jpg" />
+    <Content Include="images\products\productsFromDB\14c.jpg" />
+    <Content Include="images\products\productsFromDB\14d.jpg" />
+    <Content Include="images\products\productsFromDB\14e.jpg" />
+    <Content Include="images\products\productsFromDB\15a.jpg" />
+    <Content Include="images\products\productsFromDB\15b.jpg" />
+    <Content Include="images\products\productsFromDB\15c.jpg" />
+    <Content Include="images\products\productsFromDB\15d.jpg" />
+    <Content Include="images\products\productsFromDB\15e.jpg" />
+    <Content Include="images\products\productsFromDB\16a.jpg" />
+    <Content Include="images\products\productsFromDB\16b.jpg" />
+    <Content Include="images\products\productsFromDB\16c.jpg" />
+    <Content Include="images\products\productsFromDB\16d.jpg" />
+    <Content Include="images\products\productsFromDB\17a.jpg" />
+    <Content Include="images\products\productsFromDB\17b.jpg" />
+    <Content Include="images\products\productsFromDB\17c.jpg" />
+    <Content Include="images\products\productsFromDB\17d.jpg" />
+    <Content Include="images\products\productsFromDB\17e.jpg" />
+    <Content Include="images\products\productsFromDB\17f.jpg" />
+    <Content Include="images\products\productsFromDB\17g.jpg" />
+    <Content Include="images\products\productsFromDB\17h.jpg" />
+    <Content Include="images\products\productsFromDB\18a.jpg" />
+    <Content Include="images\products\productsFromDB\18b.jpg" />
+    <Content Include="images\products\productsFromDB\18c.jpg" />
+    <Content Include="images\products\productsFromDB\18d.jpg" />
+    <Content Include="images\products\productsFromDB\18e.jpg" />
+    <Content Include="images\products\productsFromDB\18f.jpg" />
+    <Content Include="images\products\productsFromDB\18g.jpg" />
+    <Content Include="images\products\productsFromDB\18h.jpg" />
+    <Content Include="images\products\productsFromDB\19a.jpg" />
+    <Content Include="images\products\productsFromDB\19b.jpg" />
+    <Content Include="images\products\productsFromDB\19c.jpg" />
+    <Content Include="images\products\productsFromDB\19d.jpg" />
+    <Content Include="images\products\productsFromDB\19e.jpg" />
+    <Content Include="images\products\productsFromDB\19f.jpg" />
+    <Content Include="images\products\productsFromDB\19g.jpg" />
+    <Content Include="images\products\productsFromDB\19h.jpg" />
+    <Content Include="images\products\productsFromDB\1a.jpg" />
+    <Content Include="images\products\productsFromDB\1b.jpg" />
+    <Content Include="images\products\productsFromDB\1c.jpg" />
+    <Content Include="images\products\productsFromDB\1d.jpg" />
+    <Content Include="images\products\productsFromDB\1e.jpg" />
+    <Content Include="images\products\productsFromDB\1f.jpg" />
+    <Content Include="images\products\productsFromDB\20a.jpg" />
+    <Content Include="images\products\productsFromDB\20b.jpg" />
+    <Content Include="images\products\productsFromDB\20c.jpg" />
+    <Content Include="images\products\productsFromDB\20d.jpg" />
+    <Content Include="images\products\productsFromDB\20e.jpg" />
+    <Content Include="images\products\productsFromDB\20f.jpg" />
+    <Content Include="images\products\productsFromDB\20g.jpg" />
+    <Content Include="images\products\productsFromDB\20h.jpg" />
+    <Content Include="images\products\productsFromDB\21a.jpg" />
+    <Content Include="images\products\productsFromDB\21b.jpg" />
+    <Content Include="images\products\productsFromDB\21c.jpg" />
+    <Content Include="images\products\productsFromDB\21d.jpg" />
+    <Content Include="images\products\productsFromDB\21e.jpg" />
+    <Content Include="images\products\productsFromDB\22a.jpg" />
+    <Content Include="images\products\productsFromDB\22b.jpg" />
+    <Content Include="images\products\productsFromDB\22c.jpg" />
+    <Content Include="images\products\productsFromDB\22d.jpg" />
+    <Content Include="images\products\productsFromDB\22e.jpg" />
+    <Content Include="images\products\productsFromDB\22f.jpg" />
+    <Content Include="images\products\productsFromDB\23a.jpg" />
+    <Content Include="images\products\productsFromDB\23b.jpg" />
+    <Content Include="images\products\productsFromDB\23c.jpg" />
+    <Content Include="images\products\productsFromDB\23d.jpg" />
+    <Content Include="images\products\productsFromDB\23e.jpg" />
+    <Content Include="images\products\productsFromDB\24a.jpg" />
+    <Content Include="images\products\productsFromDB\24b.jpg" />
+    <Content Include="images\products\productsFromDB\24c.jpg" />
+    <Content Include="images\products\productsFromDB\24d.jpg" />
+    <Content Include="images\products\productsFromDB\25a.jpg" />
+    <Content Include="images\products\productsFromDB\25b.jpg" />
+    <Content Include="images\products\productsFromDB\25c.jpg" />
+    <Content Include="images\products\productsFromDB\26a.jpg" />
+    <Content Include="images\products\productsFromDB\26b.jpg" />
+    <Content Include="images\products\productsFromDB\26c.jpg" />
+    <Content Include="images\products\productsFromDB\26d.jpg" />
+    <Content Include="images\products\productsFromDB\26e.jpg" />
+    <Content Include="images\products\productsFromDB\26f.jpg" />
+    <Content Include="images\products\productsFromDB\26g.jpg" />
+    <Content Include="images\products\productsFromDB\27a.jpg" />
+    <Content Include="images\products\productsFromDB\27b.jpg" />
+    <Content Include="images\products\productsFromDB\27c.jpg" />
+    <Content Include="images\products\productsFromDB\27d.jpg" />
+    <Content Include="images\products\productsFromDB\27e.jpg" />
+    <Content Include="images\products\productsFromDB\28a.jpg" />
+    <Content Include="images\products\productsFromDB\28b.jpg" />
+    <Content Include="images\products\productsFromDB\28c.jpg" />
+    <Content Include="images\products\productsFromDB\28d.jpg" />
+    <Content Include="images\products\productsFromDB\28e.jpg" />
+    <Content Include="images\products\productsFromDB\28f.jpg" />
+    <Content Include="images\products\productsFromDB\29a.jpg" />
+    <Content Include="images\products\productsFromDB\29b.jpg" />
+    <Content Include="images\products\productsFromDB\29c.jpg" />
+    <Content Include="images\products\productsFromDB\29d.jpg" />
+    <Content Include="images\products\productsFromDB\2a.jpg" />
+    <Content Include="images\products\productsFromDB\2b.jpg" />
+    <Content Include="images\products\productsFromDB\2c.jpg" />
+    <Content Include="images\products\productsFromDB\2d.jpg" />
+    <Content Include="images\products\productsFromDB\2e.jpg" />
+    <Content Include="images\products\productsFromDB\2f.jpg" />
+    <Content Include="images\products\productsFromDB\30a.jpg" />
+    <Content Include="images\products\productsFromDB\30b.jpg" />
+    <Content Include="images\products\productsFromDB\30c.jpg" />
+    <Content Include="images\products\productsFromDB\30d.jpg" />
+    <Content Include="images\products\productsFromDB\31a.jpg" />
+    <Content Include="images\products\productsFromDB\31b.jpg" />
+    <Content Include="images\products\productsFromDB\31c.jpg" />
+    <Content Include="images\products\productsFromDB\31d.jpg" />
+    <Content Include="images\products\productsFromDB\31e.jpg" />
+    <Content Include="images\products\productsFromDB\3a.jpg" />
+    <Content Include="images\products\productsFromDB\3b.jpg" />
+    <Content Include="images\products\productsFromDB\3c.jpg" />
+    <Content Include="images\products\productsFromDB\3d.jpg" />
+    <Content Include="images\products\productsFromDB\3e.jpg" />
+    <Content Include="images\products\productsFromDB\3f.jpg" />
+    <Content Include="images\products\productsFromDB\3g.jpg" />
+    <Content Include="images\products\productsFromDB\4a.jpg" />
+    <Content Include="images\products\productsFromDB\4b.jpg" />
+    <Content Include="images\products\productsFromDB\4c.jpg" />
+    <Content Include="images\products\productsFromDB\4d.jpg" />
+    <Content Include="images\products\productsFromDB\4e.jpg" />
+    <Content Include="images\products\productsFromDB\4f.jpg" />
+    <Content Include="images\products\productsFromDB\4g.jpg" />
+    <Content Include="images\products\productsFromDB\4h.jpg" />
+    <Content Include="images\products\productsFromDB\5a.jpg" />
+    <Content Include="images\products\productsFromDB\5b.jpg" />
+    <Content Include="images\products\productsFromDB\5c.jpg" />
+    <Content Include="images\products\productsFromDB\5d.jpg" />
+    <Content Include="images\products\productsFromDB\5e.jpg" />
+    <Content Include="images\products\productsFromDB\5f.jpg" />
+    <Content Include="images\products\productsFromDB\5g.jpg" />
+    <Content Include="images\products\productsFromDB\5h.jpg" />
+    <Content Include="images\products\productsFromDB\6a.jpg" />
+    <Content Include="images\products\productsFromDB\6b.jpg" />
+    <Content Include="images\products\productsFromDB\6c.jpg" />
+    <Content Include="images\products\productsFromDB\6d.jpg" />
+    <Content Include="images\products\productsFromDB\6e.jpg" />
+    <Content Include="images\products\productsFromDB\6f.jpg" />
+    <Content Include="images\products\productsFromDB\6g.jpg" />
+    <Content Include="images\products\productsFromDB\6h.jpg" />
+    <Content Include="images\products\productsFromDB\7a.jpg" />
+    <Content Include="images\products\productsFromDB\7b.jpg" />
+    <Content Include="images\products\productsFromDB\7c.jpg" />
+    <Content Include="images\products\productsFromDB\7d.jpg" />
+    <Content Include="images\products\productsFromDB\8a.jpg" />
+    <Content Include="images\products\productsFromDB\8b.jpg" />
+    <Content Include="images\products\productsFromDB\8c.jpg" />
+    <Content Include="images\products\productsFromDB\8d.jpg" />
+    <Content Include="images\products\productsFromDB\8e.jpg" />
+    <Content Include="images\products\productsFromDB\8f.jpg" />
+    <Content Include="images\products\productsFromDB\9a.jpg" />
+    <Content Include="images\products\productsFromDB\9b.jpg" />
+    <Content Include="images\products\productsFromDB\9c.jpg" />
+    <Content Include="images\products\productsFromDB\9d.jpg" />
+    <Content Include="images\products\productsFromDB\9e.jpg" />
+    <Content Include="images\products\productsFromDB\9f.jpg" />
+    <Content Include="images\products\productsFromDB\admin.jpg" />
+    <Content Include="images\products\productsFromDB\user.jpg" />
     <Content Include="images\women.jpg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -416,13 +608,6 @@
     <Content Include="Content\bootstrap-utilities.rtl.min.css.map" />
     <Content Include="Content\bootstrap.rtl.css.map" />
     <Content Include="Content\bootstrap.rtl.min.css.map" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="fonts\big_john.eot" />
     <Content Include="fonts\big_john.ttf" />
     <Content Include="fonts\big_john.woff" />
@@ -471,6 +656,13 @@
     <Content Include="fonts\ionicons\fonts\ionicons.ttf" />
     <Content Include="fonts\ionicons\fonts\ionicons.woff" />
     <Content Include="fonts\ionicons\fonts\ionicons.woff2" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\google_map.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
@@ -567,6 +759,8 @@
     <Content Include="Views\CartItems\Details.cshtml" />
     <Content Include="Views\CartItems\Edit.cshtml" />
     <Content Include="Views\CartItems\Index.cshtml" />
+    <Content Include="Views\Home\productDetail.cshtml" />
+    <Content Include="Views\Home\cartUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
