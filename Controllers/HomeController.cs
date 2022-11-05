@@ -48,14 +48,6 @@ namespace WebApplication1.Controllers
             return View(product);
         }
 
-        public ActionResult cartUser(AspNetUser aspNetUser)
-        {
-            Cart cart = db.Carts.Where(c => c.AspNetUser == aspNetUser).Where(c => c.status == 0).FirstOrDefault();
-            var cartItem = db.CartItems.Where(ci => ci.cartId == cart.cartId);
-
-            return View();
-        }
-
         public ActionResult productBrand(string brandName)
         {
             var product = db.Products

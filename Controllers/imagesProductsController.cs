@@ -22,13 +22,15 @@ namespace WebApplication1.Controllers
         }
 
         // GET: imagesProducts/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, string image)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            imagesProduct imagesProduct = db.imagesProducts.Find(id);
+            imagesProduct imagesProduct = db.imagesProducts.Where(i => i.productId == id)
+                                                            .Where(i => i.images.Equals(image))
+                                                            .FirstOrDefault();
             if (imagesProduct == null)
             {
                 return HttpNotFound();
@@ -62,17 +64,19 @@ namespace WebApplication1.Controllers
         }
 
         // GET: imagesProducts/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, string image)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            imagesProduct imagesProduct = db.imagesProducts.Find(id);
+            imagesProduct imagesProduct = db.imagesProducts.Where(i => i.productId == id)
+                                                            .Where(i => i.images.Equals(image))
+                                                            .FirstOrDefault();
             if (imagesProduct == null)
             {
                 return HttpNotFound();
-            }
+            }   
             ViewBag.productId = new SelectList(db.Products, "productId", "productName", imagesProduct.productId);
             return View(imagesProduct);
         }
@@ -95,13 +99,16 @@ namespace WebApplication1.Controllers
         }
 
         // GET: imagesProducts/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, string image)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            imagesProduct imagesProduct = db.imagesProducts.Find(id);
+            imagesProduct imagesProduct = db.imagesProducts.Where(i => i.productId == id)
+                                                            .Where(i => i.images.Equals(image))
+                                                            .FirstOrDefault();
+
             if (imagesProduct == null)
             {
                 return HttpNotFound();
@@ -112,9 +119,11 @@ namespace WebApplication1.Controllers
         // POST: imagesProducts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id, string image)
         {
-            imagesProduct imagesProduct = db.imagesProducts.Find(id);
+            imagesProduct imagesProduct = db.imagesProducts.Where(i => i.productId == id)
+                                                            .Where(i => i.images.Equals(image))
+                                                            .FirstOrDefault();
             db.imagesProducts.Remove(imagesProduct);
             db.SaveChanges();
             return RedirectToAction("Index");

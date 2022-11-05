@@ -17,8 +17,8 @@ namespace WebApplication1.Controllers
         // GET: Stocks
         public ActionResult Index()
         {
-            var stock = db.Stocks.Include(s => s.Product);
-            return View(stock.ToList());
+            var stocks = db.Stocks.Include(s => s.Product);
+            return View(stocks.ToList());
         }
 
         // GET: Stocks/Details/5
@@ -48,7 +48,7 @@ namespace WebApplication1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "productId,inStock,lastUpdate")] Stock stock)
+        public ActionResult Create([Bind(Include = "stockID,productId,size,inStock,lastUpdate")] Stock stock)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace WebApplication1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "productId,inStock,lastUpdate")] Stock stock)
+        public ActionResult Edit([Bind(Include = "stockID,productId,size,inStock,lastUpdate")] Stock stock)
         {
             if (ModelState.IsValid)
             {

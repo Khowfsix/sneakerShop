@@ -763,6 +763,16 @@ INSERT [dbo].[Stock] ([productId], [size], [inStock], [lastUpdate]) VALUES (31, 
 INSERT [dbo].[Stock] ([productId], [size], [inStock], [lastUpdate]) VALUES (31, 42, 45, CAST(N'2022-10-15' AS Date))
 GO
 
+INSERT INTO [dbo].[AspNetRoles]
+VALUES
+(
+    1, 'Admin'
+),
+(
+    2, 'User'
+)
+GO
+
 SET IDENTITY_INSERT [dbo].[Stock] OFF 
 GO
 --SET IDENTITY_INSERT [dbo].[UserRoles] ON 

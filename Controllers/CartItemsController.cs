@@ -17,8 +17,8 @@ namespace WebApplication1.Controllers
         // GET: CartItems
         public ActionResult Index()
         {
-            var cartItem = db.CartItems.Include(c => c.Cart);
-            return View(cartItem.ToList());
+            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock);
+            return View(cartItems.ToList());
         }
 
         // GET: CartItems/Details/5
@@ -39,8 +39,8 @@ namespace WebApplication1.Controllers
         // GET: CartItems/Create
         public ActionResult Create()
         {
-            ViewBag.cartId = new SelectList(db.Carts, "cartId", "cartId");
-            ViewBag.productId = new SelectList(db.Products, "productId", "productName");
+            ViewBag.cartId = new SelectList(db.Carts, "cartId", "userId");
+            ViewBag.productId = new SelectList(db.Stocks, "stockID", "stockID");
             return View();
         }
 
@@ -58,8 +58,8 @@ namespace WebApplication1.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.cartId = new SelectList(db.Carts, "cartId", "cartId", cartItem.cartId);
-            ViewBag.productId = new SelectList(db.Products, "productId", "productName", cartItem.productId);
+            ViewBag.cartId = new SelectList(db.Carts, "cartId", "userId", cartItem.cartId);
+            ViewBag.productId = new SelectList(db.Stocks, "stockID", "stockID", cartItem.productId);
             return View(cartItem);
         }
 
@@ -75,8 +75,8 @@ namespace WebApplication1.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.cartId = new SelectList(db.Carts, "cartId", "cartId", cartItem.cartId);
-            ViewBag.productId = new SelectList(db.Products, "productId", "productName", cartItem.productId);
+            ViewBag.cartId = new SelectList(db.Carts, "cartId", "userId", cartItem.cartId);
+            ViewBag.productId = new SelectList(db.Stocks, "stockID", "stockID", cartItem.productId);
             return View(cartItem);
         }
 
@@ -93,8 +93,8 @@ namespace WebApplication1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.cartId = new SelectList(db.Carts, "cartId", "cartId", cartItem.cartId);
-            ViewBag.productId = new SelectList(db.Products, "productId", "productName", cartItem.productId);
+            ViewBag.cartId = new SelectList(db.Carts, "cartId", "userId", cartItem.cartId);
+            ViewBag.productId = new SelectList(db.Stocks, "stockID", "stockID", cartItem.productId);
             return View(cartItem);
         }
 
