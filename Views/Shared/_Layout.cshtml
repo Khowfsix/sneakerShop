@@ -35,6 +35,21 @@
     @RenderSection("Styles", false)
 </head>
 <body>
+    <!--<div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">-->
+            @*<div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" title="more options">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>*@
+            <!--<div class="navbar-collapse collapse">
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>-->
+
     <nav class="colorlib-nav" role="navigation">
         <div class="top-menu">
             <div class="container">
@@ -58,14 +73,15 @@
                 <div class="row">
                     <div class="col-sm-12 text-left menu-1">
                         <ul>
-                            <li class="active"><a href="index.html">Home</a></li>
-                            <li class="has-dropdown">
-                                <a href="men.html">Men</a>
-                            </li>
-                            <li><a href="women.html">Women</a></li>
-                            <li><a href="about.html">About</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li class="active"><a href="@Url.Action("Index","Home")">Home</a></li>
+                            <li><a href="@Url.Action("productSex", "Home", new {sex = "Nam"})">Men</a></li>
+                            <li><a href="@Url.Action("productSex", "Home", new {sex = "Nữ"})">Women</a></li>
+                            <li><a href="@Url.Action("About", "Home")">About</a></li>
+                            <li><a href="@Url.Action("Contact", "Home")">Contact</a></li>
                             <li class="cart"><a href="@Url.Action("cartUser","Home")"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
+                            <li class="navbar-collapse collapse">
+                                @Html.Partial("_LoginPartial")
+                            </li>
                         </ul>
                     </div>
                 </div>
