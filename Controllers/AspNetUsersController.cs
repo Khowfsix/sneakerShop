@@ -49,9 +49,13 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] AspNetUser aspNetUsers)
         {
+            //AspNetRole userRole = db.AspNetRoles.Where(r => r.Name.Equals("User")).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 db.AspNetUsers.Add(aspNetUsers);
+
+                //db.AspNetUsers.Find(aspNetUsers).AspNetRoles.Add(userRole);
+
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
