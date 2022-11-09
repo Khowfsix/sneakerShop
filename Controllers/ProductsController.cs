@@ -18,7 +18,7 @@ namespace WebApplication1.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.Category);
+            var products = db.Products.Include(p => p.Category).Include(p => p.imagesProducts);
             return View(products.ToList());
         }
 

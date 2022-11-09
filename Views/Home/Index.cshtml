@@ -111,15 +111,13 @@
             {
                 <div class="col-lg-3 mb-4 text-center">
                     <div class="product-entry border">
-                        
-                            @*<img src="~/images/products/productsFromDB/@item.imagesProduct.FirstOrDefault().images" class="img-fluid" alt="Free html5 bootstrap 4 template">*@
-
-                                <div class="desc">
-                                    <h2>
-                                        <a href="#"> @item.productName</a>
-                                    </h2>
-                                    <span class="price">@item.price</span>
-                                </div>
+                        <img src="~/images/products/productsFromDB/@item.imagesProducts.FirstOrDefault().images" class="img-fluid" alt="Free html5 bootstrap 4 template">
+                        <div class="desc">
+                            <h2>
+                                <a href="@Url.Action("productDetail_Stock","Stocks", new {productID = item.productId})"> @item.productName</a>
+                            </h2>
+                            <span class="price">@item.price</span>
+                        </div>
                     </div>
                 </div>
              }
