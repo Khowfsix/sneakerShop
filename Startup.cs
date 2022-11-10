@@ -1,5 +1,8 @@
 ﻿using Microsoft.Owin;
+using Microsoft.Owin.Security.Cookies;
 using Owin;
+using System.Data.Entity;
+using System.Web.Services.Description;
 
 [assembly: OwinStartup(typeof(WebApplication1.Startup))]
 namespace WebApplication1
