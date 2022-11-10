@@ -1,0 +1,57 @@
+﻿@model IEnumerable<WebApplication1.Models.Category>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-8"><h2>Categories <b>Index</b></h2></div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.categoryName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.status)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.categoryName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.status)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.categoryId })
+                            <a class="add" ><i class="material-icons">&#xE03B;</i></a>
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.categoryId })
+                            <a class="edit" ><i class="material-icons">&#xE254;</i></a>
+                        </td>
+                        <td>
+                            @Html.ActionLink("Delete", "Delete", new { id = item.categoryId })
+                            <a class="delete"> <i class="material-icons">&#xE872;</i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

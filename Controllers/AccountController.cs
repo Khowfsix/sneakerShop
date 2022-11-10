@@ -80,16 +80,18 @@ namespace WebApplication1.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    var mdUser = UserManager.FindByEmail(model.Email);
-                    if (!mdUser.EmailConfirmed)
-                    {
-                        AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-                        return View("NotificationEmailConfirm");
-                    }
-                    else
-                    {
-                        return RedirectToLocal(returnUrl);
-                    }
+                    //var mdUser = UserManager.FindByEmail(model.Email);
+                    //if (!mdUser.EmailConfirmed)
+                    //{
+                    //    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                    //    return View("NotificationEmailConfirm");
+                    //}
+                    //else
+                    //{
+                    //    return RedirectToLocal(returnUrl);
+                    //}
+
+                    return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

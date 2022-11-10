@@ -3,54 +3,34 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Models;
 
-namespace WebApplication1.Controllers
+namespace WebApplication1.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class StocksController : Controller
     {
         private sneakerShopEntities db = new sneakerShopEntities();
 
-        // GET: Stocks
-        public ActionResult Index()
+        // GET: Admin/Stocks
+        public async Task<ActionResult> Index()
         {
             var stocks = db.Stocks.Include(s => s.Product);
-            return View(stocks.ToList());
+            return View(await stocks.ToListAsync());
         }
 
-        public ActionResult productDetail_Stock(int productID, int? size)
-        {
-            Stock stock = new Stock();
-            List<int> sizeList = new List<int>();
-
-            stock = db.Stocks.Include(s => s.Product)
-                                .Where(s => s.productId == productID)
-                                .FirstOrDefault();
-            sizeList = db.Stocks.Where(s => s.productId == productID).Select(s => s.size).ToList();
-
-            if (size != null)
-            {
-                stock = db.Stocks.Include(s => s.Product)
-                                .Where(s => s.productId == productID)
-                                .Where(s => s.size == size)
-                                .FirstOrDefault();
-            }
-
-            ViewBag.sizeList = sizeList;
-            return View(stock);
-        }
-
-        // GET: Stocks/Details/5
-        public ActionResult Details(int? id)
+        // GET: Admin/Stocks/Details/5
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Stock stock = db.Stocks.Find(id);
+            Stock stock = await db.Stocks.FindAsync(id);
             if (stock == null)
             {
                 return HttpNotFound();
@@ -58,24 +38,24 @@ namespace WebApplication1.Controllers
             return View(stock);
         }
 
-        // GET: Stocks/Create
+        // GET: Admin/Stocks/Create
         public ActionResult Create()
         {
             ViewBag.productId = new SelectList(db.Products, "productId", "productName");
             return View();
         }
 
-        // POST: Stocks/Create
+        // POST: Admin/Stocks/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "stockID,productId,size,inStock,lastUpdate")] Stock stock)
+        public async Task<ActionResult> Create([Bind(Include = "stockID,productId,size,inStock,lastUpdate")] Stock stock)
         {
             if (ModelState.IsValid)
             {
                 db.Stocks.Add(stock);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -83,14 +63,14 @@ namespace WebApplication1.Controllers
             return View(stock);
         }
 
-        // GET: Stocks/Edit/5
-        public ActionResult Edit(int? id)
+        // GET: Admin/Stocks/Edit/5
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Stock stock = db.Stocks.Find(id);
+            Stock stock = await db.Stocks.FindAsync(id);
             if (stock == null)
             {
                 return HttpNotFound();
@@ -99,31 +79,31 @@ namespace WebApplication1.Controllers
             return View(stock);
         }
 
-        // POST: Stocks/Edit/5
+        // POST: Admin/Stocks/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "stockID,productId,size,inStock,lastUpdate")] Stock stock)
+        public async Task<ActionResult> Edit([Bind(Include = "stockID,productId,size,inStock,lastUpdate")] Stock stock)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(stock).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             ViewBag.productId = new SelectList(db.Products, "productId", "productName", stock.productId);
             return View(stock);
         }
 
-        // GET: Stocks/Delete/5
-        public ActionResult Delete(int? id)
+        // GET: Admin/Stocks/Delete/5
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Stock stock = db.Stocks.Find(id);
+            Stock stock = await db.Stocks.FindAsync(id);
             if (stock == null)
             {
                 return HttpNotFound();
@@ -131,14 +111,14 @@ namespace WebApplication1.Controllers
             return View(stock);
         }
 
-        // POST: Stocks/Delete/5
+        // POST: Admin/Stocks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Stock stock = db.Stocks.Find(id);
+            Stock stock = await db.Stocks.FindAsync(id);
             db.Stocks.Remove(stock);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
