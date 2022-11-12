@@ -24,6 +24,12 @@ namespace WebApplication1.Controllers
             product = product.OrderByDescending(s => s.amount);
             ViewData["bestsellProduct"] = product.ToList().GetRange(0,4);
             var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock);
+            int cartId=0;
+            foreach(var item in cartItems)
+            {
+                cartId = item.cartId;
+            }
+            ViewData["cartId"] = cartId;
             return View(cartItems.ToList());
         }
         public ActionResult AddItem([Bind(Include = "cartId,productId,quantity,unitPrice")] CartItem cartItem)
@@ -88,12 +94,6 @@ namespace WebApplication1.Controllers
             }
             return View(cartItem);
         }
-        //POST: CartItems/Checkout
-        public ActionResult Checkout()
-        {
-            return View();
-        }
-
         // GET: CartItems/Create
         public ActionResult Create()
         {

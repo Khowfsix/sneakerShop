@@ -26,7 +26,6 @@ namespace WebApplication1.Controllers
             var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c=>c.cartId==cartId);
             CheckoutViewModel checkoutViewModel = new CheckoutViewModel();
             checkoutViewModel.cartItems = cartItems.ToList();
-            List<CheckoutViewModel> listchekout = new List<CheckoutViewModel>();
             return View(checkoutViewModel);
         }
         // POST: Carts/Checkout
@@ -34,6 +33,7 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Checkout(FormCollection formCheckout)
         {
+            var cartId = formCheckout["cartId"];
             var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock);
             double total = 0;
             foreach (var cartItem in cartItems)
@@ -46,7 +46,7 @@ namespace WebApplication1.Controllers
             order.orderDate = DateTime.Now;
             order.address = formCheckout["address"];
             order.userID = "1";
-            order.cartID = 1;
+            order.cartID = int.Parse(cartId);
             order.status = 0;
             order.shipping = 0;
             order.totalPay = (long)total;

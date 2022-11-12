@@ -5,7 +5,6 @@
 
 
 }
-
 <h2>ChecKout</h2>
 <div class="colorlib-product">
     <div class="container">
@@ -43,6 +42,7 @@
                             <div class="form-group">
                                 <label for="fname">Customer Name</label>
                                 <input type="text" name="fname" class="form-control" placeholder="Your name">
+                                <input type="text" name="cartId" value=@Request.Params["cartId"] hidden>
                             </div>
                         </div>
 
@@ -127,8 +127,8 @@
                                     else
                                     {
                                         ship = 20000;
-                                    } 
-                                 }
+                                    }
+                                }
                                 <li><span>Shipping</span> <span>@ship</span></li>
                                 <li><span>Order Total</span> <span>@(total+ship)</span></li>
                             </ul>
