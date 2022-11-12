@@ -27,6 +27,7 @@ namespace WebApplication1.Controllers
             var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c=>c.cartId==cartId);
             CheckoutViewModel checkoutViewModel = new CheckoutViewModel();
             checkoutViewModel.cartItems = cartItems.ToList();
+            List<CheckoutViewModel> listchekout = new List<CheckoutViewModel>();
             return View(checkoutViewModel);
         }
         // POST: Carts/Checkout
@@ -35,8 +36,6 @@ namespace WebApplication1.Controllers
         public ActionResult Checkout(FormCollection formCheckout)
         {
             var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock);
-            CheckoutViewModel checkoutViewModel = new CheckoutViewModel();
-            checkoutViewModel.cartItems = cartItems.ToList();
             double total = 0;
             foreach (var cartItem in cartItems)
             {

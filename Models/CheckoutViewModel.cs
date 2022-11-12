@@ -9,6 +9,6 @@ namespace WebApplication1.Models
     public class CheckoutViewModel
     {
         public List<CartItem> cartItems { get; set; }
-        public CheckoutRequest CheckoutModel { get; set; }
+        public string imageProduct { get; set; }
     }
 }
