@@ -24,6 +24,7 @@ namespace WebApplication1.Controllers
         // GET: AspNetUsers/Details/5
         public async Task<ActionResult> Details(string id)
         {
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
