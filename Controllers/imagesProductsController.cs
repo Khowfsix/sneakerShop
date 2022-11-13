@@ -12,12 +12,12 @@ namespace WebApplication1.Controllers
 {
     public class imagesProductsController : Controller
     {
-        private sneakerShopEntities1 db = new sneakerShopEntities1();
+        private sneakerShopEntities db = new sneakerShopEntities();
 
         // GET: imagesProducts
         public ActionResult Index()
         {
-            var imagesProduct = db.imagesProduct.Include(i => i.Product);
+            var imagesProduct = db.imagesProducts.Include(i => i.Product);
             return View(imagesProduct.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            imagesProduct imagesProduct = db.imagesProduct.Find(id);
+            imagesProduct imagesProduct = db.imagesProducts.Find(id);
             if (imagesProduct == null)
             {
                 return HttpNotFound();
@@ -39,7 +39,7 @@ namespace WebApplication1.Controllers
         // GET: imagesProducts/Create
         public ActionResult Create()
         {
-            ViewBag.productId = new SelectList(db.Product, "productId", "productName");
+            ViewBag.productId = new SelectList(db.Products, "productId", "productName");
             return View();
         }
 
@@ -52,12 +52,12 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.imagesProduct.Add(imagesProduct);
+                db.imagesProducts.Add(imagesProduct);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.productId = new SelectList(db.Product, "productId", "productName", imagesProduct.productId);
+            ViewBag.productId = new SelectList(db.Products, "productId", "productName", imagesProduct.productId);
             return View(imagesProduct);
         }
 
@@ -68,12 +68,12 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            imagesProduct imagesProduct = db.imagesProduct.Find(id);
+            imagesProduct imagesProduct = db.imagesProducts.Find(id);
             if (imagesProduct == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.productId = new SelectList(db.Product, "productId", "productName", imagesProduct.productId);
+            ViewBag.productId = new SelectList(db.Products, "productId", "productName", imagesProduct.productId);
             return View(imagesProduct);
         }
 
@@ -90,7 +90,7 @@ namespace WebApplication1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.productId = new SelectList(db.Product, "productId", "productName", imagesProduct.productId);
+            ViewBag.productId = new SelectList(db.Products, "productId", "productName", imagesProduct.productId);
             return View(imagesProduct);
         }
 
@@ -101,7 +101,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            imagesProduct imagesProduct = db.imagesProduct.Find(id);
+            imagesProduct imagesProduct = db.imagesProducts.Find(id);
             if (imagesProduct == null)
             {
                 return HttpNotFound();
@@ -114,8 +114,8 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            imagesProduct imagesProduct = db.imagesProduct.Find(id);
-            db.imagesProduct.Remove(imagesProduct);
+            imagesProduct imagesProduct = db.imagesProducts.Find(id);
+            db.imagesProducts.Remove(imagesProduct);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

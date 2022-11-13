@@ -12,12 +12,12 @@ namespace WebApplication1.Controllers
 {
     public class ShipmentsController : Controller
     {
-        private sneakerShopEntities1 db = new sneakerShopEntities1();
+        private sneakerShopEntities db = new sneakerShopEntities();
 
         // GET: Shipments
         public ActionResult Index()
         {
-            var shipment = db.Shipment.Include(s => s.Order).Include(s => s.Users);
+            var shipment = db.Shipments.Include(s => s.Order).Include(s => s.AspNetUser);
             return View(shipment.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Shipment shipment = db.Shipment.Find(id);
+            Shipment shipment = db.Shipments.Find(id);
             if (shipment == null)
             {
                 return HttpNotFound();
@@ -39,8 +39,8 @@ namespace WebApplication1.Controllers
         // GET: Shipments/Create
         public ActionResult Create()
         {
-            ViewBag.orderID = new SelectList(db.Order, "orderID", "address");
-            ViewBag.shipperID = new SelectList(db.Users, "userId", "username");
+            ViewBag.orderID = new SelectList(db.Orders, "orderID", "address");
+            ViewBag.shipperID = new SelectList(db.AspNetUsers, "userId", "username");
             return View();
         }
 
@@ -53,13 +53,13 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Shipment.Add(shipment);
+                db.Shipments.Add(shipment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.orderID = new SelectList(db.Order, "orderID", "address", shipment.orderID);
-            ViewBag.shipperID = new SelectList(db.Users, "userId", "username", shipment.shipperID);
+            ViewBag.orderID = new SelectList(db.Orders, "orderID", "address", shipment.orderID);
+            ViewBag.shipperID = new SelectList(db.AspNetUsers, "userId", "username", shipment.shipperID);
             return View(shipment);
         }
 
@@ -70,13 +70,13 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Shipment shipment = db.Shipment.Find(id);
+            Shipment shipment = db.Shipments.Find(id);
             if (shipment == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.orderID = new SelectList(db.Order, "orderID", "address", shipment.orderID);
-            ViewBag.shipperID = new SelectList(db.Users, "userId", "username", shipment.shipperID);
+            ViewBag.orderID = new SelectList(db.Orders, "orderID", "address", shipment.orderID);
+            ViewBag.shipperID = new SelectList(db.AspNetUsers, "userId", "username", shipment.shipperID);
             return View(shipment);
         }
 
@@ -93,8 +93,8 @@ namespace WebApplication1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.orderID = new SelectList(db.Order, "orderID", "address", shipment.orderID);
-            ViewBag.shipperID = new SelectList(db.Users, "userId", "username", shipment.shipperID);
+            ViewBag.orderID = new SelectList(db.Orders, "orderID", "address", shipment.orderID);
+            ViewBag.shipperID = new SelectList(db.AspNetUsers, "userId", "username", shipment.shipperID);
             return View(shipment);
         }
 
@@ -105,7 +105,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Shipment shipment = db.Shipment.Find(id);
+            Shipment shipment = db.Shipments.Find(id);
             if (shipment == null)
             {
                 return HttpNotFound();
@@ -118,8 +118,8 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Shipment shipment = db.Shipment.Find(id);
-            db.Shipment.Remove(shipment);
+            Shipment shipment = db.Shipments.Find(id);
+            db.Shipments.Remove(shipment);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -12,12 +12,12 @@ namespace WebApplication1.Controllers
 {
     public class paymentTypesController : Controller
     {
-        private sneakerShopEntities1 db = new sneakerShopEntities1();
+        private sneakerShopEntities db = new sneakerShopEntities();
 
         // GET: paymentTypes
         public ActionResult Index()
         {
-            return View(db.paymentType.ToList());
+            return View(db.paymentTypes.ToList());
         }
 
         // GET: paymentTypes/Details/5
@@ -27,7 +27,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            paymentType paymentType = db.paymentType.Find(id);
+            paymentType paymentType = db.paymentTypes.Find(id);
             if (paymentType == null)
             {
                 return HttpNotFound();
@@ -50,7 +50,7 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.paymentType.Add(paymentType);
+                db.paymentTypes.Add(paymentType);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -65,7 +65,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            paymentType paymentType = db.paymentType.Find(id);
+            paymentType paymentType = db.paymentTypes.Find(id);
             if (paymentType == null)
             {
                 return HttpNotFound();
@@ -96,7 +96,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            paymentType paymentType = db.paymentType.Find(id);
+            paymentType paymentType = db.paymentTypes.Find(id);
             if (paymentType == null)
             {
                 return HttpNotFound();
@@ -109,8 +109,8 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            paymentType paymentType = db.paymentType.Find(id);
-            db.paymentType.Remove(paymentType);
+            paymentType paymentType = db.paymentTypes.Find(id);
+            db.paymentTypes.Remove(paymentType);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

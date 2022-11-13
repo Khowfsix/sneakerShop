@@ -13,10 +13,10 @@ namespace WebApplication1.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class sneakerShopEntities1 : DbContext
+    public partial class sneakerShopEntities : DbContext
     {
-        public sneakerShopEntities1()
-            : base("name=sneakerShopEntities1")
+        public sneakerShopEntities()
+            : base("name=sneakerShopEntities")
         {
         }
     
@@ -25,17 +25,20 @@ namespace WebApplication1.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Cart> Cart { get; set; }
-        public virtual DbSet<CartItem> CartItem { get; set; }
-        public virtual DbSet<Category> Category { get; set; }
-        public virtual DbSet<imagesProduct> imagesProduct { get; set; }
-        public virtual DbSet<Order> Order { get; set; }
-        public virtual DbSet<paymentType> paymentType { get; set; }
-        public virtual DbSet<Product> Product { get; set; }
-        public virtual DbSet<Shipment> Shipment { get; set; }
-        public virtual DbSet<Stock> Stock { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
-        public virtual DbSet<UserRoles> UserRoles { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<Cart> Carts { get; set; }
+        public virtual DbSet<CartItem> CartItems { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<imagesProduct> imagesProducts { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<paymentType> paymentTypes { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Shipment> Shipments { get; set; }
+        public virtual DbSet<Stock> Stocks { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }

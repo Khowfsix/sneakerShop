@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Models;
 
@@ -12,12 +8,12 @@ namespace WebApplication1.Controllers
 {
     public class UserRolesController : Controller
     {
-        private sneakerShopEntities1 db = new sneakerShopEntities1();
+        private sneakerShopEntities db = new sneakerShopEntities();
 
         // GET: UserRoles
         public ActionResult Index()
         {
-            return View(db.UserRoles.ToList());
+            return View(db.AspNetRoles.ToList());
         }
 
         // GET: UserRoles/Details/5
@@ -27,7 +23,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserRoles userRoles = db.UserRoles.Find(id);
+            AspNetRole userRoles = db.AspNetRoles.Find(id);
             if (userRoles == null)
             {
                 return HttpNotFound();
@@ -46,11 +42,11 @@ namespace WebApplication1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "roleId,roleName")] UserRoles userRoles)
+        public ActionResult Create([Bind(Include = "roleId,roleName")] AspNetRole userRoles)
         {
             if (ModelState.IsValid)
             {
-                db.UserRoles.Add(userRoles);
+                db.AspNetRoles.Add(userRoles);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -65,7 +61,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserRoles userRoles = db.UserRoles.Find(id);
+            AspNetRole userRoles = db.AspNetRoles.Find(id);
             if (userRoles == null)
             {
                 return HttpNotFound();
@@ -78,7 +74,7 @@ namespace WebApplication1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "roleId,roleName")] UserRoles userRoles)
+        public ActionResult Edit([Bind(Include = "roleId,roleName")] AspNetRole userRoles)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +92,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserRoles userRoles = db.UserRoles.Find(id);
+            AspNetRole userRoles = db.AspNetRoles.Find(id);
             if (userRoles == null)
             {
                 return HttpNotFound();
@@ -109,8 +105,8 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            UserRoles userRoles = db.UserRoles.Find(id);
-            db.UserRoles.Remove(userRoles);
+            AspNetRole userRoles = db.AspNetRoles.Find(id);
+            db.AspNetRoles.Remove(userRoles);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

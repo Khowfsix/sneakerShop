@@ -17,11 +17,11 @@ namespace WebApplication1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Order()
         {
-            this.Shipment = new HashSet<Shipment>();
+            this.Shipments = new HashSet<Shipment>();
         }
     
         public int orderID { get; set; }
-        public int userID { get; set; }
+        public string userID { get; set; }
         public int cartID { get; set; }
         public Nullable<System.DateTime> orderDate { get; set; }
         public Nullable<byte> status { get; set; }
@@ -30,10 +30,10 @@ namespace WebApplication1.Models
         public Nullable<int> paymentType { get; set; }
         public string address { get; set; }
     
+        public virtual AspNetUser AspNetUser { get; set; }
         public virtual Cart Cart { get; set; }
         public virtual paymentType paymentType1 { get; set; }
-        public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Shipment> Shipment { get; set; }
+        public virtual ICollection<Shipment> Shipments { get; set; }
     }
 }

@@ -58,11 +58,12 @@
                 <div class="row">
                     <div class="col-sm-12 text-left menu-1">
                         <ul>
-                            <li class="active"><a href="index.html">Home</a></li>
+                            <li class="active"><a href=@Url.Action("Index", "Home")>Home</a></li>
                             <li class="has-dropdown">
                                 <a href="men.html">Men</a>
                             </li>
                             <li><a href="women.html">Women</a></li>
+                            <li><a href=@Url.Action("Index", "AllProduct")>All products</a></li>
                             <li><a href="about.html">About</a></li>
                             <li><a href="contact.html">Contact</a></li>
                             <li class="cart"><a href="@Url.Action("cartUser","Home")"><i class="icon-shopping-cart"></i> Cart [0]</a></li>

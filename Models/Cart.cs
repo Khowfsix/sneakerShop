@@ -17,19 +17,19 @@ namespace WebApplication1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Cart()
         {
-            this.CartItem = new HashSet<CartItem>();
-            this.Order = new HashSet<Order>();
+            this.CartItems = new HashSet<CartItem>();
+            this.Orders = new HashSet<Order>();
         }
     
         public int cartId { get; set; }
-        public Nullable<int> userId { get; set; }
+        public string userId { get; set; }
         public Nullable<System.DateTime> buyDate { get; set; }
         public Nullable<int> status { get; set; }
     
+        public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CartItem> CartItem { get; set; }
-        public virtual Users Users { get; set; }
+        public virtual ICollection<CartItem> CartItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Order { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

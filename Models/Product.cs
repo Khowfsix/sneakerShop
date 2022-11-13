@@ -17,8 +17,8 @@ namespace WebApplication1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
-            this.CartItem = new HashSet<CartItem>();
-            this.imagesProduct = new HashSet<imagesProduct>();
+            this.imagesProducts = new HashSet<imagesProduct>();
+            this.Stocks = new HashSet<Stock>();
         }
     
         public int productId { get; set; }
@@ -32,11 +32,10 @@ namespace WebApplication1.Models
         public Nullable<System.DateTime> updateDate { get; set; }
         public string sex { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CartItem> CartItem { get; set; }
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<imagesProduct> imagesProduct { get; set; }
-        public virtual Stock Stock { get; set; }
+        public virtual ICollection<imagesProduct> imagesProducts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Stock> Stocks { get; set; }
     }
 }

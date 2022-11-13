@@ -12,12 +12,12 @@ namespace WebApplication1.Controllers
 {
     public class UsersController : Controller
     {
-        private sneakerShopEntities1 db = new sneakerShopEntities1();
+        private sneakerShopEntities db = new sneakerShopEntities();
 
         // GET: Users
         public ActionResult Index()
         {
-            var users = db.Users.Include(u => u.UserRoles);
+            var users = db.AspNetUsers.Include(u => u.AspNetRoles);
             return View(users.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Users users = db.Users.Find(id);
+            AspNetUser users = db.AspNetUsers.Find(id);
             if (users == null)
             {
                 return HttpNotFound();
@@ -39,7 +39,7 @@ namespace WebApplication1.Controllers
         // GET: Users/Create
         public ActionResult Create()
         {
-            ViewBag.roleId = new SelectList(db.UserRoles, "roleId", "roleName");
+            ViewBag.roleId = new SelectList(db.AspNetRoles, "roleId", "roleName");
             return View();
         }
 
@@ -48,16 +48,16 @@ namespace WebApplication1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "userId,username,email,fullname,password,images,phone,status,roleId,defaultAddress,paypalNumber")] Users users)
+        public ActionResult Create([Bind(Include = "userId,username,email,fullname,password,images,phone,status,roleId,defaultAddress,paypalNumber")] AspNetUser users)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(users);
+                db.AspNetUsers.Add(users);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.roleId = new SelectList(db.UserRoles, "roleId", "roleName", users.roleId);
+            ViewBag.roleId = new SelectList(db.AspNetRoles, "roleId", "roleName", users.AspNetRoles);
             return View(users);
         }
 
@@ -68,12 +68,12 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Users users = db.Users.Find(id);
+            AspNetUser users = db.AspNetUsers.Find(id);
             if (users == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.roleId = new SelectList(db.UserRoles, "roleId", "roleName", users.roleId);
+            ViewBag.roleId = new SelectList(db.AspNetRoles, "roleId", "roleName", users.AspNetRoles);
             return View(users);
         }
 
@@ -82,7 +82,7 @@ namespace WebApplication1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "userId,username,email,fullname,password,images,phone,status,roleId,defaultAddress,paypalNumber")] Users users)
+        public ActionResult Edit([Bind(Include = "userId,username,email,fullname,password,images,phone,status,roleId,defaultAddress,paypalNumber")] AspNetUser users)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace WebApplication1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.roleId = new SelectList(db.UserRoles, "roleId", "roleName", users.roleId);
+            ViewBag.roleId = new SelectList(db.AspNetRoles, "roleId", "roleName", users.AspNetRoles);
             return View(users);
         }
 
@@ -101,7 +101,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Users users = db.Users.Find(id);
+            AspNetUser users = db.AspNetUsers.Find(id);
             if (users == null)
             {
                 return HttpNotFound();
@@ -114,8 +114,8 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Users users = db.Users.Find(id);
-            db.Users.Remove(users);
+            AspNetUser users = db.AspNetUsers.Find(id);
+            db.AspNetUsers.Remove(users);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -20,6 +20,6 @@ namespace WebApplication1.Models
         public Nullable<double> unitPrice { get; set; }
     
         public virtual Cart Cart { get; set; }
-        public virtual Product Product { get; set; }
+        public virtual Stock Stock { get; set; }
     }
 }

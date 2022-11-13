@@ -12,7 +12,7 @@ namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
-        private sneakerShopEntities1 db = new sneakerShopEntities1();
+        private sneakerShopEntities db = new sneakerShopEntities();
 
         public ActionResult Index()
         {
@@ -28,40 +28,40 @@ namespace WebApplication1.Controllers
             //Lấy danh sách products (best seller) dựa trên amount của product
 
             //Lấy danh sách produsts
-            var product = db.Product.Include(p => p.Category).Include(p => p.Stock).Include(p => p.imagesProduct);
+            var product = db.Products.Include(p => p.Category).Include(p => p.Stocks).Include(p => p.imagesProducts);
             //Sắp xếp
             product = product.OrderByDescending(s => s.amount);
             return View(product.ToList().GetRange(0, 8));
         }
 
-        public ActionResult allProduct()
+        public ActionResult moreProduct()
         {
-            var product = db.Product.Include(p => p.Category).Include(p => p.Stock).Include(p => p.imagesProduct);
+            var product = db.Products.Include(p => p.Category).Include(p => p.Stocks).Include(p => p.imagesProducts);
             //Sắp xếp
             product = product.OrderByDescending(s => s.amount);
-            return View("Index",product.ToList());
+            return View("Index",product.ToList().GetRange(0, 16));
         }
 
         public ActionResult productDetail(int productID)
         {
-            Product product = db.Product.Where(p => p.productId == productID).FirstOrDefault();
+            Product product = db.Products.Where(p => p.productId == productID).FirstOrDefault();
             return View(product);
         }
 
         public ActionResult cartUser(int userID)
         {
-            Cart cart = db.Cart.Where(c => c.userId == userID).Where(c => c.status == 0).FirstOrDefault();
-            var cartItem = db.CartItem.Where(ci => ci.cartId == cart.cartId);
+            Cart cart = db.Carts.Where(c => c.userId == Convert.ToString(userID)).Where(c => c.status == 0).FirstOrDefault();
+            var cartItem = db.CartItems.Where(ci => ci.cartId == cart.cartId);
 
             return View();
         }
 
         public ActionResult productBrand(string brandName)
         {
-            var product = db.Product
+            var product = db.Products
                             .Include(p => p.Category)
-                            .Include(p => p.Stock)
-                            .Include(p => p.imagesProduct)
+                            .Include(p => p.Stocks)
+                            .Include(p => p.imagesProducts)
                             .Where(p => p.Category.categoryName.Equals(brandName));
             //Sắp xếp
             product = product.OrderByDescending(s => s.amount);
@@ -70,10 +70,10 @@ namespace WebApplication1.Controllers
 
         public ActionResult Searching(string keyword)
         {
-            var product = db.Product
+            var product = db.Products
                             .Include(p => p.Category)
-                            .Include(p => p.Stock)
-                            .Include(p => p.imagesProduct)
+                            .Include(p => p.Stocks)
+                            .Include(p => p.imagesProducts)
                             .Where(p => p.productName.Contains(keyword));
             //Sắp xếp
             product = product.OrderByDescending(s => s.amount);
