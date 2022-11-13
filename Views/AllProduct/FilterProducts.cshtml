@@ -1,22 +1,8 @@
-﻿@model WebApplication1.ViewModel.FilterViewModel
+﻿@{
+    Layout = null;
+}
+@model WebApplication1.ViewModel.FilterViewModel
 @using PagedList.Mvc;
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-@{//
-//<link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap-css">
-//
-}
-
-<link href="~/Content/filter.css" rel="stylesheet" type="text/css">
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-
-<link rel="stylesheet" href="https://fontawesome.com/v4.7.0/assets/font-awesome/css/font-awesome.css">
-
 
 <div class="container">
     <div class="row">
@@ -157,8 +143,8 @@
                         <div class="form-group" style="height:50px; ">
                             <form action="@Url.Action("Index", "AllProduct")" class="form-group" method="get">
                                 <input type="text" style="width: 500px; margin-left:10px"
-                                        value="@Model.ProductViewModel.SearchString"
-                                        placeholder="Search" name="SearchString">
+                                       value="@Model.ProductViewModel.SearchString"
+                                       placeholder="Search" name="SearchString">
 
                             </form>
                         </div>

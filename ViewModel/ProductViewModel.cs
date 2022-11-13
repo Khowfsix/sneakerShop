@@ -9,18 +9,16 @@ namespace WebApplication1.ViewModel
 {
     public class ProductViewModel
     {
+        public int? Page { get; set; }
         public IPagedList<Product> ProductPagedList { get; set; }
-        public int MaximumPrice { get; set; }
-        public int MinPrice { get; set; }
         public List<Category> Categories { get; set; }
-        public List<Product> Products { get; set; }
-        public int? SortBy { get; set; }
-        public int? CategoryID { get; set; }
-        //public Pager Pager { get; set; }
+        public int SortBy { get; set; }
         public string SearchString { get; set; }
-        public int? ShopStyle { get; set; }
-        public List<int> CategoryCheckIds { get; set; }
-        //public IEnumerable<Size> Sizes { get; set; }
-        public List<int> SizeCheckIds { get; set; }
+
+        public ProductViewModel()
+        {
+            ProductPagedList = new PagedList<Product>(null, 1, 1);
+        }
+
     }
 }

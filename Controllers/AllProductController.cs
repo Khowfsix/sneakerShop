@@ -17,77 +17,115 @@ namespace WebApplication1.Controllers
     {
         private sneakerShopEntities db = new sneakerShopEntities();
 
-        public ActionResult Index(int? page, string searchString, int? minimumPrice, int? maximumPrice, int? categoryID, int? sortBy)
+        public async Task<ActionResult> Index(int? page, string searchString, double? minimumPrice,
+            double? maximumPrice, List<int> categoryCheckIds, int? sortBy)
         {
+            FilterViewModel filterViewModel = getFilteredProducts(minimumPrice, maximumPrice, categoryCheckIds, sortBy);
+
 
             if (page == null) page = 1;
 
-            var product = db.Products.Include(p => p.Category).Include(p => p.Stocks)
-                .Include(p => p.imagesProducts);
             var categories = db.Categories.Select(p => p);
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.ToLower();
-                product = product.Where(b => b.productName.ToLower().Contains(searchString));
+                filterViewModel.productList = filterViewModel.productList.Where(b => b.productName.ToLower().Contains(searchString));
             }
 
-            product = product.OrderBy(p => p.productId);
-
+            switch (sortBy)
+            {
+                case 0:
+                    filterViewModel.productList = filterViewModel.productList.OrderByDescending(p => p.categoryId);
+                    break;
+                case 1:
+                    filterViewModel.productList = filterViewModel.productList.OrderByDescending(p => p.categoryId);
+                    break;
+                case 2:
+                    filterViewModel.productList = filterViewModel.productList.OrderBy(p => p.price);
+                    break;
+                case 3:
+                    filterViewModel.productList = filterViewModel.productList.OrderBy(p => p.price);
+                    break;
+                default:
+                    break;
+            }
             int pageSize = 6;
 
             int pageNumber = (page ?? 1);
 
-            ProductViewModel productViewModel = new ProductViewModel();
 
-            productViewModel.ProductPagedList = product.ToPagedList(pageNumber, pageSize);
-            productViewModel.SearchString = searchString;
-            productViewModel.Categories = categories.ToList();
+            filterViewModel.ProductViewModel.ProductPagedList = filterViewModel.productList.ToPagedList(pageNumber, pageSize);
+            filterViewModel.ProductViewModel.SearchString = searchString;
+            filterViewModel.ProductViewModel.Categories = categories.ToList();
+            filterViewModel.MaximumPrice = maximumPrice;
+            filterViewModel.MinPrice = minimumPrice;
 
-            return View("Index", productViewModel);
+
+
+            return View("Index", filterViewModel);
 
         }
+        [HttpPost]
+        public async Task<ActionResult> FilteredProducts(int? page, string searchString, double? minimumPrice,
+            double? maximumPrice, List<int> categoryCheckIds, int? sortBy)
+        {
+            var product = db.Products.Include(p => p.Category).Include(p => p.Stocks)
+                .Include(p => p.imagesProducts);
+            var categories = db.Categories.Select(p => p);
 
+            if (!minimumPrice.HasValue) minimumPrice = 0;
 
-        //[HttpPost]
-        //public async Task<ActionResult> Filter(int? page, string searchString)
-        //{
-        //    // 1. Tham số int? dùng để thể hiện null và kiểu int
-        //    // page có thể có giá trị là null và kiểu int.
+            if (!maximumPrice.HasValue) maximumPrice = product.OrderBy(p => p.price).First().price;
 
-        //    // 2. Nếu page = null thì đặt lại là 1.
-        //    if (page == null) page = 1;
-        //    // 3. Tạo truy vấn, lưu ý phải sắp xếp theo trường nào đó, ví dụ OrderBy
-        //    // theo BookID mới có thể phân trang.
-        //    var product = db.Products.Include(p => p.Category).Include(p => p.Stocks)
-        //        .Include(p => p.imagesProducts);
-        //    var categories = db.Categories.Select(p => p);
+            if (categoryCheckIds.Count == 0) categoryCheckIds = db.Categories.OrderBy(p => p.categoryId)
+                    .Select(p => p.categoryId)
+                    .ToList();
+            if (!sortBy.HasValue) sortBy = 0;
 
-        //    if (!String.IsNullOrEmpty(searchString))
-        //    {
-        //        searchString = searchString.ToLower();
-        //        product = product.Where(b => b.productName.ToLower().Contains(searchString));
-        //    }
+            FilterViewModel filterViewModel = new FilterViewModel();
+            filterViewModel.MaximumPrice = maximumPrice;
+            filterViewModel.MinPrice = minimumPrice;
+            filterViewModel.CategoryCheckIds = categoryCheckIds;
 
-        //    product = product.OrderBy(p => p.productId);
+            filterViewModel.productList = db.Products.Where(p => p.price >= minimumPrice && p.price <= maximumPrice)
+                    .Select(p => p).OrderByDescending(p => p.categoryId)
+                    .Include(p => p.Category).Include(p => p.Stocks)
+                    .Include(p => p.imagesProducts);
 
-        //    // 4. Tạo kích thước trang (pageSize) hay là số Link hiển thị trên 1 trang
-        //    int pageSize = 6;
+            return PartialView("FilterProducts", filterViewModel);
+        }
+        public FilterViewModel getFilteredProducts(double? minimumPrice,
+            double? maximumPrice, List<int> categoryCheckIds, int? sortBy)
+        {
+            var product = db.Products.Include(p => p.Category).Include(p => p.Stocks)
+                .Include(p => p.imagesProducts);
+            var categories = db.Categories.Select(p => p);
 
-        //    // 4.1 Toán tử ?? trong C# mô tả nếu page khác null thì lấy giá trị page, còn
-        //    // nếu page = null thì lấy giá trị 1 cho biến pageNumber.
-        //    int pageNumber = (page ?? 1);
+            if (!minimumPrice.HasValue) minimumPrice = 0;
 
-        //    ProductViewModel productViewModel = new ProductViewModel();
+            if (!maximumPrice.HasValue) maximumPrice = product.OrderByDescending(p => p.price).First().price;
 
-        //    productViewModel.productPagedList = product.ToPagedList(pageNumber, pageSize);
-        //    productViewModel.searchString = searchString;
-        //    productViewModel.categories = categories.ToList();
+            categoryCheckIds = new List<int>();
 
-        //    // 5. Trả về các Link được phân trang theo kích thước và số trang.
-        //    return View("Index", productViewModel);
+            if (categoryCheckIds == null)
+            {
+                categoryCheckIds = db.Categories.Select(p => p.categoryId).ToList();
+            }
+            if (!sortBy.HasValue) sortBy = 0;
 
-        //}
+            FilterViewModel filterViewModel = new FilterViewModel();
+            filterViewModel.MaximumPrice = maximumPrice;
+            filterViewModel.MinPrice = minimumPrice;
+            filterViewModel.CategoryCheckIds = categoryCheckIds;
+
+            filterViewModel.productList = db.Products.Where(p => p.price >= minimumPrice && p.price <= maximumPrice)
+                    .Select(p => p).OrderByDescending(p => p.categoryId)
+                    .Include(p => p.Category).Include(p => p.Stocks)
+                    .Include(p => p.imagesProducts);
+
+            return filterViewModel;
+        }
 
     }
 }

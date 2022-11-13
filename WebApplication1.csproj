@@ -779,6 +779,7 @@
     <Content Include="Views\Home\productDetail.cshtml" />
     <Content Include="Views\Home\cartUser.cshtml" />
     <Content Include="Views\AllProduct\Index.cshtml" />
+    <Content Include="Views\AllProduct\FilterProducts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
