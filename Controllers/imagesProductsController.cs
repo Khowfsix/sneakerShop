@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Models;
 
@@ -76,7 +73,7 @@ namespace WebApplication1.Controllers
             if (imagesProduct == null)
             {
                 return HttpNotFound();
-            }   
+            }
             ViewBag.productId = new SelectList(db.Products, "productId", "productName", imagesProduct.productId);
             return View(imagesProduct);
         }

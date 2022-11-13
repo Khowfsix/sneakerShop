@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Models;
 
@@ -22,10 +19,10 @@ namespace WebApplication1.Controllers
             var product = db.Products.Include(p => p.Category).Include(p => p.Stocks).Include(p => p.imagesProducts);
             //Sắp xếp
             product = product.OrderByDescending(s => s.amount);
-            ViewData["bestsellProduct"] = product.ToList().GetRange(0,4);
+            ViewData["bestsellProduct"] = product.ToList().GetRange(0, 4);
             var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock);
-            int cartId=0;
-            foreach(var item in cartItems)
+            int cartId = 0;
+            foreach (var item in cartItems)
             {
                 cartId = item.cartId;
             }
@@ -163,7 +160,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CartItem cartItem = db.CartItems.SingleOrDefault(c=>c.productId==id);
+            CartItem cartItem = db.CartItems.SingleOrDefault(c => c.productId == id);
             if (cartItem == null)
             {
                 return HttpNotFound();

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Models;
 
@@ -23,7 +21,7 @@ namespace WebApplication1.Controllers
 
         public ActionResult Checkout(int? cartId)
         {
-            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c=>c.cartId==cartId);
+            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId == cartId);
             CheckoutViewModel checkoutViewModel = new CheckoutViewModel();
             checkoutViewModel.cartItems = cartItems.ToList();
             return View(checkoutViewModel);
@@ -53,7 +51,7 @@ namespace WebApplication1.Controllers
             order.paymentType = int.Parse(formCheckout["optradio"]);
             db.Orders.Add(order);
             db.SaveChanges();
-            return RedirectToAction(actionName: "OrderComplete", controllerName:"Carts", new {cartId = 1} );
+            return RedirectToAction(actionName: "OrderComplete", controllerName: "Carts", new { cartId = 1 });
         }
 
         // GET: Carts/Details/5
@@ -169,12 +167,12 @@ namespace WebApplication1.Controllers
             }
             base.Dispose(disposing);
         }
-        
+
         private void ClearCart(int cartId)
         {
             var cartItems = from cartitems in db.CartItems
-                         where cartitems.cartId == cartId
-                         select cartitems;
+                            where cartitems.cartId == cartId
+                            select cartitems;
             foreach (var item in cartItems)
             {
                 db.CartItems.Remove(item);

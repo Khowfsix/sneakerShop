@@ -47,12 +47,14 @@
                 </div>
                 @foreach (var item in Model)
                 {
+                    WebApplication1.Models.sneakerShopEntities db = new WebApplication1.Models.sneakerShopEntities();
+                    var product = db.Products.Find(item.productId);
                     <div class="product-cart d-flex">
                         <div class="one-forth">
                             <div class="product-img" style="background-image: url(/images/products/productsFromDB/@(item.productId.ToString() + "a" +".jpg"));">
                             </div>
                             <div class="display-tc">
-                                <a href="/Products/Details?id=@item.productId"><h3>@item.Stock.Product.productName</h3></a>
+                                <a href="/Products/Details?id=@item.productId"><h3>@product.productName</h3></a>
                             </div>
                         </div>
                         <div class="one-eight text-center">
@@ -132,12 +134,13 @@
             @{ foreach (WebApplication1.Models.Product product in (List<WebApplication1.Models.Product>)ViewData["bestsellProduct"])
                 { <div class="col-md-3 col-lg-3 mb-4 text-center">
                             <div class="product-entry border">
-                                <a href="#" class="prod-img">
+                                <a href="/Products/Details?id=@product.productId" class="prod-img">
                                     <img src="~/images/products/productsFromDB/@(product.productId.ToString() + "a" +".jpg")" class="img-fluid" alt="Free html5 bootstrap 4 template">
                                 </a>
                                 <div class="desc">
-                                    <h2><a href="#">@product.productName</a></h2>
+                                    <h2><a href="/Products/Details?id=@product.productId">@product.productName</a></h2>
                                     <span class="price">@product.price</span>
+                                    <a href="/CartItems/AddItem?productId=@product.productId&quantity=1"><button class="btn btn-info">Add to cart</button></a>
                                 </div>
                             </div>
                         </div>
