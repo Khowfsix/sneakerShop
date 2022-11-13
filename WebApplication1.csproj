@@ -554,6 +554,7 @@
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\paymentTypesController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\ShiperController.cs" />
     <Compile Include="Controllers\ShipmentsController.cs" />
     <Compile Include="Controllers\StocksController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1196,6 +1197,8 @@
     <Content Include="Views\CartItems\Index.cshtml" />
     <Content Include="Views\Carts\Checkout.cshtml" />
     <Content Include="Views\Carts\OrderComplete.cshtml" />
+    <Content Include="Views\Shiper\DonHangChuaNhan.cshtml" />
+    <Content Include="Views\Shiper\DonDaNhan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
