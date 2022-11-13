@@ -19,7 +19,7 @@ namespace WebApplication1.Controllers
 
         public ActionResult Index(int? page, string searchString, int? minimumPrice, int? maximumPrice, int? categoryID, int? sortBy)
         {
-            
+
             if (page == null) page = 1;
 
             var product = db.Products.Include(p => p.Category).Include(p => p.Stocks)
@@ -35,15 +35,15 @@ namespace WebApplication1.Controllers
             product = product.OrderBy(p => p.productId);
 
             int pageSize = 6;
-         
+
             int pageNumber = (page ?? 1);
 
             ProductViewModel productViewModel = new ProductViewModel();
 
-            productViewModel.productPagedList = product.ToPagedList(pageNumber, pageSize);
-            productViewModel.searchString = searchString;
-            productViewModel.categories = categories.ToList();
-           
+            productViewModel.ProductPagedList = product.ToPagedList(pageNumber, pageSize);
+            productViewModel.SearchString = searchString;
+            productViewModel.Categories = categories.ToList();
+
             return View("Index", productViewModel);
 
         }

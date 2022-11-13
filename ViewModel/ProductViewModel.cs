@@ -9,7 +9,7 @@ namespace WebApplication1.ViewModel
 {
     public class ProductViewModel
     {
-        public IPagedList<Product> productPagedList;
+        public IPagedList<Product> ProductPagedList { get; set; }
         public int MaximumPrice { get; set; }
         public int MinPrice { get; set; }
         public List<Category> Categories { get; set; }

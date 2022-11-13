@@ -71,7 +71,7 @@
                         <div class="filter-content collapse show" id="collapse_2" style="">
                             <div class="card-body">
                                 @{
-                                    foreach (var cate in Model.categories)
+                                    foreach (var cate in Model.Categories)
                                     {
 
                                         <label class="custom-control custom-checkbox">
@@ -159,8 +159,8 @@
                         <div class="form-group" style="height:50px; ">
                             <form action="@Url.Action("Index", "AllProduct")" class="form-group" method="get">
                                 <input type="text" style="width: 500px; margin-left:10px"
-                                       value="@Model.searchString"
-                                       placeholder="Search" name="searchString">
+                                       value="@Model.SearchString"
+                                       placeholder="Search" name="SearchString">
 
                             </form>
                         </div>
@@ -187,7 +187,7 @@
             </header><!-- sect-heading -->
 
             <div class="row">
-                @{ foreach (var product in Model.productPagedList)
+                @{ foreach (var product in Model.ProductPagedList)
                     {
 
 
@@ -223,9 +223,9 @@
 
                 }
             </div> <!-- row end.// -->
-            Trang @(Model.productPagedList.PageCount < Model.productPagedList.PageNumber ? 0 : Model.productPagedList.PageNumber) / @Model.productPagedList.PageCount
+            Trang @(Model.ProductPagedList.PageCount < Model.ProductPagedList.PageNumber ? 0 : Model.ProductPagedList.PageNumber) / @Model.ProductPagedList.PageCount
 
-            @Html.PagedListPager(Model.productPagedList, page => Url.Action("Index", new { page, Model.searchString }))
+            @Html.PagedListPager(Model.ProductPagedList, page => Url.Action("Index", new { page, Model.SearchString }))
             <!-- Kết thúc -->
 
         </main>
