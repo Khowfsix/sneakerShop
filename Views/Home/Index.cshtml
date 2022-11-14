@@ -111,18 +111,20 @@
             {
                 <div class="col-lg-3 mb-4 text-center">
                     <div class="product-entry border">
-                        
-                            @*<img src="~/images/products/productsFromDB/@item.imagesProduct.FirstOrDefault().images" class="img-fluid" alt="Free html5 bootstrap 4 template">*@
-
-                                <div class="desc">
-                                    <h2>
-                                        <a href="#"> @item.productName</a>
-                                    </h2>
-                                    <span class="price">@item.price</span>
-                                </div>
+                        @if (item.imagesProducts.Count > 0)
+                        {
+                            <img src="~/images/products/productsFromDB/@item.imagesProducts.FirstOrDefault().images" class="img-fluid" alt="Free html5 bootstrap 4 template">
+                        }
+                    <div class="desc">
+                        <h2>
+                            <a href="@Url.Action("productDetail_Stock","Stocks", new {productID = item.productId})"> @item.productName</a>
+                        </h2>
+                        <span class="price">@item.price</span>
+                        <a href="/CartItems/AddItem?productId=@item.productId&quantity=1"><button class="btn btn-info">Add to cart</button></a>
+                    </div>
                     </div>
                 </div>
-             }
+            }
         </div>
         <div class="row">
             <div class="col-md-12 text-center">

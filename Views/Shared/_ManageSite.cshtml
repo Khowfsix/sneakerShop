@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    @*using (Html.BeginForm("Index", "Admin", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <a href="@Url.Action("Index","Admin")">Admin</a>
+        }*@
+
+    <!--if (Session["UserRole"].ToString() == "Admin")
+    {-->
+        @*<a href="@Url.Action("Index","Admin")">Admin</a>*@
+        <!--<a>Admin</a>
+    }-->
+}

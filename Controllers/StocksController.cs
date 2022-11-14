@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Models;
 
@@ -15,15 +11,35 @@ namespace WebApplication1.Controllers
         private sneakerShopEntities db = new sneakerShopEntities();
 
         // GET: Stocks
-        [Authorize(Roles = ("Admin"))]
         public ActionResult Index()
         {
             var stocks = db.Stocks.Include(s => s.Product);
             return View(stocks.ToList());
         }
 
+        public ActionResult productDetail_Stock(int productID, int? size)
+        {
+            Stock stock = new Stock();
+            List<int> sizeList = new List<int>();
+
+            stock = db.Stocks.Include(s => s.Product)
+                                .Where(s => s.productId == productID)
+                                .FirstOrDefault();
+            sizeList = db.Stocks.Where(s => s.productId == productID).Select(s => s.size).ToList();
+
+            if (size != null)
+            {
+                stock = db.Stocks.Include(s => s.Product)
+                                .Where(s => s.productId == productID)
+                                .Where(s => s.size == size)
+                                .FirstOrDefault();
+            }
+
+            ViewBag.sizeList = sizeList;
+            return View(stock);
+        }
+
         // GET: Stocks/Details/5
-        [Authorize(Roles = ("Admin"))]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -39,7 +55,6 @@ namespace WebApplication1.Controllers
         }
 
         // GET: Stocks/Create
-        [Authorize(Roles = ("Admin"))]
         public ActionResult Create()
         {
             ViewBag.productId = new SelectList(db.Products, "productId", "productName");
@@ -51,7 +66,6 @@ namespace WebApplication1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = ("Admin"))]
         public ActionResult Create([Bind(Include = "stockID,productId,size,inStock,lastUpdate")] Stock stock)
         {
             if (ModelState.IsValid)
@@ -66,7 +80,6 @@ namespace WebApplication1.Controllers
         }
 
         // GET: Stocks/Edit/5
-        [Authorize(Roles = ("Admin"))]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -87,7 +100,6 @@ namespace WebApplication1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = ("Admin"))]
         public ActionResult Edit([Bind(Include = "stockID,productId,size,inStock,lastUpdate")] Stock stock)
         {
             if (ModelState.IsValid)
@@ -101,7 +113,6 @@ namespace WebApplication1.Controllers
         }
 
         // GET: Stocks/Delete/5
-        [Authorize(Roles = ("Admin"))]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -119,7 +130,6 @@ namespace WebApplication1.Controllers
         // POST: Stocks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = ("Admin"))]
         public ActionResult DeleteConfirmed(int id)
         {
             Stock stock = db.Stocks.Find(id);
