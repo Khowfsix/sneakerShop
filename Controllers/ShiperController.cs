@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNet.Identity;
+using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web.Mvc;
@@ -16,12 +17,16 @@ namespace WebApplication1.Controllers
             var orders = db.Orders.ToList();
             return View(orders);
         }
+        [Authorize]
         public ActionResult NhanGiao(int? orderId)
         {
+            //Lấy user đang đang nhập
+            var user = db.AspNetUsers.FirstOrDefault(c => c.Id == User.Identity.GetUserId());
+            ViewData["userId"] = user.Id;
             var shipment = new Shipment();
             var order = db.Orders.FirstOrDefault(c => c.orderID == orderId);
             order.status = 1;
-            shipment.shipperID = "1";
+            shipment.shipperID = user.Id;
             shipment.orderID = order.orderID;
             db.Orders.AddOrUpdate(order);
             db.Shipments.Add(shipment);

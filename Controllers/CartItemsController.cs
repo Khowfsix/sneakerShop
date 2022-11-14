@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNet.Identity;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -11,29 +12,36 @@ namespace WebApplication1.Controllers
     public class CartItemsController : Controller
     {
         private sneakerShopEntities db = new sneakerShopEntities();
-        private const string CartSesstion = "CartSesstion";
         // GET: CartItems
+        [Authorize]
         public ActionResult Index()
         {
+            //Lấy user đang đăng nhập
+            var user = db.AspNetUsers.FirstOrDefault(c => c.Id == User.Identity.GetUserId());
+            //Lấy giỏ hàng của user đang đăng nhập
+            var cart = db.Carts.FirstOrDefault(c => c.userId == user.Id);
             //Lấy danh sách produsts
             var product = db.Products.Include(p => p.Category).Include(p => p.Stocks).Include(p => p.imagesProducts);
             //Sắp xếp
             product = product.OrderByDescending(s => s.amount);
             ViewData["bestsellProduct"] = product.ToList().GetRange(0, 4);
-            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock);
-            int cartId = 0;
-            foreach (var item in cartItems)
-            {
-                cartId = item.cartId;
-            }
-            ViewData["cartId"] = cartId;
+            var cartItems = db.CartItems.Include(c => c.Cart==cart).Include(c => c.Stock);
+            ViewData["cartId"] = cart.cartId;
             return View(cartItems.ToList());
         }
+
+        [Authorize]
         public ActionResult AddItem([Bind(Include = "cartId,productId,quantity,unitPrice")] CartItem cartItem)
         {
-            var cart = Session[CartSesstion];
+            //Lấy user đang đang nhập
+            var user = db.AspNetUsers.FirstOrDefault(c => c.Id == User.Identity.GetUserId());
+            //Lấy giỏ hàng của user đang đăng nhập
+            var cart = db.Carts.FirstOrDefault(c => c.userId ==user.Id);
+            //Lấy giỏ hàng cuối cùng để lấy Id lớn nhất
+            var cartLast = db.Carts.LastOrDefault();
+
             Product product = db.Products.Find(cartItem.productId);
-            if (cart == null)
+            if (cart != null)
             {
                 var cartitems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock);
                 var list = cartitems.ToList();
@@ -55,7 +63,7 @@ namespace WebApplication1.Controllers
 
                     //tao moi doi tuong cart item
                     var item = new CartItem();
-                    item.cartId = 1;
+                    item.cartId = cart.cartId;
                     item.productId = cartItem.productId;
                     item.quantity = cartItem.quantity;
                     item.unitPrice = product.price;
@@ -65,15 +73,22 @@ namespace WebApplication1.Controllers
             }
             else
             {
+                //Tao cart moi cho user
+                var newcart = new Cart();
+                newcart.status = 1;
+                newcart.AspNetUser = user;
+                newcart.userId = user.Id;
+                newcart.cartId = cartLast.cartId + 1;
+                db.Carts.Add(newcart);
+
                 //tao moi doi tuong cart item
                 var item = new CartItem();
-                item.cartId = cartItem.cartId;
+                item.cartId = 1;
                 item.productId = cartItem.productId;
                 item.quantity = cartItem.quantity;
-                var list = new List<CartItem>();
-                list.Add(item);
-                //Gan vao session
-                Session[CartSesstion] = list;
+                item.unitPrice = product.price;
+                db.CartItems.Add(item);
+                db.SaveChanges();
             }
             return RedirectToAction("Index");
         }
