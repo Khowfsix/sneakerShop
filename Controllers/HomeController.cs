@@ -16,7 +16,7 @@ namespace WebApplication1.Controllers
 
         public ActionResult Index()
         {
-            var product = db.Product.Include(p => p.Category).Include(p => p.Stock);
+            var product = db.Products.Include(p => p.Category).Include(p => p.imagesProducts);
             return View(product.ToList());
         }
 
