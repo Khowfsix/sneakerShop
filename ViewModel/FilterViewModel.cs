@@ -12,6 +12,7 @@ namespace WebApplication1.ViewModel
         public double? MaximumPrice { get; set; }
         public double? MinPrice { get; set; }
         //public Pager Pager { get; set; }  
+        public List<String> SexCheckIds { get; set; }
         public List<int> CategoryCheckIds { get; set; }
         public IQueryable<Product> productList { get; set; }
         public ProductViewModel ProductViewModel { get; set; }

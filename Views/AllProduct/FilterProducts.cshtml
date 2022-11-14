@@ -1,15 +1,25 @@
 ﻿@{
-    Layout = null;
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model WebApplication1.ViewModel.FilterViewModel
 @using PagedList.Mvc;
+<link href="~/Content/filter.css" rel="stylesheet" type="text/css">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
 
+<link rel="stylesheet" href="https://fontawesome.com/v4.7.0/assets/font-awesome/css/font-awesome.css">
 <div class="container">
     <div class="row">
         <aside class="col-md-3">
 
             <div class="card">
-                <form action="@Url.Action("Filter", "AllProduct")" class="form-group" method="post">
+                <form id="priceRangeForm" action="@Url.Action("FilteredProducts", "AllProduct", new { Page = 1, searchString = Model.ProductViewModel.SearchString, 
+                             minimumPrice = Model.MinPrice, maximumPrice = Model.MaximumPrice,
+                         categoryCheckIds = Model.CategoryCheckIds, 
+                             sortBy = Model.ProductViewModel.SortBy, SexCheckIds = Model.SexCheckIds})" class="form-group" method="post">
                     <article class="filter-group">
 
                         <header class="card-header">
@@ -25,13 +35,14 @@
                                 <ul class="list-menu">
                                     <li>
                                         <label class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="nam-Checkbox" value="Nam" checked="" class="custom-control-input">
+                                            <input type="checkbox" name="CheckboxNam" value="Nam" checked="" class="custom-control-input">
+                                            
                                             <div class="custom-control-label">
                                                 Nam
                                             </div>
                                         </label>
                                         <label class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="nu-Checkbox" value="Nữ" checked="" class="custom-control-input">
+                                            <input type="checkbox" name="CheckboxNu" value="Nữ" checked="" class="custom-control-input">
                                             <div class="custom-control-label">
                                                 Nữ
                                             </div>
@@ -53,25 +64,27 @@
                             </a>
                         </header>
                         <div class="filter-content collapse show" id="collapse_2" style="">
-                            <div class="card-body">
-                                @{
-                                    foreach (var cate in Model.ProductViewModel.Categories)
-                                    {
+                            <div id="categoryArea">
+                                <div class="card-body">
+                                    @{
+                                        foreach (var cate in Model.ProductViewModel.Categories)
+                                        {
 
-                                        <label class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="@cate.categoryName-Checkbox" value="@cate.categoryId" checked="" class="custom-control-input">
-                                            <div class="custom-control-label">
-                                                @cate.categoryName
-                                                <b class="badge badge-pill badge-light float-right">@cate.Products.Count</b>
-                                            </div>
-                                        </label>
+                                            <label class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" type="checkbox" value="@cate.categoryId" id="item_@cate.categoryId" @(Model.CategoryCheckIds.Contains(cate.categoryId) ? "checked" : "")>
+                                                <div class="custom-control-label">
+                                                    @cate.categoryName
+                                                    <b class="badge badge-pill badge-light float-right">@cate.Products.Count</b>
+                                                </div>
+                                            </label>
 
+                                        }
                                     }
-                                }
+                                </div>
 
-                            </div> <!-- card-body.// -->
-                        </div>
-                    </article> <!-- filter-group .// -->
+                                </div> <!-- card-body.// -->
+                            </div>
+</article> <!-- filter-group .// -->
                     <article class="filter-group">
                         <header class="card-header">
                             <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
@@ -81,7 +94,7 @@
                         </header>
                         <div class="filter-content collapse show" id="collapse_3" style="">
                             <div class="card-body">
-                                <input type="range" class="custom-range" min="0" max="100" name="">
+                                
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>Min</label>
@@ -159,14 +172,7 @@
                         <option>Most Popular</option>
                         <option>Cheapest</option>
                     </select>
-                    <div class="btn-group">
-                        <a href="#" class="btn btn-outline-secondary" data-toggle="tooltip" title="" data-original-title="List view">
-                            <i class="fa fa-bars"></i>
-                        </a>
-                        <a href="#" class="btn  btn-outline-secondary active" data-toggle="tooltip" title="" data-original-title="Grid view">
-                            <i class="fa fa-th"></i>
-                        </a>
-                    </div>
+                    
                 </div>
             </header><!-- sect-heading -->
 
@@ -216,3 +222,45 @@
     </div>
 </div>
 
+<script>
+    /*-------------------
+       Range Slider
+   --------------------- */
+    var rangeSlider = $(".price-range"),
+        minamount = $("#minamount"),
+        maxamount = $("#maxamount");
+    var SaveItems = function () {
+       
+        getCategory();
+
+
+       
+    }
+    function getCategory() {
+
+        $("#categoryArea input[type=checkbox]").each(function (index, val) {
+            var Id = $(val).attr("id");
+            var ischecked = $("#" + Id).is(":checked", true);
+            if (ischecked) {
+                var array = Id.split("_");
+                var ItemId = array[1];
+                ItemIdArray.push(ItemId);
+            }
+            ItemsIdsCommaSeparated = ItemIdArray.toString();
+
+        })
+        return ItemsIdsCommaSeparated;
+    }
+    $("#priceRangeForm").submit(function (e) {
+
+        //Search();
+
+        getCategory();
+        getSize();
+
+        Sendi(ItemsIdsCommaSeparated, SizeIdsCommaSeparated);
+
+        e.preventDefault();
+    });
+
+</script>
