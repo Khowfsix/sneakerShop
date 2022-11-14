@@ -35,7 +35,7 @@ namespace WebApplication1.Controllers
             var product = db.Products.Include(p => p.Category).Include(p => p.Stocks).Include(p => p.imagesProducts);
             //Sắp xếp
             product = product.OrderByDescending(s => s.amount);
-            return View("Index", product.ToList());
+            return View("Index",product.ToList());
         }
 
         public ActionResult productDetail(int productID)

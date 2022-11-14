@@ -17,6 +17,28 @@ namespace WebApplication1.Controllers
             return View(stocks.ToList());
         }
 
+        public ActionResult productDetail_Stock(int productID, int? size)
+        {
+            Stock stock = new Stock();
+            List<int> sizeList = new List<int>();
+
+            stock = db.Stocks.Include(s => s.Product)
+                                .Where(s => s.productId == productID)
+                                .FirstOrDefault();
+            sizeList = db.Stocks.Where(s => s.productId == productID).Select(s => s.size).ToList();
+
+            if (size != null)
+            {
+                stock = db.Stocks.Include(s => s.Product)
+                                .Where(s => s.productId == productID)
+                                .Where(s => s.size == size)
+                                .FirstOrDefault();
+            }
+
+            ViewBag.sizeList = sizeList;
+            return View(stock);
+        }
+
         // GET: Stocks/Details/5
         public ActionResult Details(int? id)
         {
