@@ -115,12 +115,13 @@
                         {
                             <img src="~/images/products/productsFromDB/@item.imagesProducts.FirstOrDefault().images" class="img-fluid" alt="Free html5 bootstrap 4 template">
                         }
-                        <div class="desc">
-                            <h2>
-                                <a href="@Url.Action("productDetail_Stock","Stocks", new {productID = item.productId})"> @item.productName</a>
-                            </h2>
-                            <span class="price">@item.price</span>
-                        </div>
+                    <div class="desc">
+                        <h2>
+                            <a href="@Url.Action("productDetail_Stock","Stocks", new {productID = item.productId})"> @item.productName</a>
+                        </h2>
+                        <span class="price">@item.price</span>
+                        <a href="/CartItems/AddItem?productId=@item.productId&quantity=1"><button class="btn btn-info">Add to cart</button></a>
+                    </div>
                     </div>
                 </div>
             }
