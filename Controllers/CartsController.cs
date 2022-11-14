@@ -36,10 +36,12 @@ namespace WebApplication1.Controllers
         [Authorize]
         public ActionResult Checkout(FormCollection formCheckout)
         {
-            var cartId = formCheckout["cartId"];
-            var cart = db.Carts.FirstOrDefault(c => c.cartId == int.Parse(cartId));
-            var user = db.AspNetUsers.FirstOrDefault(c => c.Carts == cart);
-            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock);
+            var cartId = Convert.ToInt32(formCheckout["cartId"]);
+            var cart = db.Carts.Where(c => c.cartId == cartId).FirstOrDefault();
+            var userId = User.Identity.GetUserId();
+            //Lấy user đang đăng nhập
+            var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
+            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId == cart.cartId);
             double total = 0;
             foreach (var cartItem in cartItems)
             {
@@ -50,7 +52,7 @@ namespace WebApplication1.Controllers
             order.orderDate = DateTime.Now;
             order.address = formCheckout["address"];
             order.userID = user.Id;
-            order.cartID = int.Parse(cartId);
+            order.cartID = cartId;
             order.status = 0;
             order.shipping = 0;
             order.totalPay = (long)total;

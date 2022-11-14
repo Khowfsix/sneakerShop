@@ -9,20 +9,24 @@ namespace WebApplication1.Controllers
 {
     public class ShiperController : Controller
     {
-
         private sneakerShopEntities db = new sneakerShopEntities();
         // GET: Shiper
         public ActionResult DonHangChuaNhan()
         {
+            var userId = User.Identity.GetUserId();
+            //Lấy user đang đăng nhập
+            var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
+            ViewData["userId"]=userId;
             var orders = db.Orders.ToList();
             return View(orders);
         }
         [Authorize]
         public ActionResult NhanGiao(int? orderId)
         {
-            //Lấy user đang đang nhập
-            var user = db.AspNetUsers.FirstOrDefault(c => c.Id == User.Identity.GetUserId());
-            ViewData["userId"] = user.Id;
+            var userId = User.Identity.GetUserId();
+            //Lấy user đang đăng nhập
+            var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
+            ViewBag.Id = user.Id;
             var shipment = new Shipment();
             var order = db.Orders.FirstOrDefault(c => c.orderID == orderId);
             order.status = 1;
@@ -31,15 +35,18 @@ namespace WebApplication1.Controllers
             db.Orders.AddOrUpdate(order);
             db.Shipments.Add(shipment);
             db.SaveChanges();
-            return Redirect("DonHangChuaNhan");
+            return RedirectToAction("DonHangChuaNhan","Shiper", new {userId = userId});
         }
         public ActionResult DaGiao(int? orderId)
         {
+            var userId = User.Identity.GetUserId();
+            //Lấy user đang đăng nhập
+            var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
             var order = db.Orders.FirstOrDefault(c => c.orderID == orderId);
             order.shipping = 1;
             db.Orders.AddOrUpdate(order);
             db.SaveChanges();
-            return Redirect("DonDaNhan");
+            return RedirectToAction("DonDaNhan", "Shiper", new { shiperId = userId }); ;
         }
         public ActionResult DonDaNhan(string shiperId)
         {

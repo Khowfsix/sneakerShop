@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using System.Web.UI.WebControls.WebParts;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
@@ -16,16 +17,30 @@ namespace WebApplication1.Controllers
         [Authorize]
         public ActionResult Index()
         {
+            var userId = User.Identity.GetUserId();
             //Lấy user đang đăng nhập
-            var user = db.AspNetUsers.FirstOrDefault(c => c.Id == User.Identity.GetUserId());
+            var user = db.AspNetUsers.Where(c=>c.Id.Equals(userId)).FirstOrDefault();
             //Lấy giỏ hàng của user đang đăng nhập
             var cart = db.Carts.FirstOrDefault(c => c.userId == user.Id);
+            var cartLast = db.Carts.OrderByDescending(p=>p.cartId).FirstOrDefault();
+            if (cart == null)
+            {
+                //Tao cart moi cho user
+                var newcart = new Cart();
+                newcart.status = 1;
+                newcart.AspNetUser = user;
+                newcart.userId = user.Id;
+                newcart.cartId = cartLast.cartId + 1;
+                db.Carts.Add(newcart);
+                db.SaveChanges();
+            }
+            cart = db.Carts.FirstOrDefault(c => c.userId == user.Id);
             //Lấy danh sách produsts
             var product = db.Products.Include(p => p.Category).Include(p => p.Stocks).Include(p => p.imagesProducts);
             //Sắp xếp
             product = product.OrderByDescending(s => s.amount);
             ViewData["bestsellProduct"] = product.ToList().GetRange(0, 4);
-            var cartItems = db.CartItems.Include(c => c.Cart==cart).Include(c => c.Stock);
+            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c=>c.cartId==cart.cartId);
             ViewData["cartId"] = cart.cartId;
             return View(cartItems.ToList());
         }
@@ -33,12 +48,13 @@ namespace WebApplication1.Controllers
         [Authorize]
         public ActionResult AddItem([Bind(Include = "cartId,productId,quantity,unitPrice")] CartItem cartItem)
         {
-            //Lấy user đang đang nhập
-            var user = db.AspNetUsers.FirstOrDefault(c => c.Id == User.Identity.GetUserId());
+            var userId = User.Identity.GetUserId();
+            //Lấy user đang đăng nhập
+            var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
             //Lấy giỏ hàng của user đang đăng nhập
-            var cart = db.Carts.FirstOrDefault(c => c.userId ==user.Id);
+            var cart = db.Carts.FirstOrDefault(c => c.userId == user.Id);
             //Lấy giỏ hàng cuối cùng để lấy Id lớn nhất
-            var cartLast = db.Carts.LastOrDefault();
+            var cartLast = db.Carts.OrderByDescending(p => p.cartId).FirstOrDefault();
 
             Product product = db.Products.Find(cartItem.productId);
             if (cart != null)
