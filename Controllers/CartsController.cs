@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using System.Web.Security;
 using WebApplication1.Models;
+
 
 namespace WebApplication1.Controllers
 {
@@ -19,6 +22,7 @@ namespace WebApplication1.Controllers
         }
         //GEt : Cart/Checkout
 
+        [Authorize]
         public ActionResult Checkout(int? cartId)
         {
             var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId == cartId);
@@ -29,29 +33,33 @@ namespace WebApplication1.Controllers
         // POST: Carts/Checkout
         [HttpPost, ActionName("Checkout")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Checkout(FormCollection formCheckout)
         {
-            var cartId = formCheckout["cartId"];
-            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock);
+            var cartId = Convert.ToInt32(formCheckout["cartId"]);
+            var cart = db.Carts.Where(c => c.cartId == cartId).FirstOrDefault();
+            var userId = User.Identity.GetUserId();
+            //Lấy user đang đăng nhập
+            var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
+            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId == cart.cartId);
             double total = 0;
             foreach (var cartItem in cartItems)
             {
                 total += (double)(cartItem.quantity * cartItem.unitPrice);
 
             }
-
             Order order = new Order();
             order.orderDate = DateTime.Now;
             order.address = formCheckout["address"];
-            order.userID = "1";
-            order.cartID = int.Parse(cartId);
+            order.userID = user.Id;
+            order.cartID = cartId;
             order.status = 0;
             order.shipping = 0;
             order.totalPay = (long)total;
             order.paymentType = int.Parse(formCheckout["optradio"]);
             db.Orders.Add(order);
             db.SaveChanges();
-            return RedirectToAction(actionName: "OrderComplete", controllerName: "Carts", new { cartId = 1 });
+            return RedirectToAction(actionName: "OrderComplete", controllerName: "Carts", new { cartId = cartId });
         }
 
         // GET: Carts/Details/5

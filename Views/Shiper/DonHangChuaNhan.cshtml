@@ -3,8 +3,10 @@
     ViewBag.Title = "DonHangChuaNhan";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<a href="/Shiper/DonDaNhan/?shiperId=1 "><button class="btn btn-primary">Đơn hàng đã nhận</button></a>
+@{ 
+    WebApplication1.Models.sneakerShopEntities db = new WebApplication1.Models.sneakerShopEntities();
+}
+<a href="/Shiper/DonDaNhan/?shiperId=@ViewData["userId"]"><button class="btn btn-primary">Đơn hàng đã nhận</button></a>
 <table class="table">
     <tr>
         <th>
