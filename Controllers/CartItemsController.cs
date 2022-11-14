@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Models;
 
@@ -13,14 +11,72 @@ namespace WebApplication1.Controllers
     public class CartItemsController : Controller
     {
         private sneakerShopEntities db = new sneakerShopEntities();
-
+        private const string CartSesstion = "CartSesstion";
         // GET: CartItems
         public ActionResult Index()
         {
+            //Lấy danh sách produsts
+            var product = db.Products.Include(p => p.Category).Include(p => p.Stocks).Include(p => p.imagesProducts);
+            //Sắp xếp
+            product = product.OrderByDescending(s => s.amount);
+            ViewData["bestsellProduct"] = product.ToList().GetRange(0, 4);
             var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock);
+            int cartId = 0;
+            foreach (var item in cartItems)
+            {
+                cartId = item.cartId;
+            }
+            ViewData["cartId"] = cartId;
             return View(cartItems.ToList());
         }
+        public ActionResult AddItem([Bind(Include = "cartId,productId,quantity,unitPrice")] CartItem cartItem)
+        {
+            var cart = Session[CartSesstion];
+            Product product = db.Products.Find(cartItem.productId);
+            if (cart == null)
+            {
+                var cartitems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock);
+                var list = cartitems.ToList();
+                if (list.Exists(x => x.productId == cartItem.productId))
+                {
+                    foreach (var item in list)
+                    {
+                        if (item.productId == cartItem.productId)
+                        {
+                            item.quantity += cartItem.quantity;
+                            db.Entry(item).State = EntityState.Modified;
+                        }
 
+                    }
+                    db.SaveChanges();
+                }
+                else
+                {
+
+                    //tao moi doi tuong cart item
+                    var item = new CartItem();
+                    item.cartId = 1;
+                    item.productId = cartItem.productId;
+                    item.quantity = cartItem.quantity;
+                    item.unitPrice = product.price;
+                    db.CartItems.Add(item);
+                    db.SaveChanges();
+                }
+            }
+            else
+            {
+                //tao moi doi tuong cart item
+                var item = new CartItem();
+                item.cartId = cartItem.cartId;
+                item.productId = cartItem.productId;
+                item.quantity = cartItem.quantity;
+                var list = new List<CartItem>();
+                list.Add(item);
+                //Gan vao session
+                Session[CartSesstion] = list;
+            }
+            return RedirectToAction("Index");
+        }
         // GET: CartItems/Details/5
         public ActionResult Details(int? id)
         {
@@ -35,7 +91,6 @@ namespace WebApplication1.Controllers
             }
             return View(cartItem);
         }
-
         // GET: CartItems/Create
         public ActionResult Create()
         {
@@ -105,7 +160,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CartItem cartItem = db.CartItems.Find(id);
+            CartItem cartItem = db.CartItems.SingleOrDefault(c => c.productId == id);
             if (cartItem == null)
             {
                 return HttpNotFound();
@@ -118,7 +173,7 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            CartItem cartItem = db.CartItems.Find(id);
+            CartItem cartItem = db.CartItems.SingleOrDefault(c => c.productId == id);
             db.CartItems.Remove(cartItem);
             db.SaveChanges();
             return RedirectToAction("Index");

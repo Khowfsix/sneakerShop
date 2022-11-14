@@ -1,21 +1,21 @@
-﻿@model IEnumerable<WebApplication1.Models.CartItem>
+﻿@model WebApplication1.Models.CheckoutViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
 }
-@{
-    List<WebApplication1.Models.imagesProduct> listimage = ViewBag.ListImages;
-}
-<div class="colorlib-loader"></div>
+<h2>ChecKout</h2>
 <div class="colorlib-product">
     <div class="container">
         <div class="row row-pb-lg">
-            <div class="col-md-10 offset-md-1">
+            <div class="col-sm-10 offset-md-1">
                 <div class="process-wrap">
                     <div class="process text-center active">
                         <p><span>01</span></p>
                         <h3>Shopping Cart</h3>
                     </div>
-                    <div class="process text-center">
+                    <div class="process text-center active">
                         <p><span>02</span></p>
                         <h3>Checkout</h3>
                     </div>
@@ -26,126 +26,123 @@
                 </div>
             </div>
         </div>
-        <div class="row row-pb-lg">
-            <div class="col-md-12">
-                <div class="product-name d-flex">
-                    <div class="one-forth text-left px-4">
-                        <span>List Product</span>
-                    </div>
-                    <div class="one-eight text-center">
-                        <span>Price</span>
-                    </div>
-                    <div class="one-eight text-center">
-                        <span>Quantity</span>
-                    </div>
-                    <div class="one-eight text-center">
-                        <span>Total</span>
-                    </div>
-                    <div class="one-eight text-center px-4">
-                        <span>Remove</span>
-                    </div>
-                </div>
-                @foreach (var item in Model)
-                {
-                    WebApplication1.Models.sneakerShopEntities db = new WebApplication1.Models.sneakerShopEntities();
-                    var product = db.Products.Find(item.productId);
-                    <div class="product-cart d-flex">
-                        <div class="one-forth">
-                            <div class="product-img" style="background-image: url(/images/products/productsFromDB/@(item.productId.ToString() + "a" +".jpg"));">
-                            </div>
-                            <div class="display-tc">
-                                <a href="/Products/Details?id=@item.productId"><h3>@product.productName</h3></a>
-                            </div>
-                        </div>
-                        <div class="one-eight text-center">
-                            <div class="display-tc">
-                                <span class="price">@item.unitPrice</span>
-                            </div>
-                        </div>
-                        <div class="one-eight text-center">
-                            <div class="display-tc">
-                                <input type="text" id="quantity" name="quantity" class="form-control input-number text-center" value="@item.quantity" min="1" max="100">
-                            </div>
-                        </div>
-                        <div class="one-eight text-center">
-                            <div class="display-tc">
-                                <span class="price">@(item.unitPrice * item.quantity)</span>
-                            </div>
-                        </div>
-                        <div class="one-eight text-center">
-                            <div class="display-tc">
-                                <a href="/CartItems/Delete?id=@item.productId" class="closed"></a>
-                            </div>
-                        </div>
-                    </div>
-
-                }
-            </div>
-        </div>
-        <div class="row row-pb-lg">
-            <div class="col-md-12">
-                <div class="total-wrap">
+        <div class="row">
+            <div class="col-lg-8">
+                <form method="post" class="colorlib-form" action="Checkout">
+                    @Html.AntiForgeryToken()
+                    <h2>Billing Details</h2>
                     <div class="row">
-                        <div class="col-sm-8">
-    
+                        <div class="col-md-12">
+                            <div class="form-group">
+
+                            </div>
                         </div>
-                        <div class="col-sm-4 text-center">
-                            <div class="total">
-                                <div class="sub">
-                                    @{ int total = 0; }
-                                    @foreach (var item in Model)
-                                    {
-                                        total += (int)(item.unitPrice * item.quantity);
-                                    }
-                                    <p><span>Subtotal:</span> <span>@total</span></p>
-                                    @{ double ship;
-                                        if (total > 500000)
-                                        {
-                                            ship = total * 7 / 100;
-                                        }
-                                        else if (total == 0)
-                                        {
-                                            ship = 0;
-                                        }
-                                        else
-                                        {
-                                            ship = 20000;
-                                        }
-                                    }
-                                    <p><span>Delivery:</span> <span>@ship</span></p>
-                                </div>
-                                <div class="grand-total">
-                                    <p><span><strong>Total:</strong></span> <span>@(total+ ship)</span></p>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="fname">Customer Name</label>
+                                <input type="text" name="fname" class="form-control" placeholder="Your name">
+                                <input type="text" name="cartId" value=@Request.Params["cartId"] hidden>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="fname">Address</label>
+                                <input type="text" name="address" class="form-control" placeholder="Enter Your Address">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email">E-mail Address</label>
+                                <input type="text" id="email" class="form-control" placeholder="State Province">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Phone">Phone Number</label>
+                                <input type="text" id="zippostalcode" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="radio">
+                                    <label><input type="radio" name="optradio" value="1"> Direct Payment</label>
                                 </div>
                             </div>
-                            <a href="/Carts/Checkout?cartId=@ViewData["cartId"]"><button class="btn btn-primary">Checkout</button></a>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="radio">
+                                    <label><input type="radio" name="optradio" value="1"> Direct Bank Tranfer</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="radio">
+                                    <label><input type="radio" name="optradio" value="2"> Internet Banking</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="radio">
+                                    <label><input type="radio" name="optradio" value="3"> Paypal</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <p><button type="submit" class="btn btn-primary">Place an order</button></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="cart-detail">
+                            <h2>Cart Total</h2>
+                            @{ int total = 0; }
+                            @foreach (var item in Model.cartItems)
+                            {
+                                total += (int)(item.unitPrice * item.quantity);
+                            }
+                            <ul>
+                                <li>
+                                    <span>Subtotal</span> <span>@total</span>
+                                    <ul>
+                                        @foreach (var item in Model.cartItems)
+                                        {
+                                            <li><span>@item.quantity x @item.Stock.Product.productName</span> <span>@(item.unitPrice * item.quantity)</span></li>
+                                        }
+                                    </ul>
+                                </li>
+                                @{ double ship;
+                                    if (total > 500000)
+                                    {
+                                        ship = total * 7 / 100;
+                                    }
+                                    else if (total == 0)
+                                    {
+                                        ship = 0;
+                                    }
+                                    else
+                                    {
+                                        ship = 20000;
+                                    }
+                                }
+                                <li><span>Shipping</span> <span>@ship</span></li>
+                                <li><span>Order Total</span> <span>@(total+ship)</span></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">
-                <h2>Related Products</h2>
-            </div>
-        </div>
-        <div class="row">
-            @{ foreach (WebApplication1.Models.Product product in (List<WebApplication1.Models.Product>)ViewData["bestsellProduct"])
-                { <div class="col-md-3 col-lg-3 mb-4 text-center">
-                            <div class="product-entry border">
-                                <a href="/Products/Details?id=@product.productId" class="prod-img">
-                                    <img src="~/images/products/productsFromDB/@(product.productId.ToString() + "a" +".jpg")" class="img-fluid" alt="Free html5 bootstrap 4 template">
-                                </a>
-                                <div class="desc">
-                                    <h2><a href="/Products/Details?id=@product.productId">@product.productName</a></h2>
-                                    <span class="price">@product.price</span>
-                                    <a href="/CartItems/AddItem?productId=@product.productId&quantity=1"><button class="btn btn-info">Add to cart</button></a>
-                                </div>
-                            </div>
-                        </div>
-                } 
-             }
         </div>
     </div>
 </div>
@@ -228,7 +225,7 @@
         </div>
     </div>
 </footer>
-</div>
+    </div>
 
 <div class="gototop js-top">
     <a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
@@ -257,6 +254,10 @@
 <script src="js/jquery.stellar.min.js"></script>
 <!-- Main -->
 <script src="js/main.js"></script>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
+    </body>
+    </html>
+
+
+
+
