@@ -2,27 +2,21 @@
 @using PagedList.Mvc;
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 @{//
     //<link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap-css">
     //
 }
 
-<link href="~/Content/filter.css" rel="stylesheet" type="text/css">
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-
-<link rel="stylesheet" href="https://fontawesome.com/v4.7.0/assets/font-awesome/css/font-awesome.css">
 
 @{var filterviewmodel = new WebApplication1.ViewModel.FilterViewModel();
     filterviewmodel.CategoryCheckIds = Model.CategoryCheckIds;
     filterviewmodel.MaximumPrice = Model.MaximumPrice;
+    filterviewmodel.SearchString = Model.SearchString;
     filterviewmodel.MinPrice = Model.MinPrice;
     filterviewmodel.ProductViewModel = Model.ProductViewModel;
-    filterviewmodel.SexCheckIds = Model.SexCheckIds;
+    filterviewmodel.SexCheck = Model.SexCheck;
     Html.RenderPartial("FilterProducts", filterviewmodel);
 }
 

@@ -9,7 +9,7 @@ namespace WebApplication1.ViewModel
 {
     public class ProductViewModel
     {
-        public int? Page { get; set; }
+        public int Page;
         public IPagedList<Product> ProductPagedList { get; set; }
         public List<Category> Categories { get; set; }
         public int? SortBy { get; set; }
@@ -17,6 +17,7 @@ namespace WebApplication1.ViewModel
 
         public ProductViewModel()
         {
+            Categories = new List<Category>();
             ProductPagedList = new PagedList<Product>(null, 1, 1);
         }
 
