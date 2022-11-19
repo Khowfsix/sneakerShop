@@ -9,7 +9,7 @@ namespace WebApplication1.Controllers
 {
     public class ProductsController : Controller
     {
-        private sneakerShopEntities db = new sneakerShopEntities();
+        /*private sneakerShopEntities db = new sneakerShopEntities();
 
         // GET: Products
         public ActionResult Index()
@@ -134,6 +134,6 @@ namespace WebApplication1.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
+        }**/
     }
 }

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.ServiceModel.Configuration;
 using System.Web.Mvc;
 using System.Web.UI.WebControls.WebParts;
 using WebApplication1.Models;
@@ -59,7 +60,7 @@ namespace WebApplication1.Controllers
             Product product = db.Products.Find(cartItem.productId);
             if (cart != null)
             {
-                var cartitems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock);
+                var cartitems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId.Equals(cart.cartId));
                 var list = cartitems.ToList();
                 if (list.Exists(x => x.productId == cartItem.productId))
                 {
@@ -96,6 +97,7 @@ namespace WebApplication1.Controllers
                 newcart.userId = user.Id;
                 newcart.cartId = cartLast.cartId + 1;
                 db.Carts.Add(newcart);
+                db.SaveChanges();
 
                 //tao moi doi tuong cart item
                 var item = new CartItem();
@@ -106,6 +108,14 @@ namespace WebApplication1.Controllers
                 db.CartItems.Add(item);
                 db.SaveChanges();
             }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult RemoveCartItem(int? id)
+        {
+            CartItem cartItem = db.CartItems.SingleOrDefault(c => c.productId == id);
+            db.CartItems.Remove(cartItem);
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
         // GET: CartItems/Details/5
@@ -183,7 +193,7 @@ namespace WebApplication1.Controllers
             ViewBag.productId = new SelectList(db.Stocks, "stockID", "stockID", cartItem.productId);
             return View(cartItem);
         }
-
+        
         // GET: CartItems/Delete/5
         public ActionResult Delete(int? id)
         {

@@ -11,7 +11,7 @@
         <div class="row row-pb-lg">
             <div class="col-md-10 offset-md-1">
                 <div class="process-wrap">
-                    <div class="process text-center active">
+                    <div class="process text-center active" >
                         <p><span>01</span></p>
                         <h3>Shopping Cart</h3>
                     </div>
@@ -30,19 +30,19 @@
             <div class="col-md-12">
                 <div class="product-name d-flex">
                     <div class="one-forth text-left px-4">
-                        <span>List Product</span>
+                        <span>Sản phẩm trong giỏ hàng</span>
                     </div>
                     <div class="one-eight text-center">
-                        <span>Price</span>
+                        <span>Đơn giá</span>
                     </div>
                     <div class="one-eight text-center">
-                        <span>Quantity</span>
+                        <span>Số lượng</span>
                     </div>
                     <div class="one-eight text-center">
-                        <span>Total</span>
+                        <span>Thành tiền</span>
                     </div>
                     <div class="one-eight text-center px-4">
-                        <span>Remove</span>
+                        <span>Xóa sản phẩm</span>
                     </div>
                 </div>
                 @foreach (var item in Model)
@@ -74,7 +74,7 @@
                         </div>
                         <div class="one-eight text-center">
                             <div class="display-tc">
-                                <a href="/CartItems/Delete?id=@item.productId" class="closed"></a>
+                                <a href="/CartItems/RemoveCartItem?id=@item.productId" class="closed"></a>
                             </div>
                         </div>
                     </div>
@@ -82,49 +82,7 @@
                 }
             </div>
         </div>
-        <div class="row row-pb-lg">
-            <div class="col-md-12">
-                <div class="total-wrap">
-                    <div class="row">
-                        <div class="col-sm-8">
-    
-                        </div>
-                        <div class="col-sm-4 text-center">
-                            <div class="total">
-                                <div class="sub">
-                                    @{ int total = 0; }
-                                    @foreach (var item in Model)
-                                    {
-                                        total += (int)(item.unitPrice * item.quantity);
-                                    }
-                                    <p><span>Subtotal:</span> <span>@total</span></p>
-                                    @{ double ship;
-                                        if (total > 500000)
-                                        {
-                                            ship = total * 7 / 100;
-                                        }
-                                        else if (total == 0)
-                                        {
-                                            ship = 0;
-                                        }
-                                        else
-                                        {
-                                            ship = 20000;
-                                        }
-                                    }
-                                    <p><span>Delivery:</span> <span>@ship</span></p>
-                                </div>
-                                <div class="grand-total">
-                                    <p><span><strong>Total:</strong></span> <span>@(total+ ship)</span></p>
-                                </div>
-                            </div>
-                            <a href="/Carts/Checkout?cartId=@ViewData["cartId"]"><button class="btn btn-primary">Checkout</button></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <a href="/Carts/Checkout?cartId=@ViewData["cartId"]"><button class="btn btn-outline-primary btn-lg btn-block " ><span style="font-size:20px">Thanh Toán</span></button></a>
         <div class="row">
             <div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">
                 <h2>Related Products</h2>
@@ -133,19 +91,19 @@
         <div class="row">
             @{ foreach (WebApplication1.Models.Product product in (List<WebApplication1.Models.Product>)ViewData["bestsellProduct"])
                 { <div class="col-md-3 col-lg-3 mb-4 text-center">
-                            <div class="product-entry border">
-                                <a href="/Products/Details?id=@product.productId" class="prod-img">
-                                    <img src="~/images/products/productsFromDB/@(product.productId.ToString() + "a" +".jpg")" class="img-fluid" alt="Free html5 bootstrap 4 template">
-                                </a>
-                                <div class="desc">
-                                    <h2><a href="/Products/Details?id=@product.productId">@product.productName</a></h2>
-                                    <span class="price">@product.price</span>
-                                    <a href="/CartItems/AddItem?productId=@product.productId&quantity=1"><button class="btn btn-info">Add to cart</button></a>
-                                </div>
+                        <div class="product-entry border">
+                            <a href="/Products/Details?id=@product.productId" class="prod-img">
+                                <img src="~/images/products/productsFromDB/@(product.productId.ToString() + "a" +".jpg")" class="img-fluid" alt="Free html5 bootstrap 4 template">
+                            </a>
+                            <div class="desc">
+                                <h2><a href="/Products/Details?id=@product.productId">@product.productName</a></h2>
+                                <span class="price">@product.price</span>
+                                <a href="/CartItems/AddItem?productId=@product.productId&quantity=1"><button class="btn btn-info">Add to cart</button></a>
                             </div>
                         </div>
-                } 
-             }
+                    </div>
+                }
+            }
         </div>
     </div>
 </div>

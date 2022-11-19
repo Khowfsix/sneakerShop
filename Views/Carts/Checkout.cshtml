@@ -5,7 +5,6 @@
 
 
 }
-<h2>ChecKout</h2>
 <div class="colorlib-product">
     <div class="container">
         <div class="row row-pb-lg">
@@ -30,7 +29,7 @@
             <div class="col-lg-8">
                 <form method="post" class="colorlib-form" action="Checkout">
                     @Html.AntiForgeryToken()
-                    <h2>Billing Details</h2>
+                    <h2>Chi tiết đơn hàng</h2>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -40,73 +39,51 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="fname">Customer Name</label>
-                                <input type="text" name="fname" class="form-control" placeholder="Your name">
+                                <label for="fname">Tên khách hàng</label>
+                                <input type="text" name="fname" class="form-control" placeholder="@Model.username">
                                 <input type="text" name="cartId" value=@Request.Params["cartId"] hidden>
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="fname">Address</label>
-                                <input type="text" name="address" class="form-control" placeholder="Enter Your Address">
+                                <label for="fname">Địa chỉ giao hàng</label>
+                                <input type="text" name="address" class="form-control" placeholder="Nhập địa chỉ giao hàng">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="email">E-mail Address</label>
-                                <input type="text" id="email" class="form-control" placeholder="State Province">
+                                <label for="email">Địa chỉ email</label>
+                                <input type="text" id="email" class="form-control" placeholder="Nhập địa chỉ email của bạn">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="Phone">Phone Number</label>
-                                <input type="text" id="zippostalcode" class="form-control" placeholder="">
+                                <label for="Phone">Số điện thoại</label>
+                                <input type="text" id="zippostalcode" class="form-control" placeholder="Nhập số điện thoại">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12">
                                 <div class="radio">
-                                    <label><input type="radio" name="optradio" value="1"> Direct Payment</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <div class="radio">
-                                    <label><input type="radio" name="optradio" value="1"> Direct Bank Tranfer</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <div class="radio">
-                                    <label><input type="radio" name="optradio" value="2"> Internet Banking</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <div class="radio">
-                                    <label><input type="radio" name="optradio" value="3"> Paypal</label>
+                                    <label><input type="radio" name="optradio" value="1"> Trả tiền mặt</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <p><button type="submit" class="btn btn-primary">Place an order</button></p>
+                            <p><button type="submit" class="btn btn-primary">Đặt hàng</button></p>
                         </div>
                     </div>
                 </form>
             </div>
-
             <div class="col-lg-4">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="cart-detail">
-                            <h2>Cart Total</h2>
+                            <h2>Thanh toán giỏ hàng</h2>
                             @{ int total = 0; }
                             @foreach (var item in Model.cartItems)
                             {
@@ -114,18 +91,18 @@
                             }
                             <ul>
                                 <li>
-                                    <span>Subtotal</span> <span>@total</span>
+                                    <span>Tổng tiền sản phẩm</span> <span style="text-align:right">@total</span>
                                     <ul>
                                         @foreach (var item in Model.cartItems)
                                         {
-                                            <li><span>@item.quantity x @item.Stock.Product.productName</span> <span>@(item.unitPrice * item.quantity)</span></li>
+                                            <li><span >@item.quantity x @item.Stock.Product.productName</span> <span style="text-align:right">@(item.unitPrice * item.quantity)</span></li>
                                         }
                                     </ul>
                                 </li>
                                 @{ double ship;
                                     if (total > 500000)
                                     {
-                                        ship = total * 7 / 100;
+                                        ship = total * 5 / 100;
                                     }
                                     else if (total == 0)
                                     {
@@ -136,8 +113,8 @@
                                         ship = 20000;
                                     }
                                 }
-                                <li><span>Shipping</span> <span>@ship</span></li>
-                                <li><span>Order Total</span> <span>@(total+ship)</span></li>
+                                <li><span>Phí vận chuyển</span>      <span style="text-align:right">@ship</span></li>
+                                <li><span>Tổng thanh toán</span>     <span style="text-align:right">@(total+ship)</span></li>
                             </ul>
                         </div>
                     </div>

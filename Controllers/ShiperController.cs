@@ -11,6 +11,7 @@ namespace WebApplication1.Controllers
     {
         private sneakerShopEntities db = new sneakerShopEntities();
         // GET: Shiper
+        [Authorize]
         public ActionResult DonHangChuaNhan()
         {
             var userId = User.Identity.GetUserId();
