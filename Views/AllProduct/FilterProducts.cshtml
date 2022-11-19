@@ -33,42 +33,35 @@
 
                                 <ul class="list-menu">
                                     <li>
-                                        <label class="custom-control custom-checkbox">
-                                            @{
-                                                if (@Model.SexCheck.Contains("Nam"))
-                                                {
-                                                    <input type="checkbox" checked name="CheckboxSex" value="Nam" class="custom-control-input">
-                                                }
+                                        @{
+                                            foreach (var sex in Model.ProductViewModel.Sexs)
+                                            {
+                                                <label class="custom-control custom-checkbox">
+                                                    @if (Model.SexCheck != null)
+                                                    {
+                                                        if (@Model.SexCheck.Contains(sex))
+                                                        {
+                                                            <input type="checkbox" checked name="CheckboxSex" value="@sex" class="custom-control-input">
+                                                        }
 
-                                                else
-                                                {
-                                                    <input type="checkbox" name="CheckboxSex" value="Nam" class="custom-control-input">
-                                                }
-
+                                                        else
+                                                        {
+                                                            <input type="checkbox" name="CheckboxSex" value="@sex" class="custom-control-input">
+                                                        }
+                                                        <div class="custom-control-label">
+                                                            @sex
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" name="CheckboxSex" value="@sex" class="custom-control-input">
+                                                        <div class="custom-control-label">
+                                                            @sex
+                                                        </div>
+                                                    }
+                                                </label>
                                             }
-
-
-                                            <div class="custom-control-label">
-                                                Nam
-                                            </div>
-                                        </label>
-                                        <label class="custom-control custom-checkbox">
-                                            @{
-                                                if (@Model.SexCheck.Contains("Nữ"))
-                                                {
-                                                    <input type="checkbox" checked name="CheckboxSex" value="Nữ" class="custom-control-input">
-                                                }
-
-                                                else
-                                                {
-                                                    <input type="checkbox" name="CheckboxSex" value="Nữ" class="custom-control-input">
-                                                }
-
-                                            }
-                                            <div class="custom-control-label">
-                                                Nữ
-                                            </div>
-                                        </label>
+                                        }
                                     </li>
                                 </ul>
                             </div> <!-- card-body.// -->
@@ -93,7 +86,8 @@
                                         {
 
                                             <label class="custom-control custom-checkbox">
-                                                @{
+                                                @if (Model.CategoryCheckIds != null)
+                                                {
                                                     if (Model.CategoryCheckIds.Contains(cate.categoryId))
                                                     {
                                                         <input class="custom-control-input" type="checkbox" name="CheckboxCate" value="@cate.categoryId" checked>
@@ -102,6 +96,10 @@
                                                     {
                                                         <input class="custom-control-input" type="checkbox" name="CheckboxCate" value="@cate.categoryId">
                                                     }
+                                                }
+                                                else
+                                                {
+                                                    <input class="custom-control-input" type="checkbox" name="CheckboxCate" value="@cate.categoryId">
                                                 }
 
                                                 <div class="custom-control-label">
@@ -151,26 +149,37 @@
                         </header>
                         <div class="filter-content collapse show" id="collapse_4" style="">
                             <div class="card-body">
-                                <label class="checkbox-btn">
-                                    <input type="checkbox" name="sizeCheckBox">
-                                    <span class="btn btn-light"> XS </span>
-                                </label>
+                                @{
 
-                                <label class="checkbox-btn">
-                                    <input type="checkbox" name="sizeCheckBox">
-                                    <span class="btn btn-light"> SM </span>
-                                </label>
+                                    foreach (var size in Model.ProductViewModel.Sizes)
+                                    {
+                                        if (Model.SizeCheck != null)
+                                        {
+                                            <label class="checkbox-btn">
+                                                @if (Model.SizeCheck.Contains(size))
+                                                {
+                                                    <input type="checkbox" value="@size" checked name="CheckboxSize">
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" value="@size" name="CheckboxSize">
+                                                }
 
-                                <label class="checkbox-btn">
-                                    <input type="checkbox" name="sizeCheckBox">
-                                    <span class="btn btn-light"> LG </span>
-                                </label>
+                                                <span class="btn btn-light"> @size </span>
+                                            </label>
+                                        }
+                                        else
+                                        {
+                                            <label class="checkbox-btn">
+                                                <input type="checkbox" value="@size" name="CheckboxSize">
+                                                <span class="btn btn-light"> @size </span>
+                                            </label>
+                                        }
+                                    }
 
-                                <label class="checkbox-btn">
-                                    <input type="checkbox" name="sizeCheckBox">
-                                    <span class="btn btn-light"> XXL </span>
-                                </label>
+                                }
                                 <button class="btn btn-block btn-primary">Apply</button>
+                                <a class="btn btn-block btn-primary" href=@Url.Action("Index", "AllProduct")>Reset</a>
                             </div><!-- card-body.// -->
 
                         </div>
@@ -191,6 +200,7 @@
                                     <input type="text" style="width: 500px; margin-left:10px"
                                            value="@Model.SearchString"
                                            placeholder="Search" name="SearchString">
+                                    <button class="btn btn-primary submit-search text-center" type="submit"><i class="icon-search"></i></button>
                                 </form>
                             </div>
 
@@ -198,11 +208,24 @@
                         </div>
 
                         <span class="mr-md-auto" style="margin-left:100px"> Sorted By </span>
-                        <select name="sortBy" class="mr-2 form-control">
-                            <option value="0">Latest items</option>
-                            <option value="1">Trending</optionvalue="0">
-                            <option value="2">Most Popular</option>
-                            <option value="3">Cheapest</option>
+                        <select name="sortBy" value="" class="mr-2 form-control">
+                            @{
+                                if (Model.SortBy == 0)
+                                {<option value="0" selected>Latest items</option>}
+                                else
+                                {<option value="0">Latest items</option>}
+
+                                if (Model.SortBy == 1)
+                                {<option value="1" selected>Most Popular</option>}
+                                else
+                                {<option value="1">Most Popular</option> }
+                                if (Model.SortBy == 2)
+                                {<option value="2" selected>Cheapest</option> }
+                                else
+                                { <option value="2">Cheapest</option>}
+
+                            }
+
                         </select>
 
                     </div>

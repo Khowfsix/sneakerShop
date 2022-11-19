@@ -14,10 +14,12 @@ namespace WebApplication1.ViewModel
         public double? MinPrice { get; set; }
         //public Pager Pager { get; set; }  
         public List<String> SexCheck { get; set; }
+        public List<int> SizeCheck { get; set; }
+        public int? SortBy { get; set; }
         public String SearchString { get; set; }
-        public String SexCheckString { get; set; }
+        //public String SexCheckString { get; set; }
         public List<int> CategoryCheckIds { get; set; }
-        public String CategoryCheckIds_String { get; set; }
+        //public String CategoryCheckIds_String { get; set; }
         [JsonIgnore]
         public List<Product> ProductList { get; set; }
         [JsonIgnore]

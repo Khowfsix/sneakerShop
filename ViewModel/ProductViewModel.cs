@@ -12,7 +12,8 @@ namespace WebApplication1.ViewModel
         public int Page;
         public IPagedList<Product> ProductPagedList { get; set; }
         public List<Category> Categories { get; set; }
-        public int? SortBy { get; set; }
+        public List<String> Sexs { get; set; }
+        public List<int> Sizes { get; set; }
         public string SearchString { get; set; }
 
         public ProductViewModel()
