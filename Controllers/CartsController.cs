@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using WebApplication1.Models;
 using WebApplication1.Helper;
 using Order = WebApplication1.Models.Order;
+using System.Data.Entity.Migrations;
 
 namespace WebApplication1.Controllers
 {
@@ -54,7 +55,11 @@ namespace WebApplication1.Controllers
             foreach (var cartItem in cartItems)
             {
                 total += (double)(cartItem.quantity * cartItem.unitPrice);
-
+                var product = db.Products.Where(c=>c.productId==cartItem.productId).FirstOrDefault();
+                product.amount+=cartItem.quantity;
+                db.Products.AddOrUpdate(product);
+                db.SaveChanges();
+                   
             }
             Order order = new Order();
             order.orderDate = DateTime.Now;
@@ -72,6 +77,7 @@ namespace WebApplication1.Controllers
             {
                 return RedirectToAction("PaymentWithPaypal", "Carts", new { order = order, cartItems = cartItems });
             }*/
+
             return RedirectToAction(actionName: "OrderComplete", controllerName: "Carts", new { cartId = cartId });
         }
 
