@@ -10,6 +10,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class imagesProductsController : Controller
     {
         private sneakerShopEntities db = new sneakerShopEntities();
@@ -17,20 +18,18 @@ namespace WebApplication1.Controllers
         // GET: imagesProducts
         public ActionResult Index()
         {
-            var imagesProduct = db.imagesProducts.Include(i => i.Product);
-            return View(imagesProduct.ToList());
+            var imagesProducts = db.imagesProducts.Include(i => i.Product);
+            return View(imagesProducts.ToList());
         }
 
         // GET: imagesProducts/Details/5
-        public ActionResult Details(int? id, string image)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            imagesProduct imagesProduct = db.imagesProducts.Where(i => i.productId == id)
-                                                            .Where(i => i.images.Equals(image))
-                                                            .FirstOrDefault();
+            imagesProduct imagesProduct = db.imagesProducts.Find(id);
             if (imagesProduct == null)
             {
                 return HttpNotFound();
@@ -64,19 +63,17 @@ namespace WebApplication1.Controllers
         }
 
         // GET: imagesProducts/Edit/5
-        public ActionResult Edit(int? id, string image)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            imagesProduct imagesProduct = db.imagesProducts.Where(i => i.productId == id)
-                                                            .Where(i => i.images.Equals(image))
-                                                            .FirstOrDefault();
+            imagesProduct imagesProduct = db.imagesProducts.Find(id);
             if (imagesProduct == null)
             {
                 return HttpNotFound();
-            }   
+            }
             ViewBag.productId = new SelectList(db.Products, "productId", "productName", imagesProduct.productId);
             return View(imagesProduct);
         }
@@ -99,16 +96,13 @@ namespace WebApplication1.Controllers
         }
 
         // GET: imagesProducts/Delete/5
-        public ActionResult Delete(int? id, string image)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            imagesProduct imagesProduct = db.imagesProducts.Where(i => i.productId == id)
-                                                            .Where(i => i.images.Equals(image))
-                                                            .FirstOrDefault();
-
+            imagesProduct imagesProduct = db.imagesProducts.Find(id);
             if (imagesProduct == null)
             {
                 return HttpNotFound();
@@ -119,11 +113,9 @@ namespace WebApplication1.Controllers
         // POST: imagesProducts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int? id, string image)
+        public ActionResult DeleteConfirmed(int id)
         {
-            imagesProduct imagesProduct = db.imagesProducts.Where(i => i.productId == id)
-                                                            .Where(i => i.images.Equals(image))
-                                                            .FirstOrDefault();
+            imagesProduct imagesProduct = db.imagesProducts.Find(id);
             db.imagesProducts.Remove(imagesProduct);
             db.SaveChanges();
             return RedirectToAction("Index");

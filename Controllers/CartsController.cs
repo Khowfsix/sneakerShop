@@ -17,8 +17,8 @@ namespace WebApplication1.Controllers
         // GET: Carts
         public ActionResult Index()
         {
-            var cart = db.Carts.Include(c => c.AspNetUser);
-            return View(cart.ToList());
+            var carts = db.Carts.Include(c => c.AspNetUser);
+            return View(carts.ToList());
         }
 
         // GET: Carts/Details/5
@@ -39,7 +39,7 @@ namespace WebApplication1.Controllers
         // GET: Carts/Create
         public ActionResult Create()
         {
-            ViewBag.userId = new SelectList(db.AspNetUsers, "userId", "username");
+            ViewBag.userId = new SelectList(db.AspNetUsers, "Id", "Email");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace WebApplication1.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.userId = new SelectList(db.AspNetUsers, "userId", "username", cart.userId);
+            ViewBag.userId = new SelectList(db.AspNetUsers, "Id", "Email", cart.userId);
             return View(cart);
         }
 
@@ -73,7 +73,7 @@ namespace WebApplication1.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.userId = new SelectList(db.AspNetUsers, "userId", "username", cart.userId);
+            ViewBag.userId = new SelectList(db.AspNetUsers, "Id", "Email", cart.userId);
             return View(cart);
         }
 
@@ -90,7 +90,7 @@ namespace WebApplication1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.userId = new SelectList(db.AspNetUsers, "userId", "username", cart.userId);
+            ViewBag.userId = new SelectList(db.AspNetUsers, "Id", "Email", cart.userId);
             return View(cart);
         }
 

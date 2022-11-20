@@ -27,12 +27,12 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetRole aspNetRoles = db.AspNetRoles.Find(id);
-            if (aspNetRoles == null)
+            AspNetRole aspNetRole = db.AspNetRoles.Find(id);
+            if (aspNetRole == null)
             {
                 return HttpNotFound();
             }
-            return View(aspNetRoles);
+            return View(aspNetRole);
         }
 
         // GET: AspNetRoles/Create
@@ -46,16 +46,16 @@ namespace WebApplication1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] AspNetRole aspNetRoles)
+        public ActionResult Create([Bind(Include = "Id,Name")] AspNetRole aspNetRole)
         {
             if (ModelState.IsValid)
             {
-                db.AspNetRoles.Add(aspNetRoles);
+                db.AspNetRoles.Add(aspNetRole);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(aspNetRoles);
+            return View(aspNetRole);
         }
 
         // GET: AspNetRoles/Edit/5
@@ -65,12 +65,12 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetRole aspNetRoles = db.AspNetRoles.Find(id);
-            if (aspNetRoles == null)
+            AspNetRole aspNetRole = db.AspNetRoles.Find(id);
+            if (aspNetRole == null)
             {
                 return HttpNotFound();
             }
-            return View(aspNetRoles);
+            return View(aspNetRole);
         }
 
         // POST: AspNetRoles/Edit/5
@@ -78,15 +78,15 @@ namespace WebApplication1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] AspNetRole aspNetRoles)
+        public ActionResult Edit([Bind(Include = "Id,Name")] AspNetRole aspNetRole)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(aspNetRoles).State = EntityState.Modified;
+                db.Entry(aspNetRole).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(aspNetRoles);
+            return View(aspNetRole);
         }
 
         // GET: AspNetRoles/Delete/5
@@ -96,12 +96,12 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetRole aspNetRoles = db.AspNetRoles.Find(id);
-            if (aspNetRoles == null)
+            AspNetRole aspNetRole = db.AspNetRoles.Find(id);
+            if (aspNetRole == null)
             {
                 return HttpNotFound();
             }
-            return View(aspNetRoles);
+            return View(aspNetRole);
         }
 
         // POST: AspNetRoles/Delete/5
@@ -109,8 +109,8 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            AspNetRole aspNetRoles = db.AspNetRoles.Find(id);
-            db.AspNetRoles.Remove(aspNetRoles);
+            AspNetRole aspNetRole = db.AspNetRoles.Find(id);
+            db.AspNetRoles.Remove(aspNetRole);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

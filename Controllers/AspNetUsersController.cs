@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -16,24 +15,24 @@ namespace WebApplication1.Controllers
         private sneakerShopEntities db = new sneakerShopEntities();
 
         // GET: AspNetUsers
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await db.AspNetUsers.ToListAsync());
+            return View(db.AspNetUsers.ToList());
         }
 
         // GET: AspNetUsers/Details/5
-        public async Task<ActionResult> Details(string id)
+        public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetUser aspNetUsers = await db.AspNetUsers.FindAsync(id);
-            if (aspNetUsers == null)
+            AspNetUser aspNetUser = db.AspNetUsers.Find(id);
+            if (aspNetUser == null)
             {
                 return HttpNotFound();
             }
-            return View(aspNetUsers);
+            return View(aspNetUser);
         }
 
         // GET: AspNetUsers/Create
@@ -47,31 +46,31 @@ namespace WebApplication1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] AspNetUser aspNetUsers)
+        public ActionResult Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] AspNetUser aspNetUser)
         {
             if (ModelState.IsValid)
             {
-                db.AspNetUsers.Add(aspNetUsers);
-                await db.SaveChangesAsync();
+                db.AspNetUsers.Add(aspNetUser);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(aspNetUsers);
+            return View(aspNetUser);
         }
 
         // GET: AspNetUsers/Edit/5
-        public async Task<ActionResult> Edit(string id)
+        public ActionResult Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetUser aspNetUsers = await db.AspNetUsers.FindAsync(id);
-            if (aspNetUsers == null)
+            AspNetUser aspNetUser = db.AspNetUsers.Find(id);
+            if (aspNetUser == null)
             {
                 return HttpNotFound();
             }
-            return View(aspNetUsers);
+            return View(aspNetUser);
         }
 
         // POST: AspNetUsers/Edit/5
@@ -79,40 +78,40 @@ namespace WebApplication1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] AspNetUser aspNetUsers)
+        public ActionResult Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] AspNetUser aspNetUser)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(aspNetUsers).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.Entry(aspNetUser).State = EntityState.Modified;
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(aspNetUsers);
+            return View(aspNetUser);
         }
 
         // GET: AspNetUsers/Delete/5
-        public async Task<ActionResult> Delete(string id)
+        public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetUser aspNetUsers = await db.AspNetUsers.FindAsync(id);
-            if (aspNetUsers == null)
+            AspNetUser aspNetUser = db.AspNetUsers.Find(id);
+            if (aspNetUser == null)
             {
                 return HttpNotFound();
             }
-            return View(aspNetUsers);
+            return View(aspNetUser);
         }
 
         // POST: AspNetUsers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(string id)
         {
-            AspNetUser aspNetUsers = await db.AspNetUsers.FindAsync(id);
-            db.AspNetUsers.Remove(aspNetUsers);
-            await db.SaveChangesAsync();
+            AspNetUser aspNetUser = db.AspNetUsers.Find(id);
+            db.AspNetUsers.Remove(aspNetUser);
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

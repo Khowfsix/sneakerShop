@@ -10,6 +10,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class OrdersController : Controller
     {
         private sneakerShopEntities db = new sneakerShopEntities();
@@ -17,8 +18,8 @@ namespace WebApplication1.Controllers
         // GET: Orders
         public ActionResult Index()
         {
-            var order = db.Orders.Include(o => o.Cart).Include(o => o.paymentType1).Include(o => o.AspNetUser);
-            return View(order.ToList());
+            var orders = db.Orders.Include(o => o.AspNetUser).Include(o => o.Cart).Include(o => o.paymentType1);
+            return View(orders.ToList());
         }
 
         // GET: Orders/Details/5
@@ -39,9 +40,9 @@ namespace WebApplication1.Controllers
         // GET: Orders/Create
         public ActionResult Create()
         {
-            ViewBag.cartID = new SelectList(db.Carts, "cartId", "cartId");
+            ViewBag.userID = new SelectList(db.AspNetUsers, "Id", "Email");
+            ViewBag.cartID = new SelectList(db.Carts, "cartId", "userId");
             ViewBag.paymentType = new SelectList(db.paymentTypes, "paymentTypeID", "paymentTypeName");
-            ViewBag.userID = new SelectList(db.AspNetUsers, "userId", "username");
             return View();
         }
 
@@ -59,9 +60,9 @@ namespace WebApplication1.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.cartID = new SelectList(db.Carts, "cartId", "cartId", order.cartID);
+            ViewBag.userID = new SelectList(db.AspNetUsers, "Id", "Email", order.userID);
+            ViewBag.cartID = new SelectList(db.Carts, "cartId", "userId", order.cartID);
             ViewBag.paymentType = new SelectList(db.paymentTypes, "paymentTypeID", "paymentTypeName", order.paymentType);
-            ViewBag.userID = new SelectList(db.AspNetUsers, "userId", "username", order.userID);
             return View(order);
         }
 
@@ -77,9 +78,9 @@ namespace WebApplication1.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.cartID = new SelectList(db.Carts, "cartId", "cartId", order.cartID);
+            ViewBag.userID = new SelectList(db.AspNetUsers, "Id", "Email", order.userID);
+            ViewBag.cartID = new SelectList(db.Carts, "cartId", "userId", order.cartID);
             ViewBag.paymentType = new SelectList(db.paymentTypes, "paymentTypeID", "paymentTypeName", order.paymentType);
-            ViewBag.userID = new SelectList(db.AspNetUsers, "userId", "username", order.userID);
             return View(order);
         }
 
@@ -96,9 +97,9 @@ namespace WebApplication1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.cartID = new SelectList(db.Carts, "cartId", "cartId", order.cartID);
+            ViewBag.userID = new SelectList(db.AspNetUsers, "Id", "Email", order.userID);
+            ViewBag.cartID = new SelectList(db.Carts, "cartId", "userId", order.cartID);
             ViewBag.paymentType = new SelectList(db.paymentTypes, "paymentTypeID", "paymentTypeName", order.paymentType);
-            ViewBag.userID = new SelectList(db.AspNetUsers, "userId", "username", order.userID);
             return View(order);
         }
 

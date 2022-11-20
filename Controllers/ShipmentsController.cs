@@ -10,6 +10,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ShipmentsController : Controller
     {
         private sneakerShopEntities db = new sneakerShopEntities();
@@ -17,8 +18,8 @@ namespace WebApplication1.Controllers
         // GET: Shipments
         public ActionResult Index()
         {
-            var shipment = db.Shipments.Include(s => s.Order).Include(s => s.AspNetUser);
-            return View(shipment.ToList());
+            var shipments = db.Shipments.Include(s => s.AspNetUser).Include(s => s.Order);
+            return View(shipments.ToList());
         }
 
         // GET: Shipments/Details/5
@@ -39,8 +40,8 @@ namespace WebApplication1.Controllers
         // GET: Shipments/Create
         public ActionResult Create()
         {
-            ViewBag.orderID = new SelectList(db.Orders, "orderID", "address");
-            ViewBag.shipperID = new SelectList(db.AspNetUsers, "userId", "username");
+            ViewBag.shipperID = new SelectList(db.AspNetUsers, "Id", "Email");
+            ViewBag.orderID = new SelectList(db.Orders, "orderID", "userID");
             return View();
         }
 
@@ -58,8 +59,8 @@ namespace WebApplication1.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.orderID = new SelectList(db.Orders, "orderID", "address", shipment.orderID);
-            ViewBag.shipperID = new SelectList(db.AspNetUsers, "userId", "username", shipment.shipperID);
+            ViewBag.shipperID = new SelectList(db.AspNetUsers, "Id", "Email", shipment.shipperID);
+            ViewBag.orderID = new SelectList(db.Orders, "orderID", "userID", shipment.orderID);
             return View(shipment);
         }
 
@@ -75,8 +76,8 @@ namespace WebApplication1.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.orderID = new SelectList(db.Orders, "orderID", "address", shipment.orderID);
-            ViewBag.shipperID = new SelectList(db.AspNetUsers, "userId", "username", shipment.shipperID);
+            ViewBag.shipperID = new SelectList(db.AspNetUsers, "Id", "Email", shipment.shipperID);
+            ViewBag.orderID = new SelectList(db.Orders, "orderID", "userID", shipment.orderID);
             return View(shipment);
         }
 
@@ -93,8 +94,8 @@ namespace WebApplication1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.orderID = new SelectList(db.Orders, "orderID", "address", shipment.orderID);
-            ViewBag.shipperID = new SelectList(db.AspNetUsers, "userId", "username", shipment.shipperID);
+            ViewBag.shipperID = new SelectList(db.AspNetUsers, "Id", "Email", shipment.shipperID);
+            ViewBag.orderID = new SelectList(db.Orders, "orderID", "userID", shipment.orderID);
             return View(shipment);
         }
 

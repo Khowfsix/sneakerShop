@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <h2>Index</h2>
@@ -27,13 +28,13 @@
             @Html.DisplayNameFor(model => model.address)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Cart.cartId)
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cart.userId)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.paymentType1.paymentTypeName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Users.username)
         </th>
         <th></th>
     </tr>
@@ -56,13 +57,13 @@
             @Html.DisplayFor(modelItem => item.address)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Cart.cartId)
+            @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cart.userId)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.paymentType1.paymentTypeName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Users.username)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.orderID }) |
