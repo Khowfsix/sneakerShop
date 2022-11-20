@@ -101,7 +101,6 @@ namespace WebApplication1.Controllers
             ClearCart(cartId);
             return View();
         }
-
         // GET: Carts/Create
         public ActionResult Create()
         {

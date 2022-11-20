@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -20,10 +21,10 @@ namespace WebApplication1.Controllers
         {
             var userId = User.Identity.GetUserId();
             //Lấy user đang đăng nhập
-            var user = db.AspNetUsers.Where(c=>c.Id.Equals(userId)).FirstOrDefault();
+            var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
             //Lấy giỏ hàng của user đang đăng nhập
             var cart = db.Carts.FirstOrDefault(c => c.userId == user.Id);
-            var cartLast = db.Carts.OrderByDescending(p=>p.cartId).FirstOrDefault();
+            var cartLast = db.Carts.OrderByDescending(p => p.cartId).FirstOrDefault();
             if (cart == null)
             {
                 //Tao cart moi cho user
@@ -41,13 +42,13 @@ namespace WebApplication1.Controllers
             //Sắp xếp
             product = product.OrderByDescending(s => s.amount);
             ViewData["bestsellProduct"] = product.ToList().GetRange(0, 4);
-            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c=>c.cartId==cart.cartId);
+            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId == cart.cartId);
             ViewData["cartId"] = cart.cartId;
             return View(cartItems.ToList());
         }
-
         [Authorize]
-        public ActionResult AddItem([Bind(Include = "cartId,productId,quantity,unitPrice")] CartItem cartItem)
+        [HttpPost]
+        public ActionResult ThemVaoGio([Bind(Include = "cartId,productId,quantity,unitPrice")] CartItem cartItem, FormCollection form)
         {
             var userId = User.Identity.GetUserId();
             //Lấy user đang đăng nhập
@@ -56,7 +57,7 @@ namespace WebApplication1.Controllers
             var cart = db.Carts.FirstOrDefault(c => c.userId == user.Id);
             //Lấy giỏ hàng cuối cùng để lấy Id lớn nhất
             var cartLast = db.Carts.OrderByDescending(p => p.cartId).FirstOrDefault();
-
+            cartItem.productId = Convert.ToInt32(form["productId"]);
             Product product = db.Products.Find(cartItem.productId);
             if (cart != null)
             {
@@ -68,7 +69,7 @@ namespace WebApplication1.Controllers
                     {
                         if (item.productId == cartItem.productId)
                         {
-                            item.quantity += cartItem.quantity;
+                            item.quantity += Convert.ToInt32(form["quantity"]);
                             db.Entry(item).State = EntityState.Modified;
                         }
 
@@ -80,9 +81,10 @@ namespace WebApplication1.Controllers
 
                     //tao moi doi tuong cart item
                     var item = new CartItem();
+                    item.size = Convert.ToInt32(form["size"]);
                     item.cartId = cart.cartId;
                     item.productId = cartItem.productId;
-                    item.quantity = cartItem.quantity;
+                    item.quantity = Convert.ToInt32(form["quantity"]);
                     item.unitPrice = product.price;
                     db.CartItems.Add(item);
                     db.SaveChanges();
@@ -103,14 +105,15 @@ namespace WebApplication1.Controllers
                 var item = new CartItem();
                 item.cartId = 1;
                 item.productId = cartItem.productId;
-                item.quantity = cartItem.quantity;
+                item.size = Convert.ToInt32(form["size"]);
+                item.quantity = Convert.ToInt32(form["quantity"]);
                 item.unitPrice = product.price;
                 db.CartItems.Add(item);
                 db.SaveChanges();
             }
+
             return RedirectToAction("Index");
         }
-
         public ActionResult RemoveCartItem(int? id)
         {
             CartItem cartItem = db.CartItems.SingleOrDefault(c => c.productId == id);
@@ -118,6 +121,7 @@ namespace WebApplication1.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
         // GET: CartItems/Details/5
         public ActionResult Details(int? id)
         {
@@ -193,7 +197,7 @@ namespace WebApplication1.Controllers
             ViewBag.productId = new SelectList(db.Stocks, "stockID", "stockID", cartItem.productId);
             return View(cartItem);
         }
-        
+
         // GET: CartItems/Delete/5
         public ActionResult Delete(int? id)
         {
