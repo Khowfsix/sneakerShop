@@ -34,12 +34,12 @@ namespace WebApplication1.Controllers
             return View(product.ToList().GetRange(0, 8));
         }
 
-        public ActionResult allProduct()
+        public ActionResult moreProduct()
         {
             var product = db.Products.Include(p => p.Category).Include(p => p.Stocks).Include(p => p.imagesProducts);
             //Sắp xếp
             product = product.OrderByDescending(s => s.amount);
-            return View("Index",product.ToList());
+            return View("Index",product.ToList().GetRange(0, 16));
         }
 
         public ActionResult productDetail(int productID)
@@ -48,10 +48,19 @@ namespace WebApplication1.Controllers
             return View(product);
         }
 
+        public ActionResult cartUser(int userID)
+        {
+            Cart cart = db.Carts.Where(c => c.userId == Convert.ToString(userID)).Where(c => c.status == 0).FirstOrDefault();
+            var cartItem = db.CartItems.Where(ci => ci.cartId == cart.cartId);
+
+            return View();
+        }
+
         public ActionResult productBrand(string brandName)
         {
             var product = db.Products
                             .Include(p => p.Category)
+                            .Include(p => p.Stocks)
                             .Include(p => p.imagesProducts)
                             .Where(p => p.Category.categoryName.Equals(brandName));
             //Sắp xếp
