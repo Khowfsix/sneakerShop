@@ -1,5 +1,8 @@
 USE sneakerShop
 GO
+
+DROP TRIGGER tg_DonHangDuocGiaoSoLuongBanTang
+
 CREATE TRIGGER [dbo].[tg_DonHangDuocGiaoSoLuongBanTang] on [dbo].[Order]
 /*
 Trigger hoạt động khi có status của Order update thành 0
@@ -7,7 +10,7 @@ Trigger thực hiện:
 	+ Cộng số lượng bán được tương ứng trong bảng Product (amount)
 	+ Trừ số lượng tồn khô tương ứng trong bảng Stock (inStock)
 */
-AFTER UPDATE 
+AFTER UPDATE, INSERT
 AS
 	declare @newStatus tinyint, @cartID int
 			
@@ -24,6 +27,6 @@ BEGIN
 		update Stock set inStock = inStock - quantity 
 		from Stock join CartItem 
 		on Stock.productId = CartItem.productId 
-		where CartItem.cartId = @cartID
+		where CartItem.cartId = @cartID AND Stock.[size] = CartItem.[size]
 	End
 END

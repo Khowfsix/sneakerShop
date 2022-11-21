@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -42,10 +43,26 @@ namespace WebApplication1.Controllers
             return View("Index",product.ToList().GetRange(0, 16));
         }
 
-        public ActionResult productDetail(int productID)
+        public ActionResult productDetail(int productID, int? size)
         {
-            Product product = db.Products.Where(p => p.productId == productID).FirstOrDefault();
-            return View(product);
+            try
+            {
+                Product product = db.Products.Include(p => p.Stocks).Where(p => p.productId == productID).FirstOrDefault();
+                Stock stock = db.Stocks.Where(s => s.productId == productID && s.inStock > 0).FirstOrDefault();
+                if (size != null)
+                {
+                    stock = db.Stocks.Where(s => s.productId == productID && s.size == size && s.inStock > 0).FirstOrDefault();
+                }
+                
+                ViewBag.listStocks = product.Stocks.ToList();
+                ViewBag.size = stock.size;
+                return View(stock);
+            }
+            catch (Exception)
+            {
+                //do nothing
+            }
+            return null;
         }
 
         public ActionResult cartUser(int userID)

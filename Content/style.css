@@ -2451,10 +2451,13 @@ fieldset:disabled a.btn {
   font-size: 0.875rem;
   line-height: 1.5;
   border-radius: 0.2rem; }
-
+.checkoutbtn{
+    font-size:20px;
+}
 .btn-block {
-  display: block;
-  width: 100%; }
+    display: block;
+    width: 100%;
+}
   .btn-block + .btn-block {
     margin-top: 0.5rem; }
 
@@ -8147,7 +8150,7 @@ h1, h2, h3, h4, h5,
   background: whitesmoke;
   padding: 2em 3em;
   float: left;
-  width: 100%;
+  width: 130%;
   margin-bottom: 20px; }
   @media (max-width: 767.98px) {
     .cart-detail {

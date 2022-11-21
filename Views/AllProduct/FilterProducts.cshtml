@@ -128,11 +128,11 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>Min</label>
-                                        <input name="minprice" value="@Model.MinPrice" class="form-control" placeholder="$0" type="number">
+                                        <input name="minprice" value="@String.Format("{0:0,0}", Model.MinPrice)" class="form-control" type="number">
                                     </div>
                                     <div class="form-group text-right col-md-6">
                                         <label>Max</label>
-                                        <input name="maxprice" value="@Model.MaximumPrice" class="form-control" placeholder="$1,0000" type="number">
+                                        <input name="maxprice" value="@String.Format("{0:0,0}", Model.MaximumPrice)" class="form-control" type="number">
                                     </div>
 
                                 </div> <!-- form-row.// -->
@@ -256,7 +256,7 @@
                                             }
                                             else
                                             {
-                                                <a href="@Url.Action("productDetail", "Home", new { productID = @product.productId })" class="prod-img">
+                                                <a href="@Url.Action("productDetail", "Home", new { productID = product.productId })" class="prod-img">
                                                     <img class="img-fluid" alt="Free html5 bootstrap 4 template">
                                                 </a>
                                             }
@@ -266,11 +266,10 @@
                                             <div class="fix-height">
                                                 <a href="#" class="title">@product.productName</a>
                                                 <div class="price-wrap mt-2">
-                                                    <span class="price">$ @product.price</span>
+                                                    <span class="price">$ @String.Format("{0:0,0}", product.price) VND</span>
                                                     <!-- <del class="price-old">$1980</del> -->
                                                 </div> <!-- price-wrap.// -->
                                             </div>
-                                            <a href="#" class="btn btn-block btn-primary">Add to cart </a>
                                         </figcaption>
                                     </figure>
                                 </div> <!-- col.// -->

@@ -28,6 +28,8 @@
             crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    @RenderSection("scripts", required: false)
     <script src="~/Scripts/sidebar.js"></script>
     <script src="~/Scripts/table.js"></script>
 
@@ -63,16 +65,16 @@
                         </a>
                         <div class="sidebar-submenu">
                             <ul>
-                                <li>
-                                    <a href="@Url.Action("Index","AspNetUsers")">
-                                        Accounts
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index","AspNetUsers")">
-                                        Roles
-                                    </a>
-                                </li>
+                                @*<li>
+                                        <a href="@Url.Action("Index","AspNetUsers")">
+                                            Accounts
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index","AspNetUsers")">
+                                            Roles
+                                        </a>
+                                    </li>*@
                                 <li>
                                     <a href="@Url.Action("Index","Categories")">
                                         Categories

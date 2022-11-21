@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
+//using System.ServiceModel.Configuration;
 using System.Web.Mvc;
+using System.Web.UI.WebControls.WebParts;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
@@ -13,12 +15,118 @@ namespace WebApplication1.Controllers
     public class CartItemsController : Controller
     {
         private sneakerShopEntities db = new sneakerShopEntities();
-
         // GET: CartItems
+        [Authorize]
         public ActionResult Index()
         {
-            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock);
+            var userId = User.Identity.GetUserId();
+            //Lấy user đang đăng nhập
+            var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
+            //Lấy giỏ hàng của user đang đăng nhập
+            var cart = db.Carts.FirstOrDefault(c => c.userId == user.Id);
+            var cartLast = db.Carts.OrderByDescending(p => p.cartId).FirstOrDefault();
+            if (cart == null)
+            {
+                //Tao cart moi cho user
+                var newcart = new Cart();
+                newcart.status = 1;
+                newcart.AspNetUser = user;
+                newcart.userId = user.Id;
+                newcart.cartId = cartLast.cartId + 1;
+                db.Carts.Add(newcart);
+                db.SaveChanges();
+            }
+            cart = db.Carts.FirstOrDefault(c => c.userId == user.Id);
+            //Lấy danh sách produsts
+            var product = db.Products.Include(p => p.Category).Include(p => p.Stocks).Include(p => p.imagesProducts);
+            //Sắp xếp
+            product = product.OrderByDescending(s => s.amount);
+            ViewData["bestsellProduct"] = product.ToList().GetRange(0, 4);
+            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId == cart.cartId);
+            ViewData["cartId"] = cart.cartId;
             return View(cartItems.ToList());
+        }
+        [Authorize]
+        [HttpPost]
+        public ActionResult ThemVaoGio(CartItem cartItem, FormCollection form)
+        {
+            var userId = User.Identity.GetUserId();
+            //Lấy user đang đăng nhập
+            var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
+            //Lấy giỏ hàng của user đang đăng nhập
+            var cart = db.Carts.FirstOrDefault(c => c.userId == user.Id);
+            //Lấy giỏ hàng cuối cùng để lấy Id lớn nhất
+            var cartLast = db.Carts.OrderByDescending(p => p.cartId).FirstOrDefault();
+            cartItem.productId = Convert.ToInt32(form["productId"]);
+            Product product = db.Products.Find(cartItem.productId);
+            if (cart != null)
+            {
+                var cartitems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId.Equals(cart.cartId));
+                var list = cartitems.ToList();
+                if (list.Exists(x => x.productId == cartItem.productId))
+                {
+                    foreach (var item in list)
+                    {
+                        if (item.productId == cartItem.productId)
+                        {
+                            item.quantity += Convert.ToInt32(form["quantity"]);
+                            db.Entry(item).State = EntityState.Modified;
+                        }
+
+                    }
+                    db.SaveChanges();
+                }
+                else
+                {
+
+                    //tao moi doi tuong cart item
+                    var item = new CartItem();
+                    item.size = Convert.ToInt32(form["size"]);
+                    item.cartId = cart.cartId;
+                    item.productId = cartItem.productId;
+                    item.quantity = Convert.ToInt32(form["quantity"]);
+                    item.unitPrice = product.price;
+                    db.CartItems.Add(item);
+                    db.SaveChanges();
+                }
+            }
+            else
+            {
+                //Tao cart moi cho user
+                var newcart = new Cart();
+                newcart.status = 1;
+                newcart.AspNetUser = user;
+                newcart.userId = user.Id;
+                if (cartLast == null)
+                {
+                    newcart.cartId = 1;
+                }
+                else
+                {
+                    newcart.cartId = cartLast.cartId + 1;
+                }
+                db.Carts.Add(newcart);
+                db.SaveChanges();
+
+                //tao moi doi tuong cart item
+                var item = new CartItem();
+                item.cartId = 1;
+                item.productId = cartItem.productId;
+                item.size = Convert.ToInt32(form["size"]);
+                item.quantity = Convert.ToInt32(form["quantity"]);
+                item.unitPrice = product.price;
+                db.CartItems.Add(item);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+        public ActionResult RemoveCartItem(int? id)
+        {
+            CartItem cartItem = db.CartItems.SingleOrDefault(c => c.productId == id);
+            db.CartItems.Remove(cartItem);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: CartItems/Details/5
@@ -35,7 +143,6 @@ namespace WebApplication1.Controllers
             }
             return View(cartItem);
         }
-
         // GET: CartItems/Create
         public ActionResult Create()
         {
@@ -105,7 +212,7 @@ namespace WebApplication1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CartItem cartItem = db.CartItems.Find(id);
+            CartItem cartItem = db.CartItems.SingleOrDefault(c => c.productId == id);
             if (cartItem == null)
             {
                 return HttpNotFound();
@@ -118,7 +225,7 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            CartItem cartItem = db.CartItems.Find(id);
+            CartItem cartItem = db.CartItems.SingleOrDefault(c => c.productId == id);
             db.CartItems.Remove(cartItem);
             db.SaveChanges();
             return RedirectToAction("Index");

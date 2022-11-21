@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <h2>Index</h2>
@@ -19,7 +18,7 @@
             @Html.DisplayNameFor(model => model.status)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+            @Html.DisplayNameFor(model => model.Users.username)
         </th>
         <th></th>
     </tr>
@@ -33,7 +32,7 @@
             @Html.DisplayFor(modelItem => item.status)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+            @Html.DisplayFor(modelItem => item.Users.username)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.cartId }) |
