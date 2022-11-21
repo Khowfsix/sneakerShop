@@ -631,6 +631,9 @@
     <Compile Include="Models\Order.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OrderDetail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\paymentType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

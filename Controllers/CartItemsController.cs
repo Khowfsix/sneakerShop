@@ -15,6 +15,7 @@ namespace WebApplication1.Controllers
     public class CartItemsController : Controller
     {
         private sneakerShopEntities db = new sneakerShopEntities();
+        private HomeController homeController = new HomeController();
         // GET: CartItems
         [Authorize]
         public ActionResult Index()
@@ -24,6 +25,8 @@ namespace WebApplication1.Controllers
             var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
             //Lấy giỏ hàng của user đang đăng nhập
             var cart = db.Carts.FirstOrDefault(c => c.userId == user.Id);
+            //Dem so item trong gio
+            ViewData["Count_Item"] = homeController.DemItemTrongCart(cart.cartId);
             var cartLast = db.Carts.OrderByDescending(p => p.cartId).FirstOrDefault();
             if (cart == null)
             {
@@ -42,6 +45,8 @@ namespace WebApplication1.Controllers
             //Sắp xếp
             product = product.OrderByDescending(s => s.amount);
             ViewData["bestsellProduct"] = product.ToList().GetRange(0, 4);
+
+            //Lay cartItem trong gio
             var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId == cart.cartId);
             ViewData["cartId"] = cart.cartId;
             return View(cartItems.ToList());
@@ -58,6 +63,84 @@ namespace WebApplication1.Controllers
             //Lấy giỏ hàng cuối cùng để lấy Id lớn nhất
             var cartLast = db.Carts.OrderByDescending(p => p.cartId).FirstOrDefault();
             cartItem.productId = Convert.ToInt32(form["productId"]);
+            var stock = db.Stocks.Where(c => c.productId == cartItem.productId && c.size == Convert.ToInt32(form["size"])).FirstOrDefault();
+            bool checkStock= CheckStock(stock.inStock, Convert.ToInt32(form["quantity"]));
+            Product product = db.Products.Find(cartItem.productId);
+            if(checkStock)
+            {
+                if (cart != null)
+                {
+                    var cartitems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId.Equals(cart.cartId));
+                    var list = cartitems.ToList();
+                    if (list.Exists(x => x.productId == cartItem.productId))
+                    {
+                        foreach (var item in list)
+                        {
+                            if (item.productId == cartItem.productId && item.size == Convert.ToInt32(form["size"]))
+                            {
+                                item.quantity += Convert.ToInt32(form["quantity"]);
+                                if (CheckStock(stock.inStock, Convert.ToInt32(item.quantity)))
+                                {
+                                    db.Entry(item).State = EntityState.Modified;
+                                }
+                            }
+                        }
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+
+                        //tao moi doi tuong cart item
+                        var item = new CartItem();
+                        item.size = Convert.ToInt32(form["size"]);
+                        item.cartId = cart.cartId;
+                        item.productId = cartItem.productId;
+                        item.quantity = Convert.ToInt32(form["quantity"]);
+                        item.unitPrice = product.price;
+                        db.CartItems.Add(item);
+                        db.SaveChanges();
+                    }
+                }
+                else
+                {
+                    //Tao cart moi cho user
+                    var newcart = new Cart();
+                    newcart.status = 1;
+                    newcart.AspNetUser = user;
+                    newcart.userId = user.Id;
+                    newcart.cartId = cartLast.cartId + 1;
+                    db.Carts.Add(newcart);
+                    db.SaveChanges();
+
+                    //tao moi doi tuong cart item
+                    var item = new CartItem();
+                    item.cartId = 1;
+                    item.productId = cartItem.productId;
+                    item.size = Convert.ToInt32(form["size"]);
+                    item.quantity = Convert.ToInt32(form["quantity"]);
+                    item.unitPrice = product.price;
+                    db.CartItems.Add(item);
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("Index");
+        }
+        public bool CheckStock(int inStock, int quantity)
+        {
+            if (inStock >= quantity)
+                return true;
+            return false;
+        }
+        public ActionResult AddItem([Bind(Include = "cartId,productId,quantity,unitPrice")] CartItem cartItem)
+        {
+
+            var userId = User.Identity.GetUserId();
+            //Lấy user đang đăng nhập
+            var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
+            //Lấy giỏ hàng của user đang đăng nhập
+            var cart = db.Carts.FirstOrDefault(c => c.userId == user.Id);
+            //Lấy giỏ hàng cuối cùng để lấy Id lớn nhất
+            var cartLast = db.Carts.OrderByDescending(p => p.cartId).FirstOrDefault();
             Product product = db.Products.Find(cartItem.productId);
             if (cart != null)
             {
@@ -69,7 +152,7 @@ namespace WebApplication1.Controllers
                     {
                         if (item.productId == cartItem.productId)
                         {
-                            item.quantity += Convert.ToInt32(form["quantity"]);
+                            item.quantity += cartItem.quantity;
                             db.Entry(item).State = EntityState.Modified;
                         }
 
@@ -81,10 +164,9 @@ namespace WebApplication1.Controllers
 
                     //tao moi doi tuong cart item
                     var item = new CartItem();
-                    item.size = Convert.ToInt32(form["size"]);
                     item.cartId = cart.cartId;
                     item.productId = cartItem.productId;
-                    item.quantity = Convert.ToInt32(form["quantity"]);
+                    item.quantity = cartItem.quantity;
                     item.unitPrice = product.price;
                     db.CartItems.Add(item);
                     db.SaveChanges();
@@ -105,8 +187,7 @@ namespace WebApplication1.Controllers
                 var item = new CartItem();
                 item.cartId = 1;
                 item.productId = cartItem.productId;
-                item.size = Convert.ToInt32(form["size"]);
-                item.quantity = Convert.ToInt32(form["quantity"]);
+                item.quantity = cartItem.quantity;
                 item.unitPrice = product.price;
                 db.CartItems.Add(item);
                 db.SaveChanges();

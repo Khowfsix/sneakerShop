@@ -89,22 +89,22 @@
                             {
                                 total += (int)(item.unitPrice * item.quantity);
                             }
-                            <ul>
-                                <li>
-                                    <span>Tổng tiền sản phẩm</span> <span style="text-align:right">@total</span>
-                                    <ul>
-                                        @foreach (var item in Model.cartItems)
-                                        {
-                                            <li><span >@item.quantity x @item.Stock.Product.productName</span> <span style="text-align:right">@(item.unitPrice * item.quantity)</span></li>
-                                        }
-                                    </ul>
-                                </li>
-                                @{ double vat = (double)total*8/100;
-                                    
-                                }
-                                <li><span>Phí GTGT 8%</span>      <span style="text-align:right">@vat</span></li>
-                                <li><span>Tổng thanh toán</span>     <span style="text-align:right">@(total+vat)</span></li>
-                            </ul>
+                        <ul>
+                            <li>
+                                <span>Tổng tiền sản phẩm</span> <span style="text-align:right">@total</span>
+                                <ul>
+                                    @foreach (var item in Model.cartItems)
+                                    {
+                                        <li><span>@item.quantity x @item.Stock.Product.productName Size:@item.size </span> <span style="text-align:right">@(item.unitPrice * item.quantity)</span></li>
+                                    }
+                                </ul>
+                            </li>
+                            @{ double vat = (double)total * 8 / 100;
+
+                            }
+                            <li><span>Phí GTGT 8%</span>      <span style="text-align:right">@String.Format("{0:0,0}", vat)</span></li>
+                            <li><span>Tổng thanh toán</span>     <span style="text-align:right">@String.Format("{0:0,0}", (total + vat))</span></li>
+                        </ul>
                         </div>
                     </div>
                 </div>

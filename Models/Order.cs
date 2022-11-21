@@ -18,6 +18,7 @@ namespace WebApplication1.Models
         public Order()
         {
             this.Shipments = new HashSet<Shipment>();
+            this.OrderDetails = new HashSet<OrderDetail>();
         }
     
         public int orderID { get; set; }
@@ -35,5 +36,7 @@ namespace WebApplication1.Models
         public virtual paymentType paymentType1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Shipment> Shipments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

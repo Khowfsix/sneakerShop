@@ -19,6 +19,7 @@ namespace WebApplication1.Models
         {
             this.imagesProducts = new HashSet<imagesProduct>();
             this.Stocks = new HashSet<Stock>();
+            this.OrderDetails = new HashSet<OrderDetail>();
         }
     
         public int productId { get; set; }
@@ -37,5 +38,7 @@ namespace WebApplication1.Models
         public virtual ICollection<imagesProduct> imagesProducts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Stock> Stocks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace WebApplication1.Controllers
 {
     public class CartsController : Controller
     {
+        private HomeController homeController;
         private PayPal.Api.Payment payment;
         private sneakerShopEntities db = new sneakerShopEntities();
         private double TyGiaUSD = 24815;
@@ -24,6 +25,7 @@ namespace WebApplication1.Controllers
         {
             var cart = db.Carts.Include(c => c.AspNetUser);
             return View(cart.ToList());
+
         }
         //GEt : Cart/Checkout
 
@@ -33,6 +35,10 @@ namespace WebApplication1.Controllers
             var userId = User.Identity.GetUserId();
             //Lấy user đang đăng nhập
             var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
+            //Lấy giỏ hàng của user đang đăng nhập
+            var cart = db.Carts.FirstOrDefault(c => c.userId == user.Id);
+            //Dem so item trong gio
+            ViewData["Count_Item"] = homeController.DemItemTrongCart(cart.cartId);
             var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId == cartId);
             CheckoutViewModel checkoutViewModel = new CheckoutViewModel();
             checkoutViewModel.cartItems = cartItems.ToList();
@@ -50,9 +56,8 @@ namespace WebApplication1.Controllers
             var userId = User.Identity.GetUserId();
             //Lấy user đang đăng nhập
             var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
-            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId == cart.cartId);
+            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId == cart.cartId).ToList();
             double totalItem = 0;
-            double totalPay = 0;
             foreach (var cartItem in cartItems)
             {
                 totalItem += (double)(cartItem.quantity * cartItem.unitPrice);
@@ -68,6 +73,7 @@ namespace WebApplication1.Controllers
             order.paymentType = int.Parse(formCheckout["optradio"]);
             db.Orders.Add(order);
             db.SaveChanges();
+            CreateOrderDetail(cartItems, order.orderID);
             /*
             if (order.paymentType == 3)
             {
@@ -75,6 +81,20 @@ namespace WebApplication1.Controllers
             }*/
 
             return RedirectToAction(actionName: "OrderComplete", controllerName: "Carts", new { cartId = cartId });
+        }
+
+        public void CreateOrderDetail(List<CartItem> cartItems, int orderID)
+        {
+            foreach(var cartItem in cartItems)
+            {
+                var orderDetail = new OrderDetail();
+                orderDetail.orderID=orderID;
+                orderDetail.productId = cartItem.productId;
+                orderDetail.quantity = cartItem.quantity;
+                orderDetail.unitPrice = cartItem.unitPrice;
+                db.OrderDetails.Add(orderDetail);
+                db.SaveChanges();
+            }
         }
 
         // GET: Carts/Details/5
