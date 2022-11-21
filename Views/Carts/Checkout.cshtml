@@ -99,22 +99,11 @@
                                         }
                                     </ul>
                                 </li>
-                                @{ double ship;
-                                    if (total > 500000)
-                                    {
-                                        ship = total * 5 / 100;
-                                    }
-                                    else if (total == 0)
-                                    {
-                                        ship = 0;
-                                    }
-                                    else
-                                    {
-                                        ship = 20000;
-                                    }
+                                @{ double vat = (double)total*8/100;
+                                    
                                 }
-                                <li><span>Phí vận chuyển</span>      <span style="text-align:right">@ship</span></li>
-                                <li><span>Tổng thanh toán</span>     <span style="text-align:right">@(total+ship)</span></li>
+                                <li><span>Phí GTGT 8%</span>      <span style="text-align:right">@vat</span></li>
+                                <li><span>Tổng thanh toán</span>     <span style="text-align:right">@(total+vat)</span></li>
                             </ul>
                         </div>
                     </div>
