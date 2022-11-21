@@ -40,7 +40,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="fname">Tên khách hàng</label>
-                                <input type="text" name="fname" class="form-control" placeholder="@Model.username">
+                                <input type="text" name="customerName" class="form-control" placeholder="@Model.username" required>
                                 <input type="text" name="cartId" value=@Request.Params["cartId"] hidden>
                             </div>
                         </div>
@@ -48,26 +48,26 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="fname">Địa chỉ giao hàng</label>
-                                <input type="text" name="address" class="form-control" placeholder="Nhập địa chỉ giao hàng">
+                                <input type="text" name="address" class="form-control" placeholder="Nhập địa chỉ giao hàng" required>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="email">Địa chỉ email</label>
-                                <input type="text" id="email" class="form-control" placeholder="Nhập địa chỉ email của bạn">
+                                <input type="email" name="email" class="form-control" placeholder="Nhập địa chỉ email của bạn" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="Phone">Số điện thoại</label>
-                                <input type="text" id="zippostalcode" class="form-control" placeholder="Nhập số điện thoại">
+                                <input type="tel" name="numberPhone" class="form-control" placeholder="Nhập số điện thoại" pattern="[0-9]{9,10,11}" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12">
                                 <div class="radio">
-                                    <label><input type="radio" name="optradio" value="1"> Trả tiền mặt</label>
+                                    <label><input type="radio" name="optradio" value="1" required> Trả tiền mặt</label>
                                 </div>
                             </div>
                         </div>

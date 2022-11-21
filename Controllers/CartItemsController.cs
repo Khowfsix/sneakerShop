@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net;
 using System.ServiceModel.Configuration;
@@ -15,7 +16,6 @@ namespace WebApplication1.Controllers
     public class CartItemsController : Controller
     {
         private sneakerShopEntities db = new sneakerShopEntities();
-        private HomeController homeController = new HomeController();
         // GET: CartItems
         [Authorize]
         public ActionResult Index()
@@ -25,8 +25,6 @@ namespace WebApplication1.Controllers
             var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
             //Lấy giỏ hàng của user đang đăng nhập
             var cart = db.Carts.FirstOrDefault(c => c.userId == user.Id);
-            //Dem so item trong gio
-            ViewData["Count_Item"] = homeController.DemItemTrongCart(cart.cartId);
             var cartLast = db.Carts.OrderByDescending(p => p.cartId).FirstOrDefault();
             if (cart == null)
             {
@@ -195,6 +193,16 @@ namespace WebApplication1.Controllers
 
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public ActionResult QuantityUpdate(FormCollection form)
+        {
+            var cartItem = db.CartItems.Where(c => c.productId == Convert.ToInt32(form["productId"])).FirstOrDefault();
+            cartItem.quantity = Convert.ToInt32(form["quantity"]);
+            db.CartItems.AddOrUpdate(cartItem);
+            db.SaveChanges();
+            return Redirect("Index");
+        }
+
         public ActionResult RemoveCartItem(int? id)
         {
             CartItem cartItem = db.CartItems.SingleOrDefault(c => c.productId == id);

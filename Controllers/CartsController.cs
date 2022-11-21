@@ -37,8 +37,6 @@ namespace WebApplication1.Controllers
             var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
             //Lấy giỏ hàng của user đang đăng nhập
             var cart = db.Carts.FirstOrDefault(c => c.userId == user.Id);
-            //Dem so item trong gio
-            ViewData["Count_Item"] = homeController.DemItemTrongCart(cart.cartId);
             var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId == cartId);
             CheckoutViewModel checkoutViewModel = new CheckoutViewModel();
             checkoutViewModel.cartItems = cartItems.ToList();
@@ -71,6 +69,11 @@ namespace WebApplication1.Controllers
             order.shipping = 0;
             order.totalPay = (long)(totalItem+totalItem*8/100);
             order.paymentType = int.Parse(formCheckout["optradio"]);
+            /*
+            order.customerName = formCheckout["customerName"];
+            order.numberPhone = formCheckout["numberPhone"];
+            order.Email = formCheckout["email"];
+            */
             db.Orders.Add(order);
             db.SaveChanges();
             CreateOrderDetail(cartItems, order.orderID);

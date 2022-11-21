@@ -44,6 +44,9 @@
                     <div class="one-eight text-center">
                         <span>Thành tiền</span>
                     </div>
+                    <div class="one-eight text-center">
+                        <span>Sửa số lượng</span>
+                    </div>
                     <div class="one-eight text-center px-4">
                         <span>Xóa sản phẩm</span>
                     </div>
@@ -71,13 +74,21 @@
                             </div>
                         </div>
                         <div class="one-eight text-center">
-                            <div class="display-tc">
-                                <input type="text" id="quantity" name="quantity" class="form-control input-number text-center" value="@item.quantity" min="1" max="100">
-                            </div>
+                            <form name="quantityUpdate" method="post" action="/CartItems/QuantityUpdate">
+                                <div class="display-tc">
+                                    <input type="text" id="quantity" name="quantity" class="form-control input-number text-center" value="@item.quantity" min="1" max="100">
+                                    <input type="text" name="productId" value="@product.productId" />
+                                </div>
+                            </form>
                         </div>
                         <div class="one-eight text-center">
                             <div class="display-tc">
                                 <span class="price">@String.Format("{0:0,0}", (item.unitPrice * item.quantity))</span>
+                            </div>
+                        </div>
+                        <div class="one-eight text-center">
+                            <div class="display-tc">
+                                <button class="btn" form="quantityUpdate">Update</button>
                             </div>
                         </div>
                         <div class="one-eight text-center">
