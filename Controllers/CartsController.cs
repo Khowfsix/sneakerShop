@@ -16,6 +16,7 @@ namespace WebApplication1.Controllers
 {
     public class CartsController : Controller
     {
+        private HomeController homeController;
         private PayPal.Api.Payment payment;
         private sneakerShopEntities db = new sneakerShopEntities();
         private double TyGiaUSD = 24815;
@@ -24,6 +25,7 @@ namespace WebApplication1.Controllers
         {
             var cart = db.Carts.Include(c => c.AspNetUser);
             return View(cart.ToList());
+
         }
         //GEt : Cart/Checkout
 
@@ -33,6 +35,8 @@ namespace WebApplication1.Controllers
             var userId = User.Identity.GetUserId();
             //Lấy user đang đăng nhập
             var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
+            //Lấy giỏ hàng của user đang đăng nhập
+            var cart = db.Carts.FirstOrDefault(c => c.userId == user.Id);
             var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId == cartId);
             CheckoutViewModel checkoutViewModel = new CheckoutViewModel();
             checkoutViewModel.cartItems = cartItems.ToList();
@@ -50,15 +54,11 @@ namespace WebApplication1.Controllers
             var userId = User.Identity.GetUserId();
             //Lấy user đang đăng nhập
             var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
-            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId == cart.cartId);
-            double total = 0;
+            var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId == cart.cartId).ToList();
+            double totalItem = 0;
             foreach (var cartItem in cartItems)
             {
-                total += (double)(cartItem.quantity * cartItem.unitPrice);
-                //var product = db.Products.Where(c=>c.productId==cartItem.productId).FirstOrDefault();
-                //product.amount+=cartItem.quantity;
-                //db.Products.AddOrUpdate(product);
-                //db.SaveChanges();
+                totalItem += (double)(cartItem.quantity * cartItem.unitPrice);
             }
             Order order = new Order();
             order.orderDate = DateTime.Now;
@@ -67,10 +67,16 @@ namespace WebApplication1.Controllers
             order.cartID = cartId;
             order.status = 0;
             order.shipping = 0;
-            order.totalPay = (long)total;
+            order.totalPay = (long)(totalItem + totalItem * 8 / 100);
             order.paymentType = int.Parse(formCheckout["optradio"]);
+
+            order.customerName = formCheckout["customerName"];
+            order.numberPhone = formCheckout["numberPhone"];
+            order.Email = formCheckout["email"];
+
             db.Orders.Add(order);
             db.SaveChanges();
+            CreateOrderDetail(cartItems, order.orderID);
             /*
             if (order.paymentType == 3)
             {
@@ -78,6 +84,20 @@ namespace WebApplication1.Controllers
             }*/
 
             return RedirectToAction(actionName: "OrderComplete", controllerName: "Carts", new { cartId = cartId });
+        }
+
+        public void CreateOrderDetail(List<CartItem> cartItems, int orderID)
+        {
+            foreach (var cartItem in cartItems)
+            {
+                var orderDetail = new OrderDetail();
+                orderDetail.orderID = orderID;
+                orderDetail.stockID = cartItem.Stock.stockID;
+                orderDetail.quantity = cartItem.quantity;
+                orderDetail.unitPrice = cartItem.unitPrice;
+                db.OrderDetails.Add(orderDetail);
+                db.SaveChanges();
+            }
         }
 
         // GET: Carts/Details/5

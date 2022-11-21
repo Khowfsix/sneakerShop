@@ -40,7 +40,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="fname">Tên khách hàng</label>
-                                <input type="text" name="fname" class="form-control" placeholder="@Model.username">
+                                <input type="text" name="customerName" class="form-control" placeholder="@Model.username" required>
                                 <input type="text" name="cartId" value=@Request.Params["cartId"] hidden>
                             </div>
                         </div>
@@ -48,26 +48,26 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="fname">Địa chỉ giao hàng</label>
-                                <input type="text" name="address" class="form-control" placeholder="Nhập địa chỉ giao hàng">
+                                <input type="text" name="address" class="form-control" placeholder="Nhập địa chỉ giao hàng" required>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="email">Địa chỉ email</label>
-                                <input type="text" id="email" class="form-control" placeholder="Nhập địa chỉ email của bạn">
+                                <input type="email" name="email" class="form-control" placeholder="Nhập địa chỉ email của bạn" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="Phone">Số điện thoại</label>
-                                <input type="text" id="zippostalcode" class="form-control" placeholder="Nhập số điện thoại">
+                                <input type="tel" name="numberPhone" class="form-control" placeholder="Nhập số điện thoại" pattern="[0-9]{9,10,11}" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12">
                                 <div class="radio">
-                                    <label><input type="radio" name="optradio" value="1"> Trả tiền mặt</label>
+                                    <label><input type="radio" name="optradio" value="1" required> Trả tiền mặt</label>
                                 </div>
                             </div>
                         </div>
@@ -95,26 +95,15 @@
                                     <ul>
                                         @foreach (var item in Model.cartItems)
                                         {
-                                            <li><span >@item.quantity x @item.Stock.Product.productName</span> <span style="text-align:right">@(item.unitPrice * item.quantity)</span></li>
+                                            <li><span>@item.quantity x @item.Stock.Product.productName Size:@item.size </span> <span style="text-align:right">@(item.unitPrice * item.quantity)</span></li>
                                         }
                                     </ul>
                                 </li>
-                                @{ double ship;
-                                    if (total > 500000)
-                                    {
-                                        ship = total * 5 / 100;
-                                    }
-                                    else if (total == 0)
-                                    {
-                                        ship = 0;
-                                    }
-                                    else
-                                    {
-                                        ship = 20000;
-                                    }
+                                @{ double vat = (double)total * 8 / 100;
+
                                 }
-                                <li><span>Phí vận chuyển</span>      <span style="text-align:right">@ship</span></li>
-                                <li><span>Tổng thanh toán</span>     <span style="text-align:right">@(total+ship)</span></li>
+                                <li><span>Phí GTGT 8%</span>      <span style="text-align:right">@String.Format("{0:0,0}", vat)</span></li>
+                                <li><span>Tổng thanh toán</span>     <span style="text-align:right">@String.Format("{0:0,0}", (total + vat))</span></li>
                             </ul>
                         </div>
                     </div>
@@ -123,3 +112,35 @@
         </div>
     </div>
 </div>
+
+<div class="gototop js-top">
+    <a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+</div>
+
+<!-- jQuery -->
+<script src="js/jquery.min.js"></script>
+<!-- popper -->
+<script src="js/popper.min.js"></script>
+<!-- bootstrap 4.1 -->
+<script src="js/bootstrap.min.js"></script>
+<!-- jQuery easing -->
+<script src="js/jquery.easing.1.3.js"></script>
+<!-- Waypoints -->
+<script src="js/jquery.waypoints.min.js"></script>
+<!-- Flexslider -->
+<script src="js/jquery.flexslider-min.js"></script>
+<!-- Owl carousel -->
+<script src="js/owl.carousel.min.js"></script>
+<!-- Magnific Popup -->
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/magnific-popup-options.js"></script>
+<!-- Date Picker -->
+<script src="js/bootstrap-datepicker.js"></script>
+<!-- Stellar Parallax -->
+<script src="js/jquery.stellar.min.js"></script>
+<!-- Main -->
+<script src="js/main.js"></script>
+
+
+
+

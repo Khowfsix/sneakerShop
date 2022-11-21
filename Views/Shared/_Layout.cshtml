@@ -58,10 +58,10 @@
                 <div class="row">
                     <div class="col-sm-12 text-left menu-1">
                         <ul>
-                            <li class="active"><a href=@Url.Action("Index", "Home")>Home</a></li>
-                            <li><a href=@Url.Action("Index", "AllProduct")>All products</a></li>
-                            <li><a href="@Url.Action("About", "Home")">About</a></li>
-                            <li><a href="@Url.Action("Contact", "Home")">Contact</a></li>
+                            <li class="active"><a href=@Url.Action("Index", "Home")>Trang chủ</a></li>
+                            <li><a href=@Url.Action("Index", "AllProduct")>Tất cả sản phẩm</a></li>
+                            <li><a href="@Url.Action("About", "Home")">Thông tin</a></li>
+                            <li><a href="@Url.Action("Contact", "Home")">Liên hệ</a></li>
                             @if (User.IsInRole("Admin"))
                             {
                                 <li><a href="@Url.Action("Index", "Dashboard")">Trang Admin</a></li>

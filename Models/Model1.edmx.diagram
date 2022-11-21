@@ -34,6 +34,9 @@
         <AssociationConnector Association="sneakerShopModel.FK_stock" ManuallyRouted="false" />
         <AssociationConnector Association="sneakerShopModel.AspNetUserRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="sneakerShopModel.sysdiagram" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="sneakerShopModel.OrderDetail" Width="1.5" PointX="9.75" PointY="10.125" />
+        <AssociationConnector Association="sneakerShopModel.FK_OrderDetail_Order1" />
+        <AssociationConnector Association="sneakerShopModel.FK_OrderDetail_Product" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

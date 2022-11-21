@@ -10,7 +10,6 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class OrdersController : Controller
     {
         private sneakerShopEntities db = new sneakerShopEntities();
@@ -18,7 +17,7 @@ namespace WebApplication1.Controllers
         // GET: Orders
         public ActionResult Index()
         {
-            var orders = db.Orders.Include(o => o.AspNetUser).Include(o => o.Cart).Include(o => o.paymentType1);
+            var orders = db.Orders.Include(o => o.AspNetUser).Include(o => o.Cart).Include(o => o.paymentType1).OrderByDescending(o => o.orderDate);
             return View(orders.ToList());
         }
 

@@ -40,5 +40,6 @@ namespace WebApplication1.Models
         public virtual DbSet<Shipment> Shipments { get; set; }
         public virtual DbSet<Stock> Stocks { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
     }
 }

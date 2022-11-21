@@ -109,12 +109,25 @@
           <Property Name="orderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="userID" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="cartID" Type="int" Nullable="false" />
-          <Property Name="orderDate" Type="date" />
+          <Property Name="orderDate" Type="datetime" />
           <Property Name="status" Type="tinyint" />
           <Property Name="shipping" Type="tinyint" />
           <Property Name="totalPay" Type="bigint" />
           <Property Name="paymentType" Type="int" />
           <Property Name="address" Type="nvarchar" MaxLength="500" />
+          <Property Name="customerName" Type="nvarchar" MaxLength="256" />
+          <Property Name="numberPhone" Type="varchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="orderDetailId" />
+          </Key>
+          <Property Name="orderDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="orderID" Type="int" Nullable="false" />
+          <Property Name="stockID" Type="int" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="unitPrice" Type="float" />
         </EntityType>
         <EntityType Name="paymentType">
           <Key>
@@ -294,6 +307,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OrderDetail_Order1">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="orderID" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="orderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_Product">
+          <End Role="Stock" Type="Self.Stock" Multiplicity="0..1" />
+          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="stockID" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="stockID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_orderPaymentType">
           <End Role="paymentType" Type="Self.paymentType" Multiplicity="0..1" />
           <End Role="Order" Type="Self.Order" Multiplicity="*" />
@@ -366,6 +403,7 @@
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="imagesProduct" EntityType="Self.imagesProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="paymentType" EntityType="Self.paymentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Shipment" EntityType="Self.Shipment" Schema="dbo" store:Type="Tables" />
@@ -410,6 +448,14 @@
           <AssociationSet Name="FK_orderCart" Association="Self.FK_orderCart">
             <End Role="Cart" EntitySet="Cart" />
             <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_Order1" Association="Self.FK_OrderDetail_Order1">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="OrderDetail" EntitySet="OrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_Product" Association="Self.FK_OrderDetail_Product">
+            <End Role="Stock" EntitySet="Stock" />
+            <End Role="OrderDetail" EntitySet="OrderDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_orderPaymentType" Association="Self.FK_orderPaymentType">
             <End Role="paymentType" EntitySet="paymentType" />
@@ -548,7 +594,7 @@
           <Property Name="orderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="userID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="cartID" Type="Int32" Nullable="false" />
-          <Property Name="orderDate" Type="DateTime" Precision="0" />
+          <Property Name="orderDate" Type="DateTime" Precision="3" />
           <Property Name="status" Type="Byte" />
           <Property Name="shipping" Type="Byte" />
           <Property Name="totalPay" Type="Int64" />
@@ -558,6 +604,10 @@
           <NavigationProperty Name="Cart" Relationship="Self.FK_orderCart" FromRole="Order" ToRole="Cart" />
           <NavigationProperty Name="paymentType1" Relationship="Self.FK_orderPaymentType" FromRole="Order" ToRole="paymentType" />
           <NavigationProperty Name="Shipments" Relationship="Self.FK_shipOrder" FromRole="Order" ToRole="Shipment" />
+          <Property Name="customerName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="numberPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OrderDetails" Relationship="sneakerShopModel.FK_OrderDetail_Order1" FromRole="Order" ToRole="OrderDetail" />
         </EntityType>
         <EntityType Name="paymentType">
           <Key>
@@ -606,6 +656,7 @@
           <Property Name="lastUpdate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="CartItems" Relationship="Self.FK_cartitemProduct" FromRole="Stock" ToRole="CartItem" />
           <NavigationProperty Name="Product" Relationship="Self.FK_stock" FromRole="Stock" ToRole="Product" />
+          <NavigationProperty Name="OrderDetails" Relationship="sneakerShopModel.FK_OrderDetail_Product" FromRole="Stock" ToRole="OrderDetail" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -843,6 +894,15 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <EntitySet Name="sysdiagrams" EntityType="sneakerShopModel.sysdiagram" />
+          <EntitySet Name="OrderDetails" EntityType="sneakerShopModel.OrderDetail" />
+          <AssociationSet Name="FK_OrderDetail_Order1" Association="sneakerShopModel.FK_OrderDetail_Order1">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_Product" Association="sneakerShopModel.FK_OrderDetail_Product">
+            <End Role="Stock" EntitySet="Stocks" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="sysdiagram">
           <Key>
@@ -854,6 +914,42 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="orderDetailId" />
+          </Key>
+          <Property Name="orderDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="orderID" Type="Int32" Nullable="false" />
+          <Property Name="stockID" Type="Int32" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="unitPrice" Type="Double" />
+          <NavigationProperty Name="Order" Relationship="sneakerShopModel.FK_OrderDetail_Order1" FromRole="OrderDetail" ToRole="Order" />
+          <NavigationProperty Name="Stock" Relationship="sneakerShopModel.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Stock" />
+        </EntityType>
+        <Association Name="FK_OrderDetail_Order1">
+          <End Type="sneakerShopModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="sneakerShopModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="orderID" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="orderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_Product">
+          <End Type="sneakerShopModel.Stock" Role="Stock" Multiplicity="0..1" />
+          <End Type="sneakerShopModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="stockID" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="stockID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -956,6 +1052,9 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="sneakerShopModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="numberPhone" ColumnName="numberPhone" />
+                <ScalarProperty Name="customerName" ColumnName="customerName" />
                 <ScalarProperty Name="orderID" ColumnName="orderID" />
                 <ScalarProperty Name="userID" ColumnName="userID" />
                 <ScalarProperty Name="cartID" ColumnName="cartID" />
@@ -1028,6 +1127,17 @@
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails">
+            <EntityTypeMapping TypeName="sneakerShopModel.OrderDetail">
+              <MappingFragment StoreEntitySet="OrderDetail">
+                <ScalarProperty Name="unitPrice" ColumnName="unitPrice" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="stockID" ColumnName="stockID" />
+                <ScalarProperty Name="orderID" ColumnName="orderID" />
+                <ScalarProperty Name="orderDetailId" ColumnName="orderDetailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
