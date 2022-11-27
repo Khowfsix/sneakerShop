@@ -12,11 +12,14 @@
 </p>
 <table class="table">
     <tr>
+        <th>
+            STT
+        </th>
         <td>
-            ID đơn hàng
+            ID
         </td>
         <th>
-            Ngày đặt
+            Thời gian đặt
         </th>
         <th>
             Trạng thái đơn hàng
@@ -27,44 +30,74 @@
         <th></th>
     </tr>
 
+    @{ int i = 0;}
     @foreach (WebApplication1.Models.Order item in Model)
     {
         <tr>
             @if (item.orderDate.Value.Date == DateTime.Today.Date)
             {
                 <td style="color: red">
+                    <span>@(++i)</span>
+                </td>
+                <td style="color: red">
                     @Html.DisplayFor(modelItem => item.orderID)
                 </td>
                 <td style="color: red">
                     @Html.DisplayFor(modelItem => item.orderDate)
                 </td>
                 <td style="color: red">
-                    @Html.DisplayFor(modelItem => item.status)
+                    @switch (item.status)
+                    {
+                        case 0:<span>Chưa xác nhận</span> break;
+                        case 1: <span>Đã xác nhận</span>break;
+                        case 2: <span>Shipper đã nhận đơn</span>break;
+                        case 3: <span>Đã hoàn thành</span>break;
+                    }
                 </td>
+
                 <td style="color: red">
-                    @Html.DisplayFor(modelItem => item.shipping)
+                    @switch (item.shipping)
+                    {
+                        case 0:<span>Chưa nhận đơn</span> break;
+                        case 1: <span>Đang giao</span>break;
+                        case 2: <span>Đã giao</span>break;
+                    }
                 </td>
             }
             else
             {
                 <td>
+                    <span>@(++i)</span>
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.orderID)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.orderDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.status)
+                    @switch (item.status)
+                    {
+                        case 0:<span>Chưa xác nhận</span> break;
+                        case 1: <span>Đã xác nhận</span>break;
+                        case 2: <span>Shipper đã nhận đơn</span>break;
+                        case 3: <span>Đã hoàn thành</span>break;
+                    }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.shipping)
+                    @switch (item.shipping)
+                    {
+                        case 0:<span>Chưa nhận đơn</span> break;
+                        case 1: <span>Đang giao</span>break;
+                        case 2: <span>Đã giao</span>break;
+                    }
                 </td>
             }
             <td>
                 <input type="button" value="Sửa" onclick="location.href='@Url.Action("Edit", "Orders", new { id = item.orderID })'" />
             </td>
             <td>
-                <input type="button" value="Chi tiết" onclick="location.href='@Url.Action("Details", "Orders", new { id = item.orderID })'" />
+                <input type="button" value="Chi tiết" onclick="location.href='@Url.Action("listAdmin", "OrderDetails", new { orderID = item.orderID })'" />
             </td>
             <td>
                 <input type="button" value="Xóa" onclick="location.href='@Url.Action("Delete", "Orders", new { id = item.orderID })'" />

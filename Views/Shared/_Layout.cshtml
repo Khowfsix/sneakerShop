@@ -45,14 +45,14 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-5 col-md-3">
-                        <form action="@Url.Action("Searching", "Home", new {keyword = "asdfassdfasdfasdfasdf"})" class="search-wrap" method="post">
-                            <div class="form-group">
-                                <input type="search" class="form-control search" placeholder="Search" name="seachKey">
-                                <button class="btn btn-primary submit-search text-center" type="submit" value="Search"><i class="icon-search"></i></button>
-                            </div>
-                        </form>
-                    </div>
+                    @*<div class="col-sm-5 col-md-3">
+                            <form action="@Url.Action("Searching", "Home", new {keyword = "asdfassdfasdfasdfasdf"})" class="search-wrap" method="post">
+                                <div class="form-group">
+                                    <input type="search" class="form-control search" placeholder="Search" name="seachKey">
+                                    <button class="btn btn-primary submit-search text-center" type="submit" value="Search"><i class="icon-search"></i></button>
+                                </div>
+                            </form>
+                        </div>*@
 
                 </div>
                 <div class="row">
@@ -65,6 +65,15 @@
                             @if (User.IsInRole("Admin"))
                             {
                                 <li><a href="@Url.Action("Index", "Dashboard")">Trang Admin</a></li>
+                            }
+                            @if (User.IsInRole("Shiper"))
+                            {
+                                <li><a href="@Url.Action("DonHangChuaNhan", "Shiper")">Giao hàng</a></li>
+                            }
+
+                            @if (!User.IsInRole("User") && !User.IsInRole("Shiper"))
+                            {
+                                <li><a href="@Url.Action("IndexUser", "Orders")">Thông tin đơn hàng</a></li>
                             }
 
                             <li class="cart"><a href="@Url.Action("Index","CartItems")"><i class="icon-shopping-cart"></i> Cart</a></li>
@@ -128,7 +137,7 @@
             </div>
         </div>
         <hr />
-        
+
         <footer>
             <div>&copy; @DateTime.Now.Year - Nhóm 10 - Thương mại điện tử</div>
             <div><h3 style="font-weight: bold; font-style: normal; color: #95171F;">LPP Sneaker Shop</h3></div>

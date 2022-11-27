@@ -1,0 +1,86 @@
+﻿@model IEnumerable<WebApplication1.Models.Order>
+@{
+    ViewBag.Title = "DonHangChuaNhan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    WebApplication1.Models.sneakerShopEntities db = new WebApplication1.Models.sneakerShopEntities();
+}
+
+<div style="margin-top: 15px; margin-bottom:15px">
+    <a href="/Shiper/DonDaNhan/?shiperId=@ViewData["userId"]"><button class="btn btn-primary">Đơn hàng đã nhận</button></a>
+</div>
+
+<h1>
+    Danh sách đơn hàng chưa nhận
+</h1>
+<div>
+    <table class="table">
+        <tr>
+            <th>
+                STT
+            </th>
+            <th>
+                Thời gian đặt
+            </th>
+            <th>
+                Trạng thái giao hàng
+            </th>
+            <th>
+                Kiểu thanh toán
+            </th>
+            <th>
+                Tổng giá
+            </th>
+            <th>
+                Tên người mua
+            </th>
+            <th>
+                Địa chỉ
+            </th>
+            <th>
+                Số điện thoại
+            </th>
+            <th></th>
+        </tr>
+        @{ int i = 0;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <span>@(++i)</span>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.orderDate)
+                </td>
+                <td>
+                    @switch (item.shipping)
+                    {
+                        case 0:<span>Chưa nhận đơn</span> break;
+                        case 1: <span>Đang giao</span>break;
+                        case 2: <span>Đã giao</span>break;
+                    }
+                </td>
+                <td>
+                    @item.paymentType1.paymentTypeName
+                </td>
+                <td>
+                    @String.Format("{0:0,0}", item.totalPay);
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.customerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.numberPhone)
+                </td>
+                <td>
+                    <a href="/Shiper/NhanGiao?orderId=@item.orderID"><button class="btn btn-primary">Nhận giao đơn hàng</button></a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

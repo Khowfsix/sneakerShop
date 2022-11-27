@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -64,63 +65,67 @@ namespace WebApplication1.Controllers
             Int32 size = Int32.Parse(form["size"]);
             var stock = db.Stocks.Where(c => c.productId == cartItem.productId && c.size == size).FirstOrDefault();
 
-            bool checkStock = CheckStock(stock.inStock, Convert.ToInt32(form["quantity"]));
-            Product product = db.Products.Find(cartItem.productId);
-            if (checkStock)
+            int quantity = form["quantity"]==null ? 1 : Convert.ToInt32(form["quantity"]);
+            if (quantity > 0)
             {
-                if (cart != null)
+                bool checkStock = CheckStock(stock.inStock, Convert.ToInt32(form["quantity"]));
+                Product product = db.Products.Find(cartItem.productId);
+                if (checkStock)
                 {
-                    var cartitems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId.Equals(cart.cartId));
-                    var list = cartitems.ToList();
-                    if (list.Exists(x => x.productId == cartItem.productId))
+                    if (cart != null)
                     {
-                        foreach (var item in list)
+                        var cartitems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId.Equals(cart.cartId));
+                        var list = cartitems.ToList();
+                        if (list.Exists(x => x.productId == cartItem.productId))
                         {
-                            if (item.productId == cartItem.productId && item.size == Convert.ToInt32(form["size"]))
+                            foreach (var item in list)
                             {
-                                item.quantity += Convert.ToInt32(form["quantity"]);
-                                if (CheckStock(stock.inStock, Convert.ToInt32(item.quantity)))
+                                if (item.productId == cartItem.productId && item.size == Convert.ToInt32(form["size"]))
                                 {
-                                    db.Entry(item).State = EntityState.Modified;
+                                    item.quantity += Convert.ToInt32(form["quantity"]);
+                                    if (CheckStock(stock.inStock, Convert.ToInt32(item.quantity)))
+                                    {
+                                        db.Entry(item).State = EntityState.Modified;
+                                    }
                                 }
                             }
+                            db.SaveChanges();
                         }
-                        db.SaveChanges();
+                        else
+                        {
+
+                            //tao moi doi tuong cart item
+                            var item = new CartItem();
+                            item.size = Convert.ToInt32(form["size"]);
+                            item.cartId = cart.cartId;
+                            item.productId = cartItem.productId;
+                            item.quantity =  Convert.ToInt32(form["quantity"]);
+                            item.unitPrice = product.price;
+                            db.CartItems.Add(item);
+                            db.SaveChanges();
+                        }
                     }
                     else
                     {
+                        //Tao cart moi cho user
+                        var newcart = new Cart();
+                        newcart.status = 1;
+                        newcart.AspNetUser = user;
+                        newcart.userId = user.Id;
+                        newcart.cartId = cartLast.cartId + 1;
+                        db.Carts.Add(newcart);
+                        db.SaveChanges();
 
                         //tao moi doi tuong cart item
                         var item = new CartItem();
-                        item.size = Convert.ToInt32(form["size"]);
-                        item.cartId = cart.cartId;
+                        item.cartId = 1;
                         item.productId = cartItem.productId;
+                        item.size = Convert.ToInt32(form["size"]);
                         item.quantity = Convert.ToInt32(form["quantity"]);
                         item.unitPrice = product.price;
                         db.CartItems.Add(item);
                         db.SaveChanges();
                     }
-                }
-                else
-                {
-                    //Tao cart moi cho user
-                    var newcart = new Cart();
-                    newcart.status = 1;
-                    newcart.AspNetUser = user;
-                    newcart.userId = user.Id;
-                    newcart.cartId = cartLast.cartId + 1;
-                    db.Carts.Add(newcart);
-                    db.SaveChanges();
-
-                    //tao moi doi tuong cart item
-                    var item = new CartItem();
-                    item.cartId = 1;
-                    item.productId = cartItem.productId;
-                    item.size = Convert.ToInt32(form["size"]);
-                    item.quantity = Convert.ToInt32(form["quantity"]);
-                    item.unitPrice = product.price;
-                    db.CartItems.Add(item);
-                    db.SaveChanges();
                 }
             }
             return RedirectToAction("Index");
@@ -131,78 +136,23 @@ namespace WebApplication1.Controllers
                 return true;
             return false;
         }
-        public ActionResult AddItem([Bind(Include = "cartId,productId,quantity,unitPrice")] CartItem cartItem)
-        {
-
-            var userId = User.Identity.GetUserId();
-            //Lấy user đang đăng nhập
-            var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
-            //Lấy giỏ hàng của user đang đăng nhập
-            var cart = db.Carts.FirstOrDefault(c => c.userId == user.Id);
-            //Lấy giỏ hàng cuối cùng để lấy Id lớn nhất
-            var cartLast = db.Carts.OrderByDescending(p => p.cartId).FirstOrDefault();
-            Product product = db.Products.Find(cartItem.productId);
-            if (cart != null)
-            {
-                var cartitems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId.Equals(cart.cartId));
-                var list = cartitems.ToList();
-                if (list.Exists(x => x.productId == cartItem.productId))
-                {
-                    foreach (var item in list)
-                    {
-                        if (item.productId == cartItem.productId)
-                        {
-                            item.quantity += cartItem.quantity;
-                            db.Entry(item).State = EntityState.Modified;
-                        }
-
-                    }
-                    db.SaveChanges();
-                }
-                else
-                {
-
-                    //tao moi doi tuong cart item
-                    var item = new CartItem();
-                    item.cartId = cart.cartId;
-                    item.productId = cartItem.productId;
-                    item.quantity = cartItem.quantity;
-                    item.unitPrice = product.price;
-                    db.CartItems.Add(item);
-                    db.SaveChanges();
-                }
-            }
-            else
-            {
-                //Tao cart moi cho user
-                var newcart = new Cart();
-                newcart.status = 1;
-                newcart.AspNetUser = user;
-                newcart.userId = user.Id;
-                newcart.cartId = cartLast.cartId + 1;
-                db.Carts.Add(newcart);
-                db.SaveChanges();
-
-                //tao moi doi tuong cart item
-                var item = new CartItem();
-                item.cartId = 1;
-                item.productId = cartItem.productId;
-                item.quantity = cartItem.quantity;
-                item.unitPrice = product.price;
-                db.CartItems.Add(item);
-                db.SaveChanges();
-            }
-
-            return RedirectToAction("Index");
-        }
+        
         [HttpPost]
         public ActionResult QuantityUpdate(FormCollection form)
         {
+            int quantity = form["quantity"] == null ? 1 : Convert.ToInt32(form["quantity"]);
+            int size = Convert.ToInt32(form["size"]);
             Int32 id = Convert.ToInt32(form["productId"]);
-            var cartItem = db.CartItems.Where(c => c.productId == id).FirstOrDefault();
-            cartItem.quantity = Convert.ToInt32(form["quantity"]);
-            db.CartItems.AddOrUpdate(cartItem);
-            db.SaveChanges();
+            var stock = db.Stocks.Where(c => c.productId == id && c.size == size).FirstOrDefault();
+
+            if (quantity > 0 && quantity <= stock.inStock)
+            {
+                var cartItem = db.CartItems.Where(c => c.productId == id).FirstOrDefault();
+                cartItem.quantity = quantity;
+                db.CartItems.AddOrUpdate(cartItem);
+                db.SaveChanges();
+            }
+
             return Redirect("Index");
         }
 

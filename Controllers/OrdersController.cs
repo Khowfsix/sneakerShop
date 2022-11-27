@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -15,9 +16,18 @@ namespace WebApplication1.Controllers
         private sneakerShopEntities db = new sneakerShopEntities();
 
         // GET: Orders
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var orders = db.Orders.Include(o => o.AspNetUser).Include(o => o.Cart).Include(o => o.paymentType1).OrderByDescending(o => o.orderDate);
+            return View(orders.ToList());
+        }
+
+        [Authorize]
+        public ActionResult IndexUser()
+        {
+            var userId = User.Identity.GetUserId();
+            var orders = db.Orders.Include(o => o.AspNetUser).Include(o => o.Cart).Include(o => o.paymentType1).Where(o => o.userID.Equals(userId)).OrderByDescending(o => o.orderDate);
             return View(orders.ToList());
         }
 
