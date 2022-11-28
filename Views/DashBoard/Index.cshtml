@@ -1,12 +1,24 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Index</h2>
+@*<h2>Index</h2>
 <h3>ID: @ViewBag.ID</h3>
 <h3>Admin name: @ViewBag.AdminName</h3>
 <p>
     Admin: @ViewBag.Role
-</p>
+</p>*@
+
+
+<h2>
+    Số lượng đơn trong ngày: <span style="color: red;">@ViewBag.countDay</span>
+</h2>
+
+<h2>
+    Số lượng đơn trong tháng: <span style="color: red;">@ViewBag.countMouth </span>
+</h2>
+
+<h2>
+    Danh sách sản phẩm được mua nhiều nhất:
+</h2>

@@ -17,8 +17,8 @@ namespace WebApplication1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Order()
         {
-            this.Shipments = new HashSet<Shipment>();
             this.OrderDetails = new HashSet<OrderDetail>();
+            this.Shipments = new HashSet<Shipment>();
         }
     
         public int orderID { get; set; }
@@ -33,13 +33,15 @@ namespace WebApplication1.Models
         public string customerName { get; set; }
         public string numberPhone { get; set; }
         public string Email { get; set; }
+        public string ThoiGianVanChuyen { get; set; }
+        public Nullable<System.DateTime> NgayHoanThanh { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Cart Cart { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual paymentType paymentType1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Shipment> Shipments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

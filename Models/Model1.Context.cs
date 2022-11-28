@@ -35,11 +35,11 @@ namespace WebApplication1.Models
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<imagesProduct> imagesProducts { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<paymentType> paymentTypes { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Shipment> Shipments { get; set; }
         public virtual DbSet<Stock> Stocks { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
     }
 }

@@ -16,10 +16,30 @@ namespace WebApplication1.Controllers
 {
     public class CartsController : Controller
     {
-        private HomeController homeController;
-        private PayPal.Api.Payment payment;
         private sneakerShopEntities db = new sneakerShopEntities();
-        private double TyGiaUSD = 24815;
+        List<string> MienNam = new List<string>() { "Long An", "Đồng Tháp", "Tiền Giang", "An Giang", "Vĩnh Long", "Trà Vinh", "Hậu Giang", "Kiên Giang", "Sóc Trăng", "Bạc Liêu", "Cà Mau", "Cần Thơ", "Bình Phước", "Bình Dương", "Đồng Nai", "Tây Ninh", "Bà Rịa-Vũng Tàu", "Hồ Chí Minh" };
+        List<string> MienTrung = new List<string>() { "Thanh Hóa", "Nghệ An", "Hà Tĩnh", "Quảng Bình", "Quảng Trị", "Thừa Thiên Huế", "Đà Nẵng", "Quảng Nam", "Quảng Ngãi", "Bình Định", "Phú Yên", "Khánh Hòa", "Ninh Thuận", "Bình Thuận" };
+        List<string> MienBac = new List<string>() { "Lào Cai", "Yên Bái", "Điện Biên", "Hoà Bình", "Lai Châu", "Sơn La", "Hà Giang", "Cao Bằng", "Bắc Kạn", "Lạng Sơn", "Tuyên Quang", "Thái Nguyên", "Phú Thọ", "Bắc Giang", "Quảng Ninh", "Bắc Ninh", "Hà Nam", "Hà Nội", "Hải Dương", "Hải Phòng", "Hưng Yên", "Nam Định", "Ninh Bình", "Thái Bình", "Vĩnh Phúc " };
+        List<string> TatCaTinhThanh = new List<string>();
+        public string KiemTraTinhThuocVung(string tenTinh)
+        {
+            if (MienNam.Exists(x => x.Equals(tenTinh)))
+            {
+                return "Miền Nam";
+            }
+            else if (MienTrung.Exists(x => x.Equals(tenTinh)))
+            {
+                return "Miền Trung";
+            }
+            else if (MienBac.Exists(x => x.Equals(tenTinh)))
+            {
+                return "Miền Bắc";
+            }
+            else
+            {
+                return "Tỉnh không thuộc Việt Nam";
+            }
+        }
         // GET: Carts
         public ActionResult Index()
         {
@@ -40,6 +60,24 @@ namespace WebApplication1.Controllers
             var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId == cartId);
             CheckoutViewModel checkoutViewModel = new CheckoutViewModel();
             checkoutViewModel.cartItems = cartItems.ToList();
+            //Nối tăt cả các tỉnh thành 1 list
+            foreach (var item in MienNam)
+            {
+                TatCaTinhThanh.Add(item);
+            }
+            foreach (var item in MienTrung)
+            {
+                TatCaTinhThanh.Add(item);
+            }
+            foreach (var item in MienBac)
+            {
+                TatCaTinhThanh.Add(item);
+            }
+            if (cartItems.Count() == 0)
+            {
+                return RedirectToAction("Index", "CartItems");
+            }
+            ViewData["TatCaTinhThanh"] = TatCaTinhThanh;
             checkoutViewModel.username = user.UserName;
             return View(checkoutViewModel);
         }
@@ -54,8 +92,24 @@ namespace WebApplication1.Controllers
             var userId = User.Identity.GetUserId();
             //Lấy user đang đăng nhập
             var user = db.AspNetUsers.Where(c => c.Id.Equals(userId)).FirstOrDefault();
+            //Nối tăt cả các tỉnh thành 1 list
+            foreach (var item in MienNam)
+            {
+                TatCaTinhThanh.Add(item);
+            }
+            foreach (var item in MienTrung)
+            {
+                TatCaTinhThanh.Add(item);
+            }
+            foreach (var item in MienBac)
+            {
+                TatCaTinhThanh.Add(item);
+            }
             var cartItems = db.CartItems.Include(c => c.Cart).Include(c => c.Stock).Where(c => c.cartId == cart.cartId).ToList();
             double totalItem = 0;
+            var index = Convert.ToInt32(formCheckout["province"]);
+            var tinh = TatCaTinhThanh[index - 1];
+            string VungGiao = KiemTraTinhThuocVung(tinh);
             foreach (var cartItem in cartItems)
             {
                 totalItem += (double)(cartItem.quantity * cartItem.unitPrice);
@@ -69,7 +123,18 @@ namespace WebApplication1.Controllers
             order.shipping = 0;
             order.totalPay = (long)(totalItem + totalItem * 8 / 100);
             order.paymentType = int.Parse(formCheckout["optradio"]);
-
+            if (VungGiao == "Miền Nam")
+            {
+                order.ThoiGianVanChuyen = "Trong vòng 2 ngày";
+            }
+            else if (VungGiao == "Miền Trung")
+            {
+                order.ThoiGianVanChuyen = "Trong vòng 3 ngày";
+            }
+            else if (VungGiao == "Miền Bắc")
+            {
+                order.ThoiGianVanChuyen = "Trong vòng 7 ngày";
+            }
             order.customerName = formCheckout["customerName"];
             order.numberPhone = formCheckout["numberPhone"];
             order.Email = formCheckout["email"];

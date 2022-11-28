@@ -363,6 +363,17 @@
     <Content Include="Content\responsiveDevices.css" />
     <Content Include="Content\shoppingcart.css" />
     <Content Include="Content\sidebar.css" />
+    <Content Include="images\background\bg.jpg" />
+    <Content Include="Models\Model1.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Model1.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\sidebar.js" />
     <Content Include="Content\style.css" />
     <Content Include="Content\styleindex.css" />
@@ -685,16 +696,6 @@
     <Content Include="images\products\productsFromDB\admin.jpg" />
     <Content Include="images\products\productsFromDB\user.jpg" />
     <Content Include="images\women.jpg" />
-    <Content Include="Models\Model1.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\Model1.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\aos.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -771,13 +772,6 @@
     <Content Include="fonts\ionicons\fonts\ionicons.ttf" />
     <Content Include="fonts\ionicons\fonts\ionicons.woff" />
     <Content Include="fonts\ionicons\fonts\ionicons.woff2" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="Content\sass\bootstrap\.DS_Store" />
     <Content Include="Content\sass\bootstrap\bootstrap-grid.scss" />
     <Content Include="Content\sass\bootstrap\bootstrap-reboot.scss" />
@@ -863,6 +857,13 @@
     <Content Include="Content\sass\bootstrap\_utilities.scss" />
     <Content Include="Content\sass\bootstrap\_variables.scss" />
     <Content Include="Content\sass\style.scss" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\google_map.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />

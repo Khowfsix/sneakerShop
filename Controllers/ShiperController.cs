@@ -7,7 +7,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    [Authorize(Roles = "Shiper")]
+    [Authorize(Roles = "Shiper, Admin")]
     public class ShiperController : Controller
     {
         private sneakerShopEntities db = new sneakerShopEntities();

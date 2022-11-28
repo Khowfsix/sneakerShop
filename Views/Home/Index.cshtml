@@ -4,13 +4,13 @@
     ViewBag.Title = "Home Page";
 }
 <div>
-    Home page
+    Trang chủ
 </div>
 
 <aside id="colorlib-hero">
     <div class="flexslider">
         <ul class="slides">
-            <li style="background-image: url(../../images/background/img_bg_1.jpg);">
+            @*<li style="background-image: url(../../images/background/img_bg_1.jpg);">
                 <div class="overlay"></div>
                 <div class="container-fluid">
                     <div class="row">
@@ -27,8 +27,8 @@
                         </div>
                     </div>
                 </div>
-            </li>
-            <li style="background-image: url(../../images/background/img_bg_2.jpg);">
+            </li>*@
+            @*<li style="background-image: url(../../images/background/img_bg_2.jpg);">
                 <div class="overlay"></div>
                 <div class="container-fluid">
                     <div class="row">
@@ -45,12 +45,12 @@
                         </div>
                     </div>
                 </div>
-            </li>
-            <li style="background-image: url(../../images/background/img_bg_3.jpg);">
+            </li>*@
+            <li style="background-image: url('../../images/background/bg.jpg');">
                 <div class="overlay"></div>
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-sm-6 offset-sm-3 text-center slider-text">
+                        @*<div class="col-sm-6 offset-sm-3 text-center slider-text">
                             <div class="slider-text-inner">
                                 <div class="desc">
                                     <h1 class="head-1">New</h1>
@@ -60,14 +60,14 @@
                                     <p><a href="#" class="btn btn-primary">Shop Collection</a></p>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                     </div>
                 </div>
             </li>
         </ul>
     </div>
 </aside>
-<div class="colorlib-intro">
+@*<div class="colorlib-intro">
     <div class="container">
         <div class="row">
             <div class="col-sm-12 text-center">
@@ -97,13 +97,13 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
 <div class="colorlib-product">
     <div class="container">
         <div class="row">
             <div class="col-sm-8 offset-sm-2 text-center colorlib-heading">
-                <h2>Best Sellers</h2>
+                <h2>Bán chạy nhất</h2>
             </div>
         </div>
         <div class="row row-pb-md">
@@ -127,7 +127,7 @@
         </div>
         <div class="row">
             <div class="col-md-12 text-center">
-                <p><a href="@Url.Action("allProduct","Home")" class="btn btn-primary btn-lg">Shop All Products</a></p>
+                <p><a href="@Url.Action("Index","AllProduct")" class="btn btn-primary btn-lg">Tất cả sản phẩm</a></p>
             </div>
         </div>
     </div>

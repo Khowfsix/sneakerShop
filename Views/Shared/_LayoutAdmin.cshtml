@@ -28,7 +28,7 @@
             crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    
+
     @RenderSection("scripts", required: false)
     <script src="~/Scripts/sidebar.js"></script>
     <script src="~/Scripts/table.js"></script>
@@ -40,12 +40,16 @@
         <nav id="sidebar" class="sidebar-wrapper">
             <div class="sidebar-menu">
                 <ul>
+                    @if (User.IsInRole("Admin"))
+            {
+
                     <li class="sidebar-dropdown">
                         <a href="@Url.Action("Index", "DashBoard")">
                             <i class="fa fa-tachometer-alt"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
+            }
                     <li class="sidebar-dropdown">
                         <a href="#">
                             <i class="fa fa-shopping-cart"></i>
@@ -53,46 +57,52 @@
                         </a>
                         <div class="sidebar-submenu">
                             <ul>
-                                @*<li>
-                                        <a href="@Url.Action("Index","AspNetUsers")">
-                                            Accounts
+
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    @*<li>
+                <a href="@Url.Action("Index","AspNetUsers")">
+                    Accounts
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","AspNetUsers")">
+                    Roles
+                </a>
+            </li>*@
+                                    <li>
+                                        <a href="@Url.Action("Index","Categories")">
+                                            Categories
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Index","AspNetUsers")">
-                                            Roles
+                                        <a href="@Url.Action("Index","Products")">
+                                            Products
                                         </a>
-                                    </li>*@
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index","imagesProducts")">
+                                            Images Product
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index","Stocks")">
+                                            Stocks
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index","Orders")">
+                                            Orders
+                                        </a>
+                                    </li>
+                                }
+
                                 <li>
-                                    <a href="@Url.Action("Index","Categories")">
-                                        Categories
+                                    <a href="@Url.Action("DonHangChuaNhan","Shiper")">
+                                        Giao hàng
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="@Url.Action("Index","Products")">
-                                        Products
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index","imagesProducts")">
-                                        Images Product
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index","Stocks")">
-                                        Stocks
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index","Orders")">
-                                        Orders
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index","Shipments")">
-                                        Shipment
-                                    </a>
-                                </li>
+
                             </ul>
                         </div>
                     </li>

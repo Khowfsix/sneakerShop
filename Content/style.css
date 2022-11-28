@@ -62,7 +62,10 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
-  background-color: #fff; }
+  background-color: #fff;
+
+
+}
 
 [tabindex="-1"]:focus {
   outline: 0 !important; }
@@ -449,6 +452,7 @@ pre {
   overflow-y: scroll; }
 
 .container {
+  font-size: 15px;
   width: 100%;
   padding-right: 15px;
   padding-left: 15px;
