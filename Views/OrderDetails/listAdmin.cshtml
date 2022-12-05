@@ -1,0 +1,146 @@
+﻿@model WebApplication1.Models.Order
+
+@{
+    ViewBag.Title = "listAdmin";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Chi tiết đơn hàng</h2>
+
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.orderDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.orderDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.shipping)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.shipping)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.totalPay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.totalPay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AspNetUser.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cart.userId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cart.userId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.paymentType1.paymentTypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.paymentType1.paymentTypeName)
+        </dd>
+
+    </dl>
+</div>
+
+
+<table class="table">
+    <tr>
+        @*<th>
+            Hình ảnh
+        </th>*@
+        <th>
+            Số lượng
+        </th>
+        <th>
+            Giá
+        </th>
+        <th>
+            Người mua
+        </th>
+        <th>
+            Sản phẩm
+        </th>
+        <th>
+            Size
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in ViewBag.OrderDetail)
+    {
+        // WebApplication1.Models.sneakerShopEntities db = new WebApplication1.Models.sneakerShopEntities();
+        //var stock = db.Stocks.Find(item.stockID);
+        //var product = db.Products.Find(stock.productId);
+        <tr>
+            @*<td>
+                <div class="product-img" style="background-image: url(/images/products/productsFromDB/@(item.productId.ToString() + "a" +".jpg"));">
+            </td>*@
+            <td>
+                @item.quantity
+            </td>
+            <td>
+
+                @item.unitPrice
+            </td>
+            <td>
+
+                @item.Order.customerName
+            </td>
+            <td>
+
+                @item.Stock.Product.productName
+            </td>
+            <td>
+                @item.Stock.size
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.orderDetailId })
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.orderDetailId })
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.orderDetailId })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "DonTrongThang";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Đơn trong tháng</h2>
+
+<h2>
+    @Html.ActionLink("Đơn hàng chưa xác nhận:", "Index", "Orders", new { flag = 20 }, null) <span style="color: red;">@ViewBag.count_DonHangChuaXacNhan</span>
+</h2>
+<h2>
+    @Html.ActionLink("Đơn hàng đã xác nhận:", "Index", "Orders", new { flag = 21 }, null) <span style="color: red;">@ViewBag.count_DonHangDaXacNhan</span>
+</h2>
+<h2>
+    @Html.ActionLink("Đơn hàng shiper đã nhận:", "Index", "Orders", new { flag = 22 }, null) <span style="color: red;">@ViewBag.count_DonHangShiperDaNhan</span>
+</h2>
+<h2>
+    @Html.ActionLink("Đơn hàng đã hoàn thành:", "Index", "Orders", new { flag = 23 }, null) <span style="color: red;">@ViewBag.count_DonHangDaHoanThanh</span>
+</h2>
+

@@ -1,0 +1,51 @@
+﻿@model WebApplication1.Models.OrderDetail
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>OrderDetail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.unitPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.unitPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Order.userID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order.userID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Stock.stockID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Stock.stockID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.orderDetailId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

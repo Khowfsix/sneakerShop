@@ -1,0 +1,56 @@
+﻿@model IEnumerable<WebApplication1.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Danh sách</h2>
+
+<p>
+    <input type="button" value="Tạo mới" onclick="location.href='@Url.Action("Create", "Products")'" />
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Tên sản phẩm
+        </th>
+        <th>
+            Mô tả
+        </th>
+        <th>
+            Giá
+        </th>
+        <th>
+            Tên danh mục
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.productName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category.categoryName)
+        </td>
+        <td>
+            <input type="button" value="Sửa" onclick="location.href='@Url.Action("Edit", "Products", new { id = item.productId })'" />
+        </td>
+        <td>
+            <input type="button" value="Chi tiết" onclick="location.href='@Url.Action("Details", "Products", new { id = item.productId })'" />
+        </td>
+        <td>
+            <input type="button" value="Xóa" onclick="location.href='@Url.Action("Delete", "Products", new { id = item.productId })'" />
+        </td>
+    </tr>
+}
+
+</table>

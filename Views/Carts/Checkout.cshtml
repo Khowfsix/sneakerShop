@@ -1,0 +1,160 @@
+﻿@model WebApplication1.Models.CheckoutViewModel
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+<div class="colorlib-product">
+    <div class="container">
+        <div class="row row-pb-lg">
+            <div class="col-sm-10 offset-md-1">
+                <div class="process-wrap">
+                    <div class="process text-center active">
+                        <p><span>01</span></p>
+                        <h3>Shopping Cart</h3>
+                    </div>
+                    <div class="process text-center active">
+                        <p><span>02</span></p>
+                        <h3>Checkout</h3>
+                    </div>
+                    <div class="process text-center">
+                        <p><span>03</span></p>
+                        <h3>Order Complete</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <form method="post" class="colorlib-form" action="Checkout">
+                    @Html.AntiForgeryToken()
+                    <h2>Chi tiết đơn hàng</h2>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="fname">Tên khách hàng</label>
+                                <input type="text" name="customerName" class="form-control" placeholder="@Model.username" required>
+                                <input type="text" name="cartId" value=@Request.Params["cartId"] hidden>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="fname">Tên tỉnh/Thành phố</label>
+                            <div>
+                                <select required class="custom-select custom-select-lg mb-3 form-control" name="province">
+                                    @{ int i = 0;}
+                                    @foreach (string tinh in (List<string>)ViewData["TatCaTinhThanh"])
+                                    {
+                                        i++;
+                                        <option value=@i>@tinh</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="fname">Địa chỉ cụ thể</label>
+                                <input type="text" name="address" class="form-control" placeholder="Nhập địa chỉ giao hàng" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email">Địa chỉ email</label>
+                                <input type="email" name="email" class="form-control" placeholder="Nhập địa chỉ email của bạn" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Phone">Số điện thoại</label>
+                                <input type="tel" name="numberPhone" class="form-control" placeholder="Nhập số điện thoại" pattern="[0-9]{9,10,11}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="radio">
+                                    <label><input type="radio" name="optradio" value="1" required> Trả tiền mặt</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <p><button type="submit" class="btn btn-primary">Đặt hàng</button></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="cart-detail">
+                            <h2>Thanh toán giỏ hàng</h2>
+                            @{ int total = 0; }
+                            @foreach (var item in Model.cartItems)
+                            {
+                                total += (int)(item.unitPrice * item.quantity);
+                            }
+                            <ul>
+                                <li>
+                                    <span>Tổng tiền sản phẩm</span> <span style="text-align:right">@String.Format("{0:0,0}", total) VND</span>
+                                    <ul>
+                                        @foreach (var item in Model.cartItems)
+                                        {
+                                            <li><span>@item.quantity x @item.Stock.Product.productName - Size:@item.size </span> <span style="text-align:right">@String.Format("{0:0,0}", (item.unitPrice * item.quantity)) VND</span></li>
+                                        }
+
+                                    </ul>
+                                </li>
+                                @{ double vat = (double)total * 8 / 100;
+
+                                }
+                                <li><span>Phí vận chuyển</span>      <span style="text-align:right">Miễn phí</span></li>
+                                <li><span>Phí GTGT 8%</span>      <span style="text-align:right">@String.Format("{0:0,0}", vat) VND</span></li>
+                                <li><span>Tổng thanh toán</span>     <span style="text-align:right">@String.Format("{0:0,0}", (total + vat)) VND</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="gototop js-top">
+    <a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+</div>
+
+<!-- jQuery -->
+<script src="js/jquery.min.js"></script>
+<!-- popper -->
+<script src="js/popper.min.js"></script>
+<!-- bootstrap 4.1 -->
+<script src="js/bootstrap.min.js"></script>
+<!-- jQuery easing -->
+<script src="js/jquery.easing.1.3.js"></script>
+<!-- Waypoints -->
+<script src="js/jquery.waypoints.min.js"></script>
+<!-- Flexslider -->
+<script src="js/jquery.flexslider-min.js"></script>
+<!-- Owl carousel -->
+<script src="js/owl.carousel.min.js"></script>
+<!-- Magnific Popup -->
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/magnific-popup-options.js"></script>
+<!-- Date Picker -->
+<script src="js/bootstrap-datepicker.js"></script>
+<!-- Stellar Parallax -->
+<script src="js/jquery.stellar.min.js"></script>
+<!-- Main -->
+<script src="js/main.js"></script>
+
+
+
+

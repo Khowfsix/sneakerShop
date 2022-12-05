@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@*<h2>Index</h2>
+    <h3>ID: @ViewBag.ID</h3>
+    <h3>Admin name: @ViewBag.AdminName</h3>
+    <p>
+        Admin: @ViewBag.Role
+    </p>*@
+
+
+<h2>
+    @Html.ActionLink("Số lượng đơn trong ngày:", "DonTrongNgay") <span style="color: red;">@ViewBag.countDay</span>
+</h2>
+
+<h2>
+    @Html.ActionLink("Số lượng đơn trong tháng:", "DonTrongThang") <span style="color: red;">@ViewBag.countMouth </span>
+</h2>
+
+<h2>
+    @Html.ActionLink("Tỉ lệ doanh thu theo hãng", "thongkeTongDoanhThuTheoHang")
+</h2>
+
+<h2>
+    @Html.ActionLink("Tỉ lệ doanh thu theo giới tính", "thongkeTongDoanhThuTheoGioiTinh")
+</h2>

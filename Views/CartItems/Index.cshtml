@@ -1,0 +1,154 @@
+﻿@model IEnumerable<WebApplication1.Models.CartItem>
+@{
+    ViewBag.Title = "Index";
+}
+@{
+    List<WebApplication1.Models.imagesProduct> listimage = ViewBag.ListImages;
+}
+<div class="colorlib-loader"></div>
+<div class="colorlib-product">
+    <div class="container">
+        <div class="row row-pb-lg">
+            <div class="col-md-10 offset-md-1">
+                <div class="process-wrap">
+                    <div class="process text-center active">
+                        <p><span>01</span></p>
+                        <h3>Shopping Cart</h3>
+                    </div>
+                    <div class="process text-center">
+                        <p><span>02</span></p>
+                        <h3>Checkout</h3>
+                    </div>
+                    <div class="process text-center">
+                        <p><span>03</span></p>
+                        <h3>Order Complete</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row row-pb-lg">
+            <div class="col-md-12">
+                <div class="product-name d-flex">
+                    <div class="one-forth text-left px-4">
+                        <span>Sản phẩm trong giỏ hàng</span>
+                    </div>
+                    <div class="one-eight text-center">
+                        <span>Kích cỡ</span>
+                    </div>
+                    <div class="one-eight text-center">
+                        <span>Đơn giá</span>
+                    </div>
+                    <div class="one-eight text-center">
+                        <span>Số lượng</span>
+                    </div>
+                    <div class="one-eight text-center">
+                        <span>Thành tiền</span>
+                    </div>
+                    <div class="one-eight text-center">
+                        <span>Sửa số lượng</span>
+                    </div>
+                    <div class="one-eight text-center px-4">
+                        <span>Xóa sản phẩm</span>
+                    </div>
+                </div>
+                @foreach (var item in Model)
+                {
+                    WebApplication1.Models.sneakerShopEntities db = new WebApplication1.Models.sneakerShopEntities();
+                    var product = db.Products.Find(item.productId);
+                    <div class="product-cart d-flex">
+                        <div class="one-forth">
+                            <div class="product-img" style="background-image: url(/images/products/productsFromDB/@(item.productId.ToString() + "a" +".jpg"));">
+                            </div>
+                            <div class="display-tc">
+                                <a href="/Products/Details?id=@item.productId"><h3>@product.productName</h3></a>
+                            </div>
+                        </div>
+                        <div class="one-eight text-center">
+                            <div class="display-tc">
+                                <span class="price">@item.size</span>
+                            </div>
+                        </div>
+                        <div class="one-eight text-center">
+                            <div class="display-tc">
+                                <span class="price">@item.unitPrice</span>
+                            </div>
+                        </div>
+                        <div class="one-eight text-center">
+                            <form id="quantityUpdate" method="post" action="/CartItems/QuantityUpdate">
+                                <div class="display-tc">
+                                    <input type="number" style="width:fit-content" id="quantity" name="quantity" class="form-control input-number text-center" value="@item.quantity" min="1" max="100">
+                                    <input type="text" name="productId" value="@product.productId" hidden />
+                                    <input type="text" name="size" value="@item.size" hidden />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="one-eight text-center">
+                            <div class="display-tc">
+                                <span class="price">@String.Format("{0:0,0}", (item.unitPrice * item.quantity)) VND</span>
+                            </div>
+                        </div>
+                        <div class="one-eight text-center">
+                            <div class="display-tc">
+                                <button type="submit" class="btn" form="quantityUpdate">Cập nhật</button>
+                            </div>
+                        </div>
+                        <div class="one-eight text-center">
+                            <div class="display-tc">
+                                <a href="/CartItems/RemoveCartItem?id=@item.productId" class="closed"></a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <a href="/Carts/Checkout?cartId=@ViewData["cartId"]"><button class="btn btn-outline-primary btn-lg btn-block "><span style="font-size:20px">Thanh Toán</span></button></a>
+        <div class="row">
+            <div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">
+                <h2>Related Products</h2>
+            </div>
+        </div>
+        <div class="row">
+            @{ foreach (WebApplication1.Models.Product product in (List<WebApplication1.Models.Product>)ViewData["bestsellProduct"])
+                { <div class="col-md-3 col-lg-3 mb-4 text-center">
+                        <div class="product-entry border">
+                            <a href="@Url.Action("productDetail","Home", new {productId = product.productId})" class="prod-img">
+                                <img src="~/images/products/productsFromDB/@(product.productId.ToString() + "a" +".jpg")" class="img-fluid" alt="Free html5 bootstrap 4 template">
+                            </a>
+                            <div class="desc">
+                                <h2><a href="@Url.Action("productDetail","Home", new {productId = product.productId})">@product.productName</a></h2>
+                                <span class="price">@product.price</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div class="gototop js-top">
+    <a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+</div>
+<!-- jQuery -->
+<script src="js/jquery.min.js"></script>
+<!-- popper -->
+<script src="js/popper.min.js"></script>
+<!-- bootstrap 4.1 -->
+<script src="js/bootstrap.min.js"></script>
+<!-- jQuery easing -->
+<script src="js/jquery.easing.1.3.js"></script>
+<!-- Waypoints -->
+<script src="js/jquery.waypoints.min.js"></script>
+<!-- Flexslider -->
+<script src="js/jquery.flexslider-min.js"></script>
+<!-- Owl carousel -->
+<script src="js/owl.carousel.min.js"></script>
+<!-- Magnific Popup -->
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/magnific-popup-options.js"></script>
+<!-- Date Picker -->
+<script src="js/bootstrap-datepicker.js"></script>
+<!-- Stellar Parallax -->
+<script src="js/jquery.stellar.min.js"></script>
+<!-- Main -->
+<script src="js/main.js"></script>

@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "tongdoanhthutheohang";
+}
+
+<h2>tongdoanhthutheohang</h2>
+@{ var myChart = new Chart(width: 1200, height: 800, theme: ChartTheme.Green)
+                       .AddTitle("Tổng doanh thu theo sản phẩm")
+                       .AddSeries(
+                           name: "ChartTitle",
+                           chartType: "Pie",
+                           xValue: ViewBag.Brands,
+                           yValues: ViewBag.Incomes)
+                       .Write();
+}
+
+

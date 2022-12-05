@@ -1,0 +1,111 @@
+﻿@model IEnumerable<WebApplication1.Models.Order>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { flag = ViewBag.flag })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            STT
+        </th>
+        <td>
+            ID
+        </td>
+        <th>
+            Thời gian đặt
+        </th>
+        <th>
+            Trạng thái đơn hàng
+        </th>
+        <th>
+            Vận chuyển
+        </th>
+        <th></th>
+    </tr>
+
+    @{ int i = 0;}
+    @foreach (WebApplication1.Models.Order item in Model)
+    {
+<tr>
+    @if (item.orderDate != null)
+    {
+    if (item.orderDate.Value.Date == DateTime.Today.Date)
+    {
+        <td style="color: red">
+            <span>@(++i)</span>
+        </td>
+        <td style="color: red">
+            @Html.DisplayFor(modelItem => item.orderID)
+        </td>
+        <td style="color: red">
+            @Html.DisplayFor(modelItem => item.orderDate)
+        </td>
+        <td style="color: red">
+            @switch (item.status)
+            {
+                case 0:<span>Chưa xác nhận</span> break;
+                case 1: <span>Đã xác nhận</span>break;
+                case 2: <span>Shipper đã nhận đơn</span>break;
+                case 3: <span>Đã hoàn thành</span>break;
+            }
+        </td>
+
+        <td style="color: red">
+            @switch (item.shipping)
+            {
+                case 0:<span>Chưa nhận đơn</span> break;
+                case 1: <span>Đang giao</span>break;
+                case 2: <span>Đã giao</span>break;
+            }
+        </td>
+    }
+    else
+    {
+        <td>
+            <span>@(++i)</span>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.orderID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.orderDate)
+        </td>
+        <td>
+            @switch (item.status)
+            {
+                case 0:<span>Chưa xác nhận</span> break;
+                case 1: <span>Đã xác nhận</span>break;
+                case 2: <span>Shipper đã nhận đơn</span>break;
+                case 3: <span>Đã hoàn thành</span>break;
+            }
+        </td>
+        <td>
+            @switch (item.shipping)
+            {
+                case 0:<span>Chưa nhận đơn</span> break;
+                case 1: <span>Đang giao</span>break;
+                case 2: <span>Đã giao</span>break;
+            }
+        </td>
+    }
+    }
+    <td>
+        <input type="button" value="Sửa" onclick="location.href='@Url.Action("Edit", "Orders", new { id = item.orderID, flag = ViewBag.flag })'" />
+    </td>
+    <td>
+        <input type="button" value="Chi tiết" onclick="location.href='@Url.Action("listAdmin", "OrderDetails", new { orderID = item.orderID })'" />
+    </td>
+    <td>
+        <input type="button" value="Xóa" onclick="location.href='@Url.Action("Delete", "Orders", new { id = item.orderID, flag = ViewBag.flag })'" />
+    </td>
+</tr>
+    }
+
+</table>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a6f379010ff843468369ab426978bb67" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="sneakerShopModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sneakerShopModel.AspNetRole" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sneakerShopModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sneakerShopModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sneakerShopModel.AspNetUser" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="sneakerShopModel.Cart" Width="1.5" PointX="5.25" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sneakerShopModel.CartItem" Width="1.5" PointX="7.5" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sneakerShopModel.Category" Width="1.5" PointX="3" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sneakerShopModel.imagesProduct" Width="1.5" PointX="7.5" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sneakerShopModel.Order" Width="1.5" PointX="7.5" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sneakerShopModel.OrderDetail" Width="1.5" PointX="9.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sneakerShopModel.paymentType" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sneakerShopModel.Product" Width="1.5" PointX="5.25" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sneakerShopModel.Shipment" Width="1.5" PointX="9.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sneakerShopModel.Stock" Width="1.5" PointX="7.5" PointY="13.75" IsExpanded="true" />
+        <AssociationConnector Association="sneakerShopModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="sneakerShopModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="sneakerShopModel.FK_cartUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="sneakerShopModel.FK_orderUser" ManuallyRouted="false" />
+        <AssociationConnector Association="sneakerShopModel.FK_shipper" ManuallyRouted="false" />
+        <AssociationConnector Association="sneakerShopModel.FK_cartitemCart" ManuallyRouted="false" />
+        <AssociationConnector Association="sneakerShopModel.FK_orderCart" ManuallyRouted="false" />
+        <AssociationConnector Association="sneakerShopModel.FK_cartitemProduct" ManuallyRouted="false" />
+        <AssociationConnector Association="sneakerShopModel.FK_category" ManuallyRouted="false" />
+        <AssociationConnector Association="sneakerShopModel.FK_images" ManuallyRouted="false" />
+        <AssociationConnector Association="sneakerShopModel.FK_OrderDetail_Order1" ManuallyRouted="false" />
+        <AssociationConnector Association="sneakerShopModel.FK_orderPaymentType" ManuallyRouted="false" />
+        <AssociationConnector Association="sneakerShopModel.FK_shipOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="sneakerShopModel.FK_OrderDetail_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="sneakerShopModel.FK_stock" ManuallyRouted="false" />
+        <AssociationConnector Association="sneakerShopModel.AspNetUserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
